@@ -23,6 +23,12 @@ public class Event {
 
     private int capacity;
 
+    @OneToOne
+    @JoinColumn(name = "id_address")
+    private Address address;
+
+
     //RELACION CON ADDRESS
+    //RELACION N A N CON COMMERCE
 
 }

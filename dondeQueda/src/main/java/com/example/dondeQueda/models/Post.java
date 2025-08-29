@@ -18,6 +18,9 @@ public class Post {
     @Column(name = "posted_at")
     private LocalDateTime postedAt;
 
-    //Relacion con Commerce
+    @ManyToOne
+    @JoinColumn(name = "id_commerce")
+    private Commerce commerce;
+
 
 }

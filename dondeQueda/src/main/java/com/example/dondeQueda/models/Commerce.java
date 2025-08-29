@@ -42,7 +42,12 @@ public class Commerce {
     @JoinColumn(name = "id_user")
     private User owner;
 
+    @OneToMany(mappedBy = "commerce")
+    private List<Post> posts;
+
+
+
     //Relaciones faltantes:
-    //Schedule, User, Address
+    //Schedule, Address, post, event
 
 }

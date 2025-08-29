@@ -1,9 +1,6 @@
 package com.example.dondeQueda.models;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 
 @Entity
 public class Address {
@@ -19,4 +16,7 @@ public class Address {
     private String district;
 
     private String location;
+
+    @OneToOne(mappedBy = "address")
+    private Event event;
 }
