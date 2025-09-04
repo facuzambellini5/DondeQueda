@@ -45,9 +45,43 @@ public class Commerce {
     @OneToMany(mappedBy = "commerce")
     private List<Post> posts;
 
+    @OneToOne
+    @JoinColumn(name = "id_address")
+    private Address address;
+
+    @OneToMany(mappedBy = "commerce")
+    private List<Schedule> schedules;
+
+    @ManyToMany
+    @JoinTable(
+            name = "commerce_category",
+            joinColumns = @JoinColumn(name = "id_commerce"),
+            inverseJoinColumns = @JoinColumn(name = "id_category")
+    )
+    private List<Category> categories;
+
+    @ManyToMany
+    @JoinTable(
+            name = "event_commerce",
+            joinColumns = @JoinColumn(name = "id_commerce"),
+            inverseJoinColumns = @JoinColumn(name = "id_event")
+    )
+    private List<Event> events;
+
+    @ManyToMany
+    @JoinTable(
+            name = "commerce_tag",
+            joinColumns = @JoinColumn(name = "id_commerce"),
+            inverseJoinColumns = @JoinColumn(name = "name_tag")
+    )
+    private List<Tag> tags;
 
 
-    //Relaciones faltantes:
-    //Schedule, Address, post, event
-
+    @ManyToMany
+    @JoinTable(
+            name = "commerce_image",
+            joinColumns = @JoinColumn(name = "id_commerce"),
+            inverseJoinColumns = @JoinColumn(name = "id_image")
+    )
+    private List<Image> images;
 }

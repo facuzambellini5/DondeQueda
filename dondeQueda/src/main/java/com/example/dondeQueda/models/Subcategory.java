@@ -13,6 +13,8 @@ public class Subcategory {
 
     private String description;
 
-    //Relacion con Category
+    @ManyToOne
+    @JoinColumn(name = "id_category")
+    private Category category;
 
 }

@@ -19,4 +19,7 @@ public class Address {
 
     @OneToOne(mappedBy = "address")
     private Event event;
+
+    @OneToOne(mappedBy = "address")
+    private Commerce commerce;
 }

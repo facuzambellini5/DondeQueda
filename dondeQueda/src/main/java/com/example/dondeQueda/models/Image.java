@@ -15,6 +15,9 @@ public class Image {
     @Enumerated(EnumType.STRING)
     private ImageType type;
 
-    //Relacion con commerce, event, post
+    //RELACIONES FALTANTEES
+    //Post
+    //Commerce
+    //Event
 
 }
