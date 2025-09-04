@@ -30,10 +30,8 @@ public class Schedule {
     @Column(name = "is_continuous")
     private boolean isContinuous;
 
-
-
-
-
-
+    @ManyToOne
+    @JoinColumn(name = "id_commerce")
+    private Commerce commerce;
 
 }

@@ -39,12 +39,22 @@ public class User {
     private Subscription subscription;
 
     @OneToMany(mappedBy = "owner")
-    private List<Commerce> commerces;
+    private List<Commerce> ownedCommerces;
 
+    @ManyToMany
+    @JoinTable(
+            name = "saved",
+            joinColumns = @JoinColumn(name = "id_user"),
+            inverseJoinColumns = @JoinColumn(name = "id_post")
+    )
+    private List<Post> savedPosts;
 
-    //Relacion con Subscription y con commerce, saved, favorites
-
-
-
+    @ManyToMany
+    @JoinTable(
+            name = "favorites",
+            joinColumns = @JoinColumn(name = "id_user"),
+            inverseJoinColumns = @JoinColumn(name = "id_commerce")
+    )
+    private List<Commerce> favoriteCommerces;
 
 }

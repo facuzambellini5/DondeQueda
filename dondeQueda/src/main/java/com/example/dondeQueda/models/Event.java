@@ -3,6 +3,7 @@ package com.example.dondeQueda.models;
 import jakarta.persistence.*;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Entity
 public class Event {
@@ -23,6 +24,18 @@ public class Event {
 
     private int capacity;
 
-    //RELACION CON ADDRESS
+    @OneToOne
+    @JoinColumn(name = "id_address")
+    private Address address;
 
+    @ManyToMany(mappedBy = "events")
+    private List<Commerce> commerces;
+
+    @ManyToMany
+    @JoinTable(
+            name = "event_image",
+            joinColumns = @JoinColumn(name = "id_event"),
+            inverseJoinColumns = @JoinColumn(name = "id_image")
+    )
+    private List<Image> images;
 }
