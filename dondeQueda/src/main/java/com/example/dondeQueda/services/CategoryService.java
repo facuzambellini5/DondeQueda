@@ -17,10 +17,9 @@ public class CategoryService implements ICategoryService {
 
     @Override
     public String saveCategory(CategoryDto categoryDto) {
+
         Category category = new Category();
-
         category.setName(categoryDto.getName());
-
         category.setDescription(categoryDto.getDescription());
 
         categoryRepo.save(category);
@@ -35,7 +34,6 @@ public class CategoryService implements ICategoryService {
 
     @Override
     public Category getCategoryById(Long idCategory) {
-
         return categoryRepo.findById(idCategory).orElse(null);
     }
 
@@ -49,9 +47,8 @@ public class CategoryService implements ICategoryService {
             category.setDescription(categoryDto.getDescription());
             categoryRepo.save(category);
             return "Categoría editada correctamente.";
-
         } else {
-            return "Categoría con ID: '" + idCategory +"' no encontrada.";
+            return "Categoría con ID: '" + idCategory + "' no encontrada.";
         }
     }
 
@@ -64,7 +61,7 @@ public class CategoryService implements ICategoryService {
             categoryRepo.deleteById(idCategory);
             return "Categoría eliminada correctamente.";
         } else {
-            return "Categoría con ID: '" + idCategory +"' no encontrada.";
+            return "Categoría con ID: '" + idCategory + "' no encontrada.";
         }
     }
 }
