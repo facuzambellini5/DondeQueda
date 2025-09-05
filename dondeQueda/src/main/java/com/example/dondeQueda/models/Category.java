@@ -20,4 +20,55 @@ public class Category {
 
     @ManyToMany(mappedBy = "categories")
     private List<Commerce> commerces;
+
+    public Category() {
+    }
+
+    public Category(Long idCategory, String name, String description, List<Subcategory> subcategories, List<Commerce> commerces) {
+        this.idCategory = idCategory;
+        this.name = name;
+        this.description = description;
+        this.subcategories = subcategories;
+        this.commerces = commerces;
+    }
+
+    public Long getIdCategory() {
+        return idCategory;
+    }
+
+    public void setIdCategory(Long idCategory) {
+        this.idCategory = idCategory;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public List<Subcategory> getSubcategories() {
+        return subcategories;
+    }
+
+    public void setSubcategories(List<Subcategory> subcategories) {
+        this.subcategories = subcategories;
+    }
+
+    public List<Commerce> getCommerces() {
+        return commerces;
+    }
+
+    public void setCommerces(List<Commerce> commerces) {
+        this.commerces = commerces;
+    }
 }

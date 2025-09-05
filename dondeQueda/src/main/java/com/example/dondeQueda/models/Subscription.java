@@ -2,6 +2,8 @@ package com.example.dondeQueda.models;
 
 import jakarta.persistence.*;
 
+import java.math.BigDecimal;
+import java.text.DecimalFormat;
 import java.util.List;
 
 @Entity
@@ -14,7 +16,7 @@ public class Subscription {
     @Column(name = "name_subscription")
     private String nameSubscription;
 
-    private double price;
+    private BigDecimal price;
 
     private int duration;
 

@@ -23,7 +23,7 @@ public class Post {
     @JoinColumn(name = "id_commerce")
     private Commerce commerce;
 
-    @ManyToMany(mappedBy = "posts")
+    @ManyToMany(mappedBy = "savedPosts")
     private List<User> users;
 
     @ManyToMany

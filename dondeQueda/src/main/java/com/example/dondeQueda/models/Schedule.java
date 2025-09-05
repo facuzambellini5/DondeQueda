@@ -10,7 +10,7 @@ public class Schedule {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long idShedule;
+    private Long idSchedule;
 
     @Enumerated(EnumType.STRING)
     private DayOfWeek day;

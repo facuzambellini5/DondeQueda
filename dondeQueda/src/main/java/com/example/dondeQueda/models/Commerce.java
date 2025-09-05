@@ -30,9 +30,8 @@ public class Commerce {
     @Column(name = "created_date")
     private LocalDateTime createdDate;
 
-    @Column(name = "branch_of")
     @ManyToOne
-    @JoinColumn(name = "commerce_id")
+    @JoinColumn(name = "branch_of")
     private Commerce branchOf;
 
     @OneToMany(mappedBy = "branchOf")
@@ -72,10 +71,9 @@ public class Commerce {
     @JoinTable(
             name = "commerce_tag",
             joinColumns = @JoinColumn(name = "id_commerce"),
-            inverseJoinColumns = @JoinColumn(name = "name_tag")
+            inverseJoinColumns = @JoinColumn(name = "id_tag")
     )
     private List<Tag> tags;
-
 
     @ManyToMany
     @JoinTable(
