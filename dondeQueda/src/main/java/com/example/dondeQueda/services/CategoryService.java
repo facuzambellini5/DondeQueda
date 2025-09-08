@@ -4,6 +4,7 @@ import com.example.dondeQueda.dtos.CategoryDto;
 import com.example.dondeQueda.models.Category;
 import com.example.dondeQueda.repositories.ICategoryRepository;
 import com.example.dondeQueda.services.interfaces.ICategoryService;
+import com.example.dondeQueda.services.interfaces.IEntityValidatorService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -12,8 +13,8 @@ import java.util.List;
 @Service
 public class CategoryService implements ICategoryService {
 
-    @Autowired
-    private ICategoryRepository categoryRepo;
+    @Autowired private ICategoryRepository categoryRepo;
+    @Autowired private IEntityValidatorService validatorService;
 
     @Override
     public String saveCategory(CategoryDto categoryDto) {
@@ -34,7 +35,7 @@ public class CategoryService implements ICategoryService {
 
     @Override
     public Category getCategoryById(Long idCategory) {
-        return categoryRepo.findById(idCategory).orElse(null);
+    return validatorService.validateCategory(idCategory);
     }
 
     @Override
@@ -42,26 +43,19 @@ public class CategoryService implements ICategoryService {
 
         Category category = this.getCategoryById(idCategory);
 
-        if(category != null){
-            category.setName(categoryDto.getName());
-            category.setDescription(categoryDto.getDescription());
-            categoryRepo.save(category);
-            return "Categoría editada correctamente.";
-        } else {
-            return "Categoría con ID: '" + idCategory + "' no encontrada.";
-        }
+        category.setName(categoryDto.getName());
+        category.setDescription(categoryDto.getDescription());
+        categoryRepo.save(category);
+
+        return "Categoría editada correctamente.";
     }
 
     @Override
     public String deleteCategoryById(Long idCategory) {
 
         Category category = this.getCategoryById(idCategory);
+        categoryRepo.delete(category);
 
-        if(category != null){
-            categoryRepo.deleteById(idCategory);
-            return "Categoría eliminada correctamente.";
-        } else {
-            return "Categoría con ID: '" + idCategory + "' no encontrada.";
-        }
+        return "Categoría eliminada correctamente.";
     }
 }

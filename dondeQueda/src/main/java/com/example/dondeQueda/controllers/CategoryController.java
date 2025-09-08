@@ -13,7 +13,7 @@ import java.util.List;
 public class CategoryController {
 
     @Autowired
-    ICategoryService categoryService;
+    private ICategoryService categoryService;
 
     @PostMapping("/guardar")
     public String saveCategory(@RequestBody CategoryDto categoryDto){

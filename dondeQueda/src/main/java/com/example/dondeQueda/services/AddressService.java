@@ -4,6 +4,7 @@ import com.example.dondeQueda.dtos.AddressDto;
 import com.example.dondeQueda.models.Address;
 import com.example.dondeQueda.repositories.IAddressRepository;
 import com.example.dondeQueda.services.interfaces.IAddressService;
+import com.example.dondeQueda.services.interfaces.IEntityValidatorService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -13,6 +14,7 @@ import java.util.List;
 public class AddressService implements IAddressService {
 
   @Autowired private IAddressRepository addressRepo;
+  @Autowired private IEntityValidatorService validatorService;
 
   @Override
   public String saveAddress(AddressDto addressDto) {
@@ -36,7 +38,7 @@ public class AddressService implements IAddressService {
 
   @Override
   public Address getAddressById(Long idAddress) {
-    return addressRepo.findById(idAddress).orElse(null);
+    return validatorService.validateAddress(idAddress);
   }
 
   @Override
@@ -44,29 +46,22 @@ public class AddressService implements IAddressService {
 
     Address address = this.getAddressById(idAddress);
 
-    if (address != null) {
-      address.setAddress(addressDto.getAddress());
-      address.setStreet(addressDto.getStreet());
-      address.setDistrict(addressDto.getDistrict());
-      address.setLocation(addressDto.getLocation());
+    address.setAddress(addressDto.getAddress());
+    address.setStreet(addressDto.getStreet());
+    address.setDistrict(addressDto.getDistrict());
+    address.setLocation(addressDto.getLocation());
 
-      addressRepo.save(address);
-      return "Dirección editada correctamente.";
-    } else {
-      return "Dirección con ID: '" + idAddress + "' no encontrada.";
-    }
+    addressRepo.save(address);
+
+    return "Dirección editada correctamente.";
   }
 
   @Override
   public String deleteAddressById(Long idAddress) {
 
     Address address = this.getAddressById(idAddress);
+    addressRepo.deleteById(idAddress);
 
-    if(address != null){
-      addressRepo.deleteById(idAddress);
-      return "Dirección eliminada correctamente.";
-    } else {
-      return "Dirección con ID: '" + idAddress + "' no encontrada.";
-    }
+    return "Dirección eliminada correctamente.";
   }
 }
