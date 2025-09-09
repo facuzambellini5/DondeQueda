@@ -17,4 +17,36 @@ public class Tag {
     @ManyToMany(mappedBy = "tags")
     private List<Commerce> commerces;
 
+    public Tag() {
+    }
+
+    public Tag(Long idTag, String nameTag, List<Commerce> commerces) {
+        this.idTag = idTag;
+        this.nameTag = nameTag;
+        this.commerces = commerces;
+    }
+
+    public Long getIdTag() {
+        return idTag;
+    }
+
+    public void setIdTag(Long idTag) {
+        this.idTag = idTag;
+    }
+
+    public String getNameTag() {
+        return nameTag;
+    }
+
+    public void setNameTag(String nameTag) {
+        this.nameTag = nameTag;
+    }
+
+    public List<Commerce> getCommerces() {
+        return commerces;
+    }
+
+    public void setCommerces(List<Commerce> commerces) {
+        this.commerces = commerces;
+    }
 }
