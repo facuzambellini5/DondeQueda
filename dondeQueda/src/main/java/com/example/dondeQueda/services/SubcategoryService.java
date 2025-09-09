@@ -33,7 +33,7 @@ public class SubcategoryService implements ISubcategoryService {
     subcategoryRepo.save(subcategory);
     categoryRepo.save(category);
 
-    return "Subcateogía guardada correctamente.";
+    return "Subcategoría guardada correctamente.";
   }
 
   @Override

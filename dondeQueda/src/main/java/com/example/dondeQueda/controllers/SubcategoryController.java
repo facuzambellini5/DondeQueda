@@ -37,7 +37,7 @@ public class SubcategoryController {
     }
 
     @DeleteMapping("/eliminar/{idSubcategory}")
-    public String deleteSubcategory(@PathVariable Long idSubcategory){
+    public String deleteSubcategoryById(@PathVariable Long idSubcategory){
         return subcategoryService.deleteSubcategoryById(idSubcategory);
     }
 

@@ -1,0 +1,72 @@
+package com.example.dondeQueda.services;
+
+import com.example.dondeQueda.dtos.TagDto;
+import com.example.dondeQueda.models.Commerce;
+import com.example.dondeQueda.models.Tag;
+import com.example.dondeQueda.repositories.ICommerceRepository;
+import com.example.dondeQueda.repositories.ITagRepository;
+import com.example.dondeQueda.services.interfaces.ITagService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import java.util.List;
+
+@Service
+public class TagService implements ITagService {
+
+    @Autowired
+    private ITagRepository tagRepo;
+
+    @Autowired
+    private ICommerceRepository commereRepo;
+
+    @Autowired
+    private EntityValidatorService validatorService;
+
+
+    @Override
+    public String saveTag(TagDto tagDto) {
+
+        Tag tag = new Tag();
+        Commerce commerce = validatorService.validateCommerce(tagDto.getIdCommerce());
+
+        tag.setNameTag(tagDto.getNameTag());
+        tag.getCommerces().add(commerce);
+        commerce.getTags().add(tag);
+
+        tagRepo.save(tag);
+        commereRepo.save(commerce);
+
+        return "Etiqueta guardada correctamente.";
+    }
+
+    @Override
+    public List<Tag> getTags() {
+        return tagRepo.findAll();
+    }
+
+    @Override
+    public Tag getTagById(Long idTag) {
+        return validatorService.validateTag(idTag);
+    }
+
+    @Override
+    public String editTag(Long idTag, TagDto tagDto) {
+
+        Tag tag = validatorService.validateTag(idTag);
+        tag.setNameTag(tagDto.getNameTag());
+
+        tagRepo.save(tag);
+
+        return "Etiqueta editada correctamente.";
+    }
+
+    @Override
+    public String deleteTagById(Long idTag) {
+
+        Tag tag = validatorService.validateTag(idTag);
+        tagRepo.delete(tag);
+
+        return "Etiqueta eliminada correctamente.";
+    }
+}

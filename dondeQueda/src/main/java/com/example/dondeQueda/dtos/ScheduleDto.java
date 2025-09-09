@@ -1,60 +1,17 @@
-package com.example.dondeQueda.models;
-
-import jakarta.persistence.*;
+package com.example.dondeQueda.dtos;
 
 import java.time.DayOfWeek;
 import java.time.LocalTime;
 
-@Entity
-public class Schedule {
+public class ScheduleDto {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long idSchedule;
-
-    @Enumerated(EnumType.STRING)
     private DayOfWeek day;
-
-    @Column(name = "morning_opening")
     private LocalTime morningOpening;
-
-    @Column(name = "morning_closing")
     private LocalTime morningClosing;
-
-    @Column(name = "afternoon_opening")
     private LocalTime afternoonOpening;
-
-    @Column(name = "afternoon_closing")
     private LocalTime afternoonClosing;
-
-    @Column(name = "is_continuous")
     private boolean isContinuous;
-
-    @ManyToOne
-    @JoinColumn(name = "id_commerce")
-    private Commerce commerce;
-
-    public Schedule() {
-    }
-
-    public Schedule(Long idSchedule, DayOfWeek day, LocalTime morningOpening, LocalTime morningClosing, LocalTime afternoonOpening, LocalTime afternoonClosing, boolean isContinuous, Commerce commerce) {
-        this.idSchedule = idSchedule;
-        this.day = day;
-        this.morningOpening = morningOpening;
-        this.morningClosing = morningClosing;
-        this.afternoonOpening = afternoonOpening;
-        this.afternoonClosing = afternoonClosing;
-        this.isContinuous = isContinuous;
-        this.commerce = commerce;
-    }
-
-    public Long getIdSchedule() {
-        return idSchedule;
-    }
-
-    public void setIdSchedule(Long idSchedule) {
-        this.idSchedule = idSchedule;
-    }
+    private Long idCommerce;
 
     public DayOfWeek getDay() {
         return day;
@@ -104,11 +61,11 @@ public class Schedule {
         isContinuous = continuous;
     }
 
-    public Commerce getCommerce() {
-        return commerce;
+    public Long getIdCommerce() {
+        return idCommerce;
     }
 
-    public void setCommerce(Commerce commerce) {
-        this.commerce = commerce;
+    public void setIdCommerce(Long idCommerce) {
+        this.idCommerce = idCommerce;
     }
 }
