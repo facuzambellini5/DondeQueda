@@ -38,4 +38,91 @@ public class Event {
             inverseJoinColumns = @JoinColumn(name = "id_image")
     )
     private List<Image> images;
+
+    public Event() {
+    }
+
+    public Event(Long idEvent, LocalDateTime startDate, LocalDateTime endDate, String title, String description, int capacity, Address address, List<Commerce> commerces, List<Image> images) {
+        this.idEvent = idEvent;
+        this.startDate = startDate;
+        this.endDate = endDate;
+        this.title = title;
+        this.description = description;
+        this.capacity = capacity;
+        this.address = address;
+        this.commerces = commerces;
+        this.images = images;
+    }
+
+    public Long getIdEvent() {
+        return idEvent;
+    }
+
+    public void setIdEvent(Long idEvent) {
+        this.idEvent = idEvent;
+    }
+
+    public LocalDateTime getStartDate() {
+        return startDate;
+    }
+
+    public void setStartDate(LocalDateTime startDate) {
+        this.startDate = startDate;
+    }
+
+    public LocalDateTime getEndDate() {
+        return endDate;
+    }
+
+    public void setEndDate(LocalDateTime endDate) {
+        this.endDate = endDate;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public int getCapacity() {
+        return capacity;
+    }
+
+    public void setCapacity(int capacity) {
+        this.capacity = capacity;
+    }
+
+    public Address getAddress() {
+        return address;
+    }
+
+    public void setAddress(Address address) {
+        this.address = address;
+    }
+
+    public List<Commerce> getCommerces() {
+        return commerces;
+    }
+
+    public void setCommerces(List<Commerce> commerces) {
+        this.commerces = commerces;
+    }
+
+    public List<Image> getImages() {
+        return images;
+    }
+
+    public void setImages(List<Image> images) {
+        this.images = images;
+    }
 }

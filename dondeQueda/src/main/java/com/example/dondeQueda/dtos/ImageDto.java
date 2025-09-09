@@ -10,4 +10,20 @@ public class ImageDto {
 
     @Enumerated(EnumType.STRING)
     private ImageType type;
+
+    public String getUrl() {
+        return url;
+    }
+
+    public void setUrl(String url) {
+        this.url = url;
+    }
+
+    public ImageType getType() {
+        return type;
+    }
+
+    public void setType(ImageType type) {
+        this.type = type;
+    }
 }
