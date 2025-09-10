@@ -10,6 +10,15 @@ public class EventDto {
     private String description;
     private int capacity;
     private Long idAddress;
+    private Long idCommerce;
+
+    public Long getIdCommerce() {
+        return idCommerce;
+    }
+
+    public void setIdCommerce(Long idCommerce) {
+        this.idCommerce = idCommerce;
+    }
 
     public LocalDateTime getStartDate() {
         return startDate;

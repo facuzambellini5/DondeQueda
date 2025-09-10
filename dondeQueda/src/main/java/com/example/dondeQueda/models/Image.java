@@ -15,7 +15,6 @@ public class Image {
     @Enumerated(EnumType.STRING)
     private ImageType type;
 
-
     public Image() {
     }
 
