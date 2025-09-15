@@ -19,6 +19,9 @@ public class Image {
     @Enumerated(EnumType.STRING)
     private ImageType imageType;
 
+    @Column(name = "id_entity")
+    private Long idEntity;
+
     @Column(name = "entity_type")
     @Enumerated(EnumType.STRING)
     private EntityType entityType;
@@ -32,13 +35,46 @@ public class Image {
     public Image() {
     }
 
-    public Image(Long idImage, String url, ImageType imageType, EntityType entityType, int imageOrder, LocalDateTime createdAt) {
+    public Image(Long idImage, String url, ImageType imageType, Long idEntity, EntityType entityType, int imageOrder, LocalDateTime createdAt) {
         this.idImage = idImage;
         this.url = url;
         this.imageType = imageType;
+        this.idEntity = idEntity;
         this.entityType = entityType;
         this.imageOrder = imageOrder;
         this.createdAt = createdAt;
+    }
+
+    public Long getIdImage() {
+        return idImage;
+    }
+
+    public void setIdImage(Long idImage) {
+        this.idImage = idImage;
+    }
+
+    public String getUrl() {
+        return url;
+    }
+
+    public void setUrl(String url) {
+        this.url = url;
+    }
+
+    public ImageType getImageType() {
+        return imageType;
+    }
+
+    public void setImageType(ImageType imageType) {
+        this.imageType = imageType;
+    }
+
+    public Long getIdEntity() {
+        return idEntity;
+    }
+
+    public void setIdEntity(Long idEntity) {
+        this.idEntity = idEntity;
     }
 
     public EntityType getEntityType() {
@@ -64,28 +100,6 @@ public class Image {
     public void setCreatedAt(LocalDateTime createdAt) {
         this.createdAt = createdAt;
     }
-
-    public Long getIdImage() {
-        return idImage;
-    }
-
-    public void setIdImage(Long idImage) {
-        this.idImage = idImage;
-    }
-
-    public String getUrl() {
-        return url;
-    }
-
-    public void setUrl(String url) {
-        this.url = url;
-    }
-
-    public ImageType getType() {
-        return imageType;
-    }
-
-    public void setType(ImageType imageType) {
-        this.imageType = imageType;
-    }
 }
+
+
