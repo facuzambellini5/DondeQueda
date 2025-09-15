@@ -1,12 +1,13 @@
 package com.example.dondeQueda.models;
 
+import com.example.dondeQueda.enums.EntityType;
 import jakarta.persistence.*;
 
 import java.time.LocalDateTime;
 import java.util.List;
 
 @Entity
-public class Event {
+public class Event implements ImageOwner {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -111,6 +112,11 @@ public class Event {
 
     public void setCommerces(List<Commerce> commerces) {
         this.commerces = commerces;
+    }
+
+    @Override
+    public String getEntityType() {
+    return EntityType.EVENT.name();
     }
 
     public List<Image> getImages() {
