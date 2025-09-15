@@ -17,4 +17,6 @@ public interface ICategoryService {
 
     String deleteCategoryById(Long idCategory);
 
+    List<CategoryDto> getCategoriesDto();
+
 }

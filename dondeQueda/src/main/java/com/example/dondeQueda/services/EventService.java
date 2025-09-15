@@ -113,11 +113,7 @@ public class EventService implements IEventService {
 
         Event event = validatorService.validateEvent(idEvent);
 
-        for (Image image : images){
-            imageRepo.delete(image);
-            event.getImages().remove(image);
-        }
-        eventRepo.save(event);
+        //TERMINAR ESTE METODO
 
         return "Imagen/es eliminadas correctamente.";
     }

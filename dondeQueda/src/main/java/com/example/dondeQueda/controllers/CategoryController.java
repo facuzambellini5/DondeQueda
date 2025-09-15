@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+@CrossOrigin(origins = "*")
 @RestController
 @RequestMapping("/categoria")
 public class CategoryController {
@@ -21,8 +22,8 @@ public class CategoryController {
     }
 
     @GetMapping("/traer")
-    public List<Category> getCategories(){
-        return categoryService.getCategories();
+    public List<CategoryDto> getCategoriesDto(){
+        return categoryService.getCategoriesDto();
     }
 
     @GetMapping("/traer/{idCategory}")

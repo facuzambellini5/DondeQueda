@@ -1,12 +1,14 @@
 package com.example.dondeQueda.models;
 
+import com.example.dondeQueda.enums.EntityType;
+import com.example.dondeQueda.repositories.IPostRepository;
 import jakarta.persistence.*;
 
 import java.time.LocalDateTime;
 import java.util.List;
 
 @Entity
-public class Post {
+public class Post implements ImageOwner {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -26,13 +28,22 @@ public class Post {
     @ManyToMany(mappedBy = "savedPosts")
     private List<User> users;
 
-    @ManyToMany
-    @JoinTable(
-            name = "post_image",
-            joinColumns = @JoinColumn(name = "id_post"),
-            inverseJoinColumns = @JoinColumn(name = "id_image")
-    )
+    @Transient
     private List<Image> images;
 
+    //Metodos de ImageOwner
+    @Override
+    public String getEntityType() {
+        return EntityType.POST.name();
+    }
 
+    @Override
+    public List<Image> getImages() {
+        return images;
+    }
+
+    @Override
+    public void setImages(List<Image> images) {
+        this.images = images;
+    }
 }
