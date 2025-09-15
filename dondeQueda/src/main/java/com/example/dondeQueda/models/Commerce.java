@@ -72,11 +72,7 @@ public class Commerce {
       inverseJoinColumns = @JoinColumn(name = "id_tag"))
   private List<Tag> tags;
 
-  @ManyToMany
-  @JoinTable(
-      name = "commerce_image",
-      joinColumns = @JoinColumn(name = "id_commerce"),
-      inverseJoinColumns = @JoinColumn(name = "id_image"))
+  @Transient
   private List<Image> images;
 
   public Commerce() {}

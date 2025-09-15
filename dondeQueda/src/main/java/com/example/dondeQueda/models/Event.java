@@ -31,12 +31,7 @@ public class Event {
     @ManyToMany(mappedBy = "events")
     private List<Commerce> commerces;
 
-    @ManyToMany
-    @JoinTable(
-            name = "event_image",
-            joinColumns = @JoinColumn(name = "id_event"),
-            inverseJoinColumns = @JoinColumn(name = "id_image")
-    )
+    @Transient
     private List<Image> images;
 
     public Event() {

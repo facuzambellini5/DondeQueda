@@ -57,4 +57,135 @@ public class User {
     )
     private List<Commerce> favoriteCommerces;
 
+    public User() {
+    }
+
+    public User(Long idUser, String username, String name, String lastname, String password, UserRole role, String email, String recoveryEmail, String phone, LocalDateTime createdAt, Subscription subscription, List<Commerce> ownedCommerces, List<Post> savedPosts, List<Commerce> favoriteCommerces) {
+        this.idUser = idUser;
+        this.username = username;
+        this.name = name;
+        this.lastname = lastname;
+        this.password = password;
+        this.role = role;
+        this.email = email;
+        this.recoveryEmail = recoveryEmail;
+        this.phone = phone;
+        this.createdAt = createdAt;
+        this.subscription = subscription;
+        this.ownedCommerces = ownedCommerces;
+        this.savedPosts = savedPosts;
+        this.favoriteCommerces = favoriteCommerces;
+    }
+
+    public Long getIdUser() {
+        return idUser;
+    }
+
+    public void setIdUser(Long idUser) {
+        this.idUser = idUser;
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getLastname() {
+        return lastname;
+    }
+
+    public void setLastname(String lastname) {
+        this.lastname = lastname;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public UserRole getRole() {
+        return role;
+    }
+
+    public void setRole(UserRole role) {
+        this.role = role;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public String getRecoveryEmail() {
+        return recoveryEmail;
+    }
+
+    public void setRecoveryEmail(String recoveryEmail) {
+        this.recoveryEmail = recoveryEmail;
+    }
+
+    public String getPhone() {
+        return phone;
+    }
+
+    public void setPhone(String phone) {
+        this.phone = phone;
+    }
+
+    public LocalDateTime getCreatedAt() {
+        return createdAt;
+    }
+
+    public void setCreatedAt(LocalDateTime createdAt) {
+        this.createdAt = createdAt;
+    }
+
+    public Subscription getSubscription() {
+        return subscription;
+    }
+
+    public void setSubscription(Subscription subscription) {
+        this.subscription = subscription;
+    }
+
+    public List<Commerce> getOwnedCommerces() {
+        return ownedCommerces;
+    }
+
+    public void setOwnedCommerces(List<Commerce> ownedCommerces) {
+        this.ownedCommerces = ownedCommerces;
+    }
+
+    public List<Post> getSavedPosts() {
+        return savedPosts;
+    }
+
+    public void setSavedPosts(List<Post> savedPosts) {
+        this.savedPosts = savedPosts;
+    }
+
+    public List<Commerce> getFavoriteCommerces() {
+        return favoriteCommerces;
+    }
+
+    public void setFavoriteCommerces(List<Commerce> favoriteCommerces) {
+        this.favoriteCommerces = favoriteCommerces;
+    }
 }
