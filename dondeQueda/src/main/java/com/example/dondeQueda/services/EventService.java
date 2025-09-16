@@ -97,7 +97,7 @@ public class EventService implements IEventService {
             Image image = new Image();
 
             image.setUrl(imageDto.getUrl());
-            image.setType(imageDto.getType());
+            image.setImageType(imageDto.getType());
 
             imageRepo.save(image);
 
@@ -113,7 +113,7 @@ public class EventService implements IEventService {
 
         Event event = validatorService.validateEvent(idEvent);
 
-
+        //TERMINAR ESTO
         return "Imagen/es eliminadas correctamente.";
     }
 

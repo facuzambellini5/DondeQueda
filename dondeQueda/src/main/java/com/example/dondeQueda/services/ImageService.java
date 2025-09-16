@@ -1,7 +1,9 @@
 package com.example.dondeQueda.services;
 
 import com.example.dondeQueda.dtos.ImageDto;
+import com.example.dondeQueda.enums.EntityType;
 import com.example.dondeQueda.models.Image;
+import com.example.dondeQueda.models.ImageOwner;
 import com.example.dondeQueda.repositories.IImageRepository;
 import com.example.dondeQueda.services.interfaces.IImageService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,8 +24,9 @@ public class ImageService implements IImageService {
 
         Image image = new Image();
 
-        image.setType(imageDto.getType());
         image.setUrl(imageDto.getUrl());
+        image.setImageType(imageDto.getImageType());
+        image.setIdEntity(image.getIdEntity());
 
         imageRepo.save(image);
 
@@ -46,7 +49,8 @@ public class ImageService implements IImageService {
         Image image = validatorService.validateImage(idImage);
 
         image.setUrl(imageDto.getUrl());
-        image.setType(imageDto.getType());
+        image.setImageType(imageDto.getImageType());
+        image.setIdEntity(image.getIdEntity());
 
         imageRepo.save(image);
 
@@ -60,5 +64,10 @@ public class ImageService implements IImageService {
         imageRepo.delete(image);
 
         return "Imagen eliminada correctamete.";
+    }
+
+    @Override
+    public List<Image> getImages(ImageOwner entity) {
+        EntityType entityType = entity.getEntityType().toString();
     }
 }
