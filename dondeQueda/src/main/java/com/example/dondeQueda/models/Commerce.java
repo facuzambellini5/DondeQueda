@@ -255,6 +255,11 @@ public class Commerce implements ImageOwner {
 
   //Metodos de ImageOwner
   @Override
+  public Long getIdEntity() {
+    return this.idCommerce;
+  }
+
+  @Override
   public String getEntityType() {
     return EntityType.COMMERCE.name();
   }

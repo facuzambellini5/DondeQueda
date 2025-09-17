@@ -68,6 +68,13 @@ public class ImageService implements IImageService {
 
     @Override
     public List<Image> getImages(ImageOwner entity) {
-        EntityType entityType = entity.getEntityType().toString();
+
+        EntityType entityType = EntityType.valueOf(entity.getEntityType());
+        Long idEntity = entity.getIdEntity();
+        return imageRepo.findByEntityTypeAndIdEntityOrderByImageOrder(entityType, idEntity);
     }
+
+
+    //TODO: terminar implementacion de imagenes.
+
 }

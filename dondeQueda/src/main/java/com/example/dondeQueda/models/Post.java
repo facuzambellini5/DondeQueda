@@ -33,6 +33,12 @@ public class Post implements ImageOwner {
 
     //Metodos de ImageOwner
     @Override
+    public Long getIdEntity() {
+        return this.idPost;
+    }
+
+    //Metodos de ImageOwner
+    @Override
     public String getEntityType() {
         return EntityType.POST.name();
     }

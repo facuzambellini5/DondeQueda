@@ -114,6 +114,12 @@ public class Event implements ImageOwner {
         this.commerces = commerces;
     }
 
+    //Metodos de ImageOwner
+    @Override
+    public Long getIdEntity() {
+        return this.idEvent;
+    }
+
     @Override
     public String getEntityType() {
     return EntityType.EVENT.name();

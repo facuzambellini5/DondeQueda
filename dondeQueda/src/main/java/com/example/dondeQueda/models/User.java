@@ -21,6 +21,9 @@ public class User {
 
     private String password;
 
+    @Column(name = "salt_password")
+    private String saltPassword;
+
     @Enumerated(EnumType.STRING)
     private UserRole role;
 
@@ -60,12 +63,13 @@ public class User {
     public User() {
     }
 
-    public User(Long idUser, String username, String name, String lastname, String password, UserRole role, String email, String recoveryEmail, String phone, LocalDateTime createdAt, Subscription subscription, List<Commerce> ownedCommerces, List<Post> savedPosts, List<Commerce> favoriteCommerces) {
+    public User(Long idUser, String username, String name, String lastname, String password, String saltPassword, UserRole role, String email, String recoveryEmail, String phone, LocalDateTime createdAt, Subscription subscription, List<Commerce> ownedCommerces, List<Post> savedPosts, List<Commerce> favoriteCommerces) {
         this.idUser = idUser;
         this.username = username;
         this.name = name;
         this.lastname = lastname;
         this.password = password;
+        this.saltPassword = saltPassword;
         this.role = role;
         this.email = email;
         this.recoveryEmail = recoveryEmail;
@@ -75,6 +79,14 @@ public class User {
         this.ownedCommerces = ownedCommerces;
         this.savedPosts = savedPosts;
         this.favoriteCommerces = favoriteCommerces;
+    }
+
+    public String getSaltPassword() {
+        return saltPassword;
+    }
+
+    public void setSaltPassword(String saltPassword) {
+        this.saltPassword = saltPassword;
     }
 
     public Long getIdUser() {

@@ -6,10 +6,14 @@ import com.example.dondeQueda.repositories.IUserRepository;
 import com.example.dondeQueda.services.interfaces.IEntityValidatorService;
 import com.example.dondeQueda.services.interfaces.IUserService;
 import org.apache.commons.codec.digest.DigestUtils;
+import org.apache.commons.lang3.RandomStringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+
+import java.security.SecureRandom;
 import java.util.List;
+import java.util.Random;
 
 @Service
 public class UserService implements IUserService {
@@ -24,11 +28,13 @@ public class UserService implements IUserService {
     public String saveUser(UserDto userDto) {
 
         User user = new User();
+        Random random = new Random();
 
         user.setUsername(userDto.getUsername());
         user.setName(userDto.getName());
         user.setLastname(userDto.getLastname());
         user.setPassword(DigestUtils.sha256Hex(userDto.getPassword()));
+        user.setSaltPassword(RandomStringUtils.random(4,0,0, true, true, null , random));
         user.setEmail(userDto.getEmail());
         user.setRecoveryEmail(userDto.getRecoveryEmail());
         user.setPhone(userDto.getPhone());
