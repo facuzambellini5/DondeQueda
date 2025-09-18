@@ -3,7 +3,6 @@ package com.example.dondeQueda.services.interfaces;
 import com.example.dondeQueda.dtos.EventDto;
 import com.example.dondeQueda.dtos.ImageDto;
 import com.example.dondeQueda.models.Event;
-import com.example.dondeQueda.models.Image;
 
 import java.util.List;
 
@@ -21,5 +20,5 @@ public interface IEventService {
 
     String addImagesToEvent(Long idEvent, List<ImageDto> imagesDto);
 
-    String deleteImagesToEvent(Long idEvent, List<Long> imageIds);
+    String deleteImagesFromEvent(Long idEvent, List<Long> imageIds);
 }

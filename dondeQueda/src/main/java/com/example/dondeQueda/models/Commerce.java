@@ -1,14 +1,13 @@
 package com.example.dondeQueda.models;
 
 import com.example.dondeQueda.enums.CommerceType;
-import com.example.dondeQueda.enums.EntityType;
 import jakarta.persistence.*;
 
 import java.time.LocalDateTime;
 import java.util.List;
 
 @Entity
-public class Commerce implements ImageOwner {
+public class Commerce {
 
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -73,7 +72,7 @@ public class Commerce implements ImageOwner {
       inverseJoinColumns = @JoinColumn(name = "id_tag"))
   private List<Tag> tags;
 
-  @Transient
+  @OneToMany(mappedBy = "commerce")
   private List<Image> images;
 
   public Commerce() {}
@@ -251,17 +250,6 @@ public class Commerce implements ImageOwner {
 
   public void setTags(List<Tag> tags) {
     this.tags = tags;
-  }
-
-  //Metodos de ImageOwner
-  @Override
-  public Long getIdEntity() {
-    return this.idCommerce;
-  }
-
-  @Override
-  public String getEntityType() {
-    return EntityType.COMMERCE.name();
   }
 
   public List<Image> getImages() {

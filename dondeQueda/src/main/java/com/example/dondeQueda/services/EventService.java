@@ -11,6 +11,7 @@ import com.example.dondeQueda.repositories.ICommerceRepository;
 import com.example.dondeQueda.repositories.IEventRepository;
 import com.example.dondeQueda.repositories.IImageRepository;
 import com.example.dondeQueda.services.interfaces.IEventService;
+import com.example.dondeQueda.services.interfaces.IImageService;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.List;
@@ -27,6 +28,8 @@ public class EventService implements IEventService {
     private EntityValidatorService validatorService;
     @Autowired
     private IImageRepository imageRepo;
+    @Autowired
+    private IImageService imageService;
 
 
     @Override
@@ -90,6 +93,8 @@ public class EventService implements IEventService {
     @Override
     public String addImagesToEvent(Long idEvent, List<ImageDto> imagesDto) {
 
+        //TODO ver si esta logica dejar aca o en ImageService
+
         Event event = validatorService.validateEvent(idEvent);
 
         for(ImageDto imageDto : imagesDto){
@@ -99,9 +104,9 @@ public class EventService implements IEventService {
             image.setUrl(imageDto.getUrl());
             image.setImageType(imageDto.getImageType());
 
-            imageRepo.save(image);
-
             event.getImages().add(image);
+            image.setEvent(event);
+            imageRepo.save(image);
         }
         eventRepo.save(event);
 
@@ -109,11 +114,17 @@ public class EventService implements IEventService {
     }
 
     @Override
-    public String deleteImagesToEvent(Long idEvent, List<Long> imageIds) {
+    public String deleteImagesFromEvent(Long idEvent, List<Long> imageIds) {
 
         Event event = validatorService.validateEvent(idEvent);
 
-        //TERMINAR ESTO
+        for(Long imageId : imageIds){
+            Image image = imageService.getImageById(imageId);
+            imageService.deleteImageById(imageId);
+            event.getImages().remove(image);
+        }
+
+        eventRepo.save(event);
         return "Imagen/es eliminadas correctamente.";
     }
 

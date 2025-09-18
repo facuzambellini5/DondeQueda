@@ -2,7 +2,6 @@ package com.example.dondeQueda.services.interfaces;
 
 import com.example.dondeQueda.dtos.ImageDto;
 import com.example.dondeQueda.models.Image;
-import com.example.dondeQueda.models.ImageOwner;
 
 import java.util.List;
 
@@ -18,5 +17,9 @@ public interface IImageService {
 
     String deleteImageById(Long idImage);
 
-    List<Image> getImages(ImageOwner entity);
+    List<Image> getImagesByCommerce(Long idCommerce);
+
+    List<Image> getImagesByEvent(Long idEvent);
+
+    List<Image> getImagesByPost(Long idPost);
 }

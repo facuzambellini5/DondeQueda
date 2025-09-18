@@ -1,13 +1,12 @@
 package com.example.dondeQueda.models;
 
-import com.example.dondeQueda.enums.EntityType;
 import jakarta.persistence.*;
 
 import java.time.LocalDateTime;
 import java.util.List;
 
 @Entity
-public class Event implements ImageOwner {
+public class Event {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -32,7 +31,7 @@ public class Event implements ImageOwner {
     @ManyToMany(mappedBy = "events")
     private List<Commerce> commerces;
 
-    @Transient
+    @OneToMany(mappedBy = "event")
     private List<Image> images;
 
     public Event() {
@@ -112,17 +111,6 @@ public class Event implements ImageOwner {
 
     public void setCommerces(List<Commerce> commerces) {
         this.commerces = commerces;
-    }
-
-    //Metodos de ImageOwner
-    @Override
-    public Long getIdEntity() {
-        return this.idEvent;
-    }
-
-    @Override
-    public String getEntityType() {
-    return EntityType.EVENT.name();
     }
 
     public List<Image> getImages() {

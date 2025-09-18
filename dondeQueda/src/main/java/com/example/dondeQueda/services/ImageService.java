@@ -1,9 +1,10 @@
 package com.example.dondeQueda.services;
 
 import com.example.dondeQueda.dtos.ImageDto;
-import com.example.dondeQueda.enums.EntityType;
+import com.example.dondeQueda.models.Commerce;
+import com.example.dondeQueda.models.Event;
 import com.example.dondeQueda.models.Image;
-import com.example.dondeQueda.models.ImageOwner;
+import com.example.dondeQueda.models.Post;
 import com.example.dondeQueda.repositories.IImageRepository;
 import com.example.dondeQueda.services.interfaces.IImageService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,7 +27,6 @@ public class ImageService implements IImageService {
 
         image.setUrl(imageDto.getUrl());
         image.setImageType(imageDto.getImageType());
-        image.setIdEntity(image.getIdEntity());
 
         imageRepo.save(image);
 
@@ -50,7 +50,6 @@ public class ImageService implements IImageService {
 
         image.setUrl(imageDto.getUrl());
         image.setImageType(imageDto.getImageType());
-        image.setIdEntity(image.getIdEntity());
 
         imageRepo.save(image);
 
@@ -67,14 +66,25 @@ public class ImageService implements IImageService {
     }
 
     @Override
-    public List<Image> getImages(ImageOwner entity) {
+    public List<Image> getImagesByCommerce(Long idCommerce) {
 
-        EntityType entityType = EntityType.valueOf(entity.getEntityType());
-        Long idEntity = entity.getIdEntity();
-        return imageRepo.findByEntityTypeAndIdEntityOrderByImageOrder(entityType, idEntity);
+        Commerce commerce = validatorService.validateCommerce(idCommerce);
+        return imageRepo.findByCommerceOrderByImageOrder(commerce);
     }
 
+    @Override
+    public List<Image> getImagesByEvent(Long idEvent) {
 
-    //TODO: terminar implementacion de imagenes.
+        Event event = validatorService.validateEvent(idEvent);
+        return imageRepo.findByEventOrderByImageOrder(event);
+    }
+
+    @Override
+    public List<Image> getImagesByPost(Long idPost) {
+
+        Post post = validatorService.validatePost(idPost);
+        return imageRepo.findByPostOrderByImageOrder(post);
+    }
+
 
 }

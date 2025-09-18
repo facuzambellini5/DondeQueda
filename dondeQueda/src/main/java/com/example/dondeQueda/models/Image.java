@@ -1,8 +1,8 @@
 package com.example.dondeQueda.models;
 
-import com.example.dondeQueda.enums.EntityType;
 import com.example.dondeQueda.enums.ImageType;
 import jakarta.persistence.*;
+import org.hibernate.annotations.UpdateTimestamp;
 
 import java.time.LocalDateTime;
 
@@ -19,30 +19,37 @@ public class Image {
     @Enumerated(EnumType.STRING)
     private ImageType imageType;
 
-    @Column(name = "id_entity")
-    private Long idEntity;
-
-    @Column(name = "entity_type")
-    @Enumerated(EnumType.STRING)
-    private EntityType entityType;
-
     @Column(name = "image_order")
     private int imageOrder;
 
     @Column(name = "created_at")
+    @UpdateTimestamp
     private LocalDateTime createdAt;
+
+    @ManyToOne
+    @JoinColumn(name = "id_commerce")
+    private Commerce commerce;
+
+    @ManyToOne
+    @JoinColumn(name = "id_event")
+    private Event event;
+
+    @ManyToOne
+    @JoinColumn(name = "id_post")
+    private Post post;
 
     public Image() {
     }
 
-    public Image(Long idImage, String url, ImageType imageType, Long idEntity, EntityType entityType, int imageOrder, LocalDateTime createdAt) {
+    public Image(Long idImage, String url, ImageType imageType, int imageOrder, LocalDateTime createdAt, Commerce commerce, Event event, Post post) {
         this.idImage = idImage;
         this.url = url;
         this.imageType = imageType;
-        this.idEntity = idEntity;
-        this.entityType = entityType;
         this.imageOrder = imageOrder;
         this.createdAt = createdAt;
+        this.commerce = commerce;
+        this.event = event;
+        this.post = post;
     }
 
     public Long getIdImage() {
@@ -69,22 +76,6 @@ public class Image {
         this.imageType = imageType;
     }
 
-    public Long getIdEntity() {
-        return idEntity;
-    }
-
-    public void setIdEntity(Long idEntity) {
-        this.idEntity = idEntity;
-    }
-
-    public EntityType getEntityType() {
-        return entityType;
-    }
-
-    public void setEntityType(EntityType entityType) {
-        this.entityType = entityType;
-    }
-
     public int getImageOrder() {
         return imageOrder;
     }
@@ -99,6 +90,30 @@ public class Image {
 
     public void setCreatedAt(LocalDateTime createdAt) {
         this.createdAt = createdAt;
+    }
+
+    public Commerce getCommerce() {
+        return commerce;
+    }
+
+    public void setCommerce(Commerce commerce) {
+        this.commerce = commerce;
+    }
+
+    public Event getEvent() {
+        return event;
+    }
+
+    public void setEvent(Event event) {
+        this.event = event;
+    }
+
+    public Post getPost() {
+        return post;
+    }
+
+    public void setPost(Post post) {
+        this.post = post;
     }
 }
 
