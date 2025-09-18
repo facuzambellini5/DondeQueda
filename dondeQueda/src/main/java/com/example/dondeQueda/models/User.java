@@ -2,6 +2,7 @@ package com.example.dondeQueda.models;
 
 import com.example.dondeQueda.enums.UserRole;
 import jakarta.persistence.*;
+import org.hibernate.annotations.UpdateTimestamp;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -25,7 +26,7 @@ public class User {
     private String saltPassword;
 
     @Enumerated(EnumType.STRING)
-    private UserRole role;
+    private UserRole role = UserRole.REGISTERED;
 
     private String email;
 
@@ -34,6 +35,7 @@ public class User {
 
     private String phone;
 
+    @UpdateTimestamp
     @Column(name = "created_at")
     private LocalDateTime createdAt;
 

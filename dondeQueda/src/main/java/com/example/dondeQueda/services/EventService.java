@@ -97,7 +97,7 @@ public class EventService implements IEventService {
             Image image = new Image();
 
             image.setUrl(imageDto.getUrl());
-            image.setImageType(imageDto.getType());
+            image.setImageType(imageDto.getImageType());
 
             imageRepo.save(image);
 

@@ -29,12 +29,13 @@ public class UserService implements IUserService {
 
         User user = new User();
         Random random = new Random();
+        String saltPassword = RandomStringUtils.random(4,0,0, true, true, null , random);
 
         user.setUsername(userDto.getUsername());
         user.setName(userDto.getName());
         user.setLastname(userDto.getLastname());
-        user.setPassword(DigestUtils.sha256Hex(userDto.getPassword()));
-        user.setSaltPassword(RandomStringUtils.random(4,0,0, true, true, null , random));
+        user.setSaltPassword(saltPassword);
+        user.setPassword(DigestUtils.sha256Hex(saltPassword.concat(userDto.getPassword())));
         user.setEmail(userDto.getEmail());
         user.setRecoveryEmail(userDto.getRecoveryEmail());
         user.setPhone(userDto.getPhone());
@@ -62,10 +63,12 @@ public class UserService implements IUserService {
         user.setUsername(userDto.getUsername());
         user.setName(userDto.getName());
         user.setLastname(userDto.getLastname());
-        user.setPassword(DigestUtils.sha256Hex(userDto.getPassword()));
+        user.setPassword(DigestUtils.sha256Hex(user.getSaltPassword().concat(userDto.getPassword())));
         user.setEmail(userDto.getEmail());
         user.setRecoveryEmail(userDto.getRecoveryEmail());
         user.setPhone(userDto.getPhone());
+
+        userRepo.save(user);
 
         return "Usuario editado correctamente.";
     }
