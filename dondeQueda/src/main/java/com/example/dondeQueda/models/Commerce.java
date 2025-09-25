@@ -2,6 +2,7 @@ package com.example.dondeQueda.models;
 
 import com.example.dondeQueda.enums.CommerceType;
 import jakarta.persistence.*;
+import org.hibernate.annotations.UpdateTimestamp;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -23,11 +24,12 @@ public class Commerce {
 
   @Column(name = "commerce_type")
   @Enumerated(EnumType.STRING)
-  private CommerceType commerceType;
+  private CommerceType commerceType = CommerceType.PRIVATE;
 
   private String email;
 
   @Column(name = "created_date")
+  @UpdateTimestamp
   private LocalDateTime createdDate;
 
   @ManyToOne

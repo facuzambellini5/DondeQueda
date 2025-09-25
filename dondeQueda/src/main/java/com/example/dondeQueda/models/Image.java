@@ -15,6 +15,9 @@ public class Image {
 
     private String url;
 
+    @Column(name = "public_id")
+    private String publicId;
+
     @Column(name = "image_type")
     @Enumerated(EnumType.STRING)
     private ImageType imageType;
@@ -41,9 +44,10 @@ public class Image {
     public Image() {
     }
 
-    public Image(Long idImage, String url, ImageType imageType, int imageOrder, LocalDateTime createdAt, Commerce commerce, Event event, Post post) {
+    public Image(Long idImage, String url, String publicId, ImageType imageType, int imageOrder, LocalDateTime createdAt, Commerce commerce, Event event, Post post) {
         this.idImage = idImage;
         this.url = url;
+        this.publicId = publicId;
         this.imageType = imageType;
         this.imageOrder = imageOrder;
         this.createdAt = createdAt;
@@ -66,6 +70,14 @@ public class Image {
 
     public void setUrl(String url) {
         this.url = url;
+    }
+
+    public String getPublicId() {
+        return publicId;
+    }
+
+    public void setPublicId(String publicId) {
+        this.publicId = publicId;
     }
 
     public ImageType getImageType() {

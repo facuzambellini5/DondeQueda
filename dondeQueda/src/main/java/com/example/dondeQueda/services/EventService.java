@@ -93,7 +93,7 @@ public class EventService implements IEventService {
     @Override
     public String addImagesToEvent(Long idEvent, List<ImageDto> imagesDto) {
 
-        //TODO ver si esta logica dejar aca o en ImageService
+        //TODO: Cambiar esto e implementar lógica de Cloudinary.
 
         Event event = validatorService.validateEvent(idEvent);
 
@@ -115,6 +115,8 @@ public class EventService implements IEventService {
 
     @Override
     public String deleteImagesFromEvent(Long idEvent, List<Long> imageIds) {
+
+        //TODO: Cambiar esto e implementar lógica de Cloudinary.
 
         Event event = validatorService.validateEvent(idEvent);
 

@@ -86,7 +86,7 @@ public class PostService implements IPostService {
 
             post.getImages().add(image);
             image.setPost(post);
-            imageRepo.save(image);
+            //imageRepo.save(image);
         }
         postRepo.save(post);
 

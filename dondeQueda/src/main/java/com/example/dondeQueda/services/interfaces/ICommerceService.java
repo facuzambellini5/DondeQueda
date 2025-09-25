@@ -1,6 +1,7 @@
 package com.example.dondeQueda.services.interfaces;
 
 import com.example.dondeQueda.dtos.CategoryDto;
+import com.example.dondeQueda.dtos.CommerceDto;
 import com.example.dondeQueda.models.Commerce;
 
 
