@@ -20,6 +20,7 @@ public class User {
 
     private String lastname;
 
+    @Column(nullable = false)
     private String password;
 
     @Column(name = "salt_password")
@@ -28,6 +29,7 @@ public class User {
     @Enumerated(EnumType.STRING)
     private UserRole role = UserRole.REGISTERED;
 
+    @Column(nullable = false)
     private String email;
 
     @Column(name = "recovery_email")

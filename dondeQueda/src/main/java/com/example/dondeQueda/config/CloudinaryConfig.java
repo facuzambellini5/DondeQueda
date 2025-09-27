@@ -1,4 +1,4 @@
-package com.example.dondeQueda;
+package com.example.dondeQueda.config;
 
 import com.cloudinary.Cloudinary;
 import org.springframework.beans.factory.annotation.Value;

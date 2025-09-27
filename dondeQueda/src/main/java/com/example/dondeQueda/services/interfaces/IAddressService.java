@@ -8,13 +8,13 @@ import java.util.List;
 
 public interface IAddressService {
 
-    String saveAddress(AddressDto addressDto);
+    void saveAddress(AddressDto addressDto);
 
     List<Address> getAddresses();
 
     Address getAddressById(Long idAddress);
 
-    String editAddress(Long idAddress, AddressDto addressDto);
+    void editAddress(Long idAddress, AddressDto addressDto);
 
-    String deleteAddressById(Long idAddress);
+    void deleteAddressById(Long idAddress);
 }

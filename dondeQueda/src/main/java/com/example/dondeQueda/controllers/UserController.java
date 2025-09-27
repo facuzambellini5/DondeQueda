@@ -2,8 +2,12 @@ package com.example.dondeQueda.controllers;
 
 import com.example.dondeQueda.dtos.UserDto;
 import com.example.dondeQueda.models.User;
+import com.example.dondeQueda.repositories.IUserRepository;
 import com.example.dondeQueda.services.interfaces.IUserService;
+import org.apache.coyote.Response;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -16,28 +20,35 @@ public class UserController {
     private IUserService userService;
 
     @PostMapping("/guardar")
-    public String saveUser(@RequestBody UserDto userDto){
-        return userService.saveUser(userDto);
+    public ResponseEntity<?> saveUser(@RequestBody UserDto userDto){
+
+        userService.saveUser(userDto);
+
+        return ResponseEntity.status(HttpStatus.CREATED).body("Usuario creado correctamente.");
     }
 
     @GetMapping("/traer")
-    public List<User> getUsers(){
-        return userService.getUsers();
+    public ResponseEntity<List<User>> getUsers(){
+        return ResponseEntity.ok(userService.getUsers());
     }
 
     @GetMapping("/traer/{idUser}")
-    public User getUserById(@PathVariable Long idUser){
-        return userService.getUserById(idUser);
+    public ResponseEntity<User> getUserById(@PathVariable Long idUser){
+        return ResponseEntity.ok(userService.getUserById(idUser));
     }
 
     @PutMapping("/editar/{idUser}")
-    public String editUser(@PathVariable Long idUser,
-                           @RequestBody UserDto userDto){
-        return userService.editUser(idUser,userDto);
+    public ResponseEntity<?> editUser(@PathVariable Long idUser,
+                                      @RequestBody UserDto userDto){
+        userService.editUser(idUser,userDto);
+        return ResponseEntity.ok("Usuario editado correctamente.");
     }
 
     @DeleteMapping("/eliminar/{idUser}")
-    public String deleteUserById(@PathVariable Long idUser){
-        return userService.deleteUserById(idUser);
+    public ResponseEntity<?> deleteUserById(@PathVariable Long idUser){
+
+        userService.deleteUserById(idUser);
+
+        return ResponseEntity.ok("Usuario eliminado correctamente.");
     }
 }

@@ -4,7 +4,7 @@ import com.example.dondeQueda.dtos.AddressDto;
 import com.example.dondeQueda.models.Address;
 import com.example.dondeQueda.repositories.IAddressRepository;
 import com.example.dondeQueda.services.interfaces.IAddressService;
-import com.example.dondeQueda.services.interfaces.IEntityValidatorService;
+import com.example.dondeQueda.utils.ValidationUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -14,10 +14,9 @@ import java.util.List;
 public class AddressService implements IAddressService {
 
   @Autowired private IAddressRepository addressRepo;
-  @Autowired private IEntityValidatorService validatorService;
 
   @Override
-  public String saveAddress(AddressDto addressDto) {
+  public void saveAddress(AddressDto addressDto) {
 
     Address address = new Address();
 
@@ -27,8 +26,6 @@ public class AddressService implements IAddressService {
     address.setLocation(addressDto.getLocation());
 
     addressRepo.save(address);
-
-    return "Dirección guardada correctamente.";
   }
 
   @Override
@@ -38,11 +35,11 @@ public class AddressService implements IAddressService {
 
   @Override
   public Address getAddressById(Long idAddress) {
-    return validatorService.validateAddress(idAddress);
+    return ValidationUtils.validateEntity(addressRepo.findById(idAddress), "Dirección", idAddress);
   }
 
   @Override
-  public String editAddress(Long idAddress, AddressDto addressDto) {
+  public void editAddress(Long idAddress, AddressDto addressDto) {
 
     Address address = this.getAddressById(idAddress);
 
@@ -52,16 +49,12 @@ public class AddressService implements IAddressService {
     address.setLocation(addressDto.getLocation());
 
     addressRepo.save(address);
-
-    return "Dirección editada correctamente.";
   }
 
   @Override
-  public String deleteAddressById(Long idAddress) {
+  public void deleteAddressById(Long idAddress) {
 
     Address address = this.getAddressById(idAddress);
-    addressRepo.deleteById(idAddress);
-
-    return "Dirección eliminada correctamente.";
+    addressRepo.delete(address);
   }
 }

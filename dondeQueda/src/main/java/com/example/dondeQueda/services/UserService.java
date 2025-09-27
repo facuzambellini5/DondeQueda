@@ -3,8 +3,8 @@ package com.example.dondeQueda.services;
 import com.example.dondeQueda.dtos.UserDto;
 import com.example.dondeQueda.models.User;
 import com.example.dondeQueda.repositories.IUserRepository;
-import com.example.dondeQueda.services.interfaces.IEntityValidatorService;
 import com.example.dondeQueda.services.interfaces.IUserService;
+import com.example.dondeQueda.utils.ValidationUtils;
 import org.apache.commons.codec.digest.DigestUtils;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,11 +19,8 @@ public class UserService implements IUserService {
     @Autowired
     private IUserRepository userRepo;
 
-    @Autowired
-    private IEntityValidatorService validatorService;
-
     @Override
-    public String saveUser(UserDto userDto) {
+    public void saveUser(UserDto userDto) {
 
         User user = new User();
         Random random = new Random();
@@ -39,8 +36,6 @@ public class UserService implements IUserService {
         user.setPhone(userDto.getPhone());
 
         userRepo.save(user);
-
-        return "Usuario guardado correctamente.";
     }
 
     @Override
@@ -50,13 +45,13 @@ public class UserService implements IUserService {
 
     @Override
     public User getUserById(Long idUser) {
-        return validatorService.validateUser(idUser);
+        return ValidationUtils.validateEntity(userRepo.findById(idUser), "Usuario", idUser);
     }
 
     @Override
-    public String editUser(Long idUser, UserDto userDto) {
+    public void editUser(Long idUser, UserDto userDto) {
 
-        User user = validatorService.validateUser(idUser);
+        User user = this.getUserById(idUser);
 
         user.setUsername(userDto.getUsername());
         user.setName(userDto.getName());
@@ -67,16 +62,12 @@ public class UserService implements IUserService {
         user.setPhone(userDto.getPhone());
 
         userRepo.save(user);
-
-        return "Usuario editado correctamente.";
     }
 
     @Override
-    public String deleteUserById(Long idUser) {
+    public void deleteUserById(Long idUser) {
 
-        User user = validatorService.validateUser(idUser);
+        User user = this.getUserById(idUser);
         userRepo.delete(user);
-
-        return "Usuario eliminado correctamente.";
     }
 }

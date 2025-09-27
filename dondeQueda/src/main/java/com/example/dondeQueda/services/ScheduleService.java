@@ -5,7 +5,6 @@ import com.example.dondeQueda.models.Commerce;
 import com.example.dondeQueda.models.Schedule;
 import com.example.dondeQueda.repositories.ICommerceRepository;
 import com.example.dondeQueda.repositories.IScheduleRepository;
-import com.example.dondeQueda.services.interfaces.IEntityValidatorService;
 import com.example.dondeQueda.services.interfaces.IScheduleService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

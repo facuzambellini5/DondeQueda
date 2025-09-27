@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
+@CrossOrigin(origins = "https://5pwhrv-5173.csb.app")
 @RequestMapping("/categoria")
 public class CategoryController {
 

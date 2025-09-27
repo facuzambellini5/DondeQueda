@@ -4,7 +4,6 @@ import com.example.dondeQueda.dtos.CategoryDto;
 import com.example.dondeQueda.models.Category;
 import com.example.dondeQueda.repositories.ICategoryRepository;
 import com.example.dondeQueda.services.interfaces.ICategoryService;
-import com.example.dondeQueda.services.interfaces.IEntityValidatorService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
