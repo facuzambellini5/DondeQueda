@@ -4,6 +4,8 @@ import com.example.dondeQueda.dtos.CategoryDto;
 import com.example.dondeQueda.models.Category;
 import com.example.dondeQueda.services.interfaces.ICategoryService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -17,29 +19,34 @@ public class CategoryController {
     private ICategoryService categoryService;
 
     @PostMapping("/guardar")
-    public String saveCategory(@RequestBody CategoryDto categoryDto){
-        return categoryService.saveCategory(categoryDto);
+    public ResponseEntity<?> saveCategory(@RequestBody CategoryDto categoryDto){
+        categoryService.saveCategory(categoryDto);
+        return ResponseEntity.status(HttpStatus.CREATED).body("Categoría creada correctamente.");
     }
 
     @GetMapping("/traer")
-    public List<CategoryDto> getCategoriesDto(){
-        return categoryService.getCategoriesDto();
+    public ResponseEntity<List<CategoryDto>> getCategoriesDto(){
+        return ResponseEntity.ok(categoryService.getCategoriesDto());
     }
 
     @GetMapping("/traer/{idCategory}")
-    public Category getCategoryById(@PathVariable Long idCategory){
-        return categoryService.getCategoryById(idCategory);
+    public ResponseEntity<Category> getCategoryById(@PathVariable Long idCategory){
+        return ResponseEntity.ok(categoryService.getCategoryById(idCategory));
     }
 
     @PutMapping("/editar/{idCategory}")
-    public String editCategory(@PathVariable Long idCategory,
+    public ResponseEntity<?> editCategory(@PathVariable Long idCategory,
                                @RequestBody CategoryDto categoryDto){
-        return categoryService.editCategory(idCategory, categoryDto);
+
+        categoryService.editCategory(idCategory, categoryDto);
+
+        return ResponseEntity.status(HttpStatus.NO_CONTENT).body("Categoría editada correctamente.");
     }
 
     @DeleteMapping("/eliminar/{idCategory}")
-    public String deleteCategoryById(@PathVariable Long idCategory){
-        return categoryService.deleteCategoryById(idCategory);
+    public ResponseEntity<?> deleteCategoryById(@PathVariable Long idCategory){
+        categoryService.deleteCategoryById(idCategory);
+        return ResponseEntity.status(HttpStatus.NO_CONTENT).body("Categoría eliminada correctamente.");
     }
 
 }

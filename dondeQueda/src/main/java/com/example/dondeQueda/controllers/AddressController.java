@@ -45,7 +45,6 @@ public class AddressController {
     public ResponseEntity<?> deleteAddressById(@PathVariable Long idAddress){
 
         addressService.deleteAddressById(idAddress);
-
         return ResponseEntity.ok("Dirección eliminada correctamente.");
     }
 }

@@ -8,17 +8,17 @@ import java.util.List;
 
 public interface IEventService {
 
-    String saveEvent(EventDto eventDto);
+    void saveEvent(EventDto eventDto);
 
     List<Event> getEvents();
 
     Event getEventById(Long idEvent);
 
-    String editEvent(Long idEvent, EventDto eventDto);
+    void editEvent(Long idEvent, EventDto eventDto);
 
-    String deleteEventById(Long idEvent);
+    void deleteEventById(Long idEvent);
 
-    String addImagesToEvent(Long idEvent, List<ImageDto> imagesDto);
+    void addImagesToEvent(Long idEvent, List<ImageDto> imagesDto);
 
-    String deleteImagesFromEvent(Long idEvent, List<Long> imageIds);
+    void deleteImagesFromEvent(Long idEvent, List<Long> imageIds);
 }

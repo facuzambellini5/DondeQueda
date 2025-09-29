@@ -7,13 +7,13 @@ import java.util.List;
 
 public interface ISubcategoryService {
 
-    String saveSubcategory(SubcategoryDto subcategoryDto);
+    void saveSubcategory(SubcategoryDto subcategoryDto);
 
     List<Subcategory> getSubcategories();
 
     Subcategory getSubcategoryById(Long idSubcategory);
 
-    String editSubcategory(Long idSubcategory, SubcategoryDto subcategoryDto);
+    void editSubcategory(Long idSubcategory, SubcategoryDto subcategoryDto);
 
-    String deleteSubcategoryById(Long idSubcategory);
+    void deleteSubcategoryById(Long idSubcategory);
 }

@@ -12,13 +12,8 @@ import java.util.List;
 public class CommerceService implements ICommerceService {
 
     @Override
-    public String saveCommerce(CategoryDto categoryDto) {
-        return "";
-    }
+    public void saveCommerce(Commerce commerce) {
 
-    @Override
-    public String saveCommerce(Commerce commerce) {
-        return "";
     }
 
     @Override
@@ -32,17 +27,17 @@ public class CommerceService implements ICommerceService {
     }
 
     @Override
-    public String editCommerce(Long idCommerce, CommerceDto commerceDto) {
-        return "";
+    public void editCommerce(Long idCommerce, CommerceDto commerceDto) {
+
     }
 
     @Override
-    public String deleteCommerceById(Long idCommerce) {
-        return "";
+    public void deleteCommerceById(Long idCommerce) {
+
     }
 
     @Override
-    public String deleteCommerce(Commerce commerce) {
-        return "";
+    public void deleteCommerce(Commerce commerce) {
+
     }
 }

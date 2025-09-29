@@ -8,14 +8,14 @@ import java.util.List;
 
 public interface ITagService {
 
-    String saveTag(TagDto tagDto);
+    void saveTag(TagDto tagDto);
 
     List<Tag> getTags();
 
     Tag getTagById(Long idTag);
 
-    String editTag(Long idTag, TagDto tagDto);
+    void editTag(Long idTag, TagDto tagDto);
 
-    String deleteTagById(Long idTag);
+    void deleteTagById(Long idTag);
 
 }
