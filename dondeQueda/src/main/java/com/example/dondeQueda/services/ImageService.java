@@ -5,6 +5,7 @@ import com.example.dondeQueda.models.Commerce;
 import com.example.dondeQueda.models.Event;
 import com.example.dondeQueda.models.Image;
 import com.example.dondeQueda.models.Post;
+import com.example.dondeQueda.repositories.IEventRepository;
 import com.example.dondeQueda.repositories.IImageRepository;
 import com.example.dondeQueda.services.interfaces.IImageService;
 import com.example.dondeQueda.utils.ValidationUtils;
@@ -21,7 +22,7 @@ public class ImageService implements IImageService {
     @Autowired
     private CommerceService commerceService;
     @Autowired
-    private EventService eventService;
+    private IEventRepository eventRepo;
     @Autowired
     private PostService postService;
 
@@ -74,7 +75,7 @@ public class ImageService implements IImageService {
     @Override
     public List<Image> getImagesByEvent(Long idEvent) {
 
-        Event event = eventService.getEventById(idEvent);
+        Event event = ValidationUtils.validateEntity(eventRepo.findById(idEvent), "Evento", idEvent);
         return imageRepo.findByEventOrderByImageOrder(event);
     }
 
@@ -84,6 +85,4 @@ public class ImageService implements IImageService {
         Post post = postService.getPostById(idPost);
         return imageRepo.findByPostOrderByImageOrder(post);
     }
-
-
 }

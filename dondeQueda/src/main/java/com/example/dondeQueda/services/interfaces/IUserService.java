@@ -5,6 +5,7 @@ import com.example.dondeQueda.dtos.UserDto;
 import com.example.dondeQueda.models.User;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface IUserService {
 
@@ -18,5 +19,6 @@ public interface IUserService {
 
     void deleteUserById(Long idUser);
 
+    Optional<User> getUserByEmail(String email);
 
 }

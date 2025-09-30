@@ -10,9 +10,11 @@ import com.example.dondeQueda.services.interfaces.ICommerceService;
 import com.example.dondeQueda.services.interfaces.IPostService;
 import com.example.dondeQueda.utils.ValidationUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+@Service
 public class PostService implements IPostService {
 
     @Autowired

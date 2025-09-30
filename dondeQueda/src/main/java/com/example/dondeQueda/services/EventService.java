@@ -16,15 +16,17 @@ import com.example.dondeQueda.services.interfaces.IEventService;
 import com.example.dondeQueda.services.interfaces.IImageService;
 import com.example.dondeQueda.utils.ValidationUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+@Service
 public class EventService implements IEventService {
 
   @Autowired private IEventRepository eventRepo;
   @Autowired private ICommerceService commerceService;
   @Autowired private IAddressService addressService;
-  @Autowired private IImageRepository imageRepo;
+  //Autowired private IImageRepository imageRepo;
   @Autowired private IImageService imageService;
 
   @Override
@@ -99,7 +101,7 @@ public class EventService implements IEventService {
 
       event.getImages().add(image);
       image.setEvent(event);
-      imageRepo.save(image);
+      //imageRepo.save(image); TODO: ver implementacion de CASCADE
     }
     eventRepo.save(event);
   }
