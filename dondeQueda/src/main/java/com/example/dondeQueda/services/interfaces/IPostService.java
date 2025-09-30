@@ -9,18 +9,18 @@ import java.util.List;
 
 public interface IPostService {
 
-    String savePost(PostDto postDto);
+    void savePost(PostDto postDto);
 
     List<Post> getPosts();
 
     Post getPostById(Long idPost);
 
-    String editPost(Long idPost, PostDto postDto);
+    void editPost(Long idPost, PostDto postDto);
 
-    String deletePostById(Long idPost);
+    void deletePostById(Long idPost);
 
-    String addImagesToPost(Long idPost, List<ImageDto> imagesDto);
+    void addImagesToPost(Long idPost, List<ImageDto> imagesDto);
 
-    String deleteImagesFromPost(Long idPost, List<Long> imageIds);
+    void deleteImagesFromPost(Long idPost, List<Long> imageIds);
 
 }

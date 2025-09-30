@@ -5,7 +5,9 @@ import com.example.dondeQueda.models.Category;
 import com.example.dondeQueda.models.Subcategory;
 import com.example.dondeQueda.repositories.ICategoryRepository;
 import com.example.dondeQueda.repositories.ISubcategoryRepository;
+import com.example.dondeQueda.services.interfaces.ICategoryService;
 import com.example.dondeQueda.services.interfaces.ISubcategoryService;
+import com.example.dondeQueda.utils.ValidationUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -15,14 +17,13 @@ import java.util.List;
 public class SubcategoryService implements ISubcategoryService {
 
   @Autowired private ISubcategoryRepository subcategoryRepo;
-  @Autowired private ICategoryRepository categoryRepo;
-  @Autowired private IEntityValidatorService validatorService;
+  @Autowired private ICategoryService categoryService;
 
   @Override
-  public String saveSubcategory(SubcategoryDto subcategoryDto) {
+  public void saveSubcategory(SubcategoryDto subcategoryDto) {
 
     Subcategory subcategory = new Subcategory();
-    Category category = validatorService.validateCategory(subcategoryDto.getIdCategory());
+    Category category = categoryService.getCategoryById(subcategoryDto.getIdCategory());
 
     subcategory.setName(subcategoryDto.getName());
     subcategory.setDescription(subcategoryDto.getDescription());
@@ -30,9 +31,8 @@ public class SubcategoryService implements ISubcategoryService {
     subcategory.setCategory(category);
     category.getSubcategories().add(subcategory);
     subcategoryRepo.save(subcategory);
-    categoryRepo.save(category);
 
-    return "Subcategoría guardada correctamente.";
+    //categoryRepo.save(category); TODO: ver implementación de CASCADE
   }
 
   @Override
@@ -42,11 +42,11 @@ public class SubcategoryService implements ISubcategoryService {
 
   @Override
   public Subcategory getSubcategoryById(Long idSubcategory) {
-    return validatorService.validateSubcategory(idSubcategory);
+    return ValidationUtils.validateEntity(subcategoryRepo.findById(idSubcategory),"Subcategoría",idSubcategory);
   }
 
   @Override
-  public String editSubcategory(Long idSubcategory, SubcategoryDto subcategoryDto) {
+  public void editSubcategory(Long idSubcategory, SubcategoryDto subcategoryDto) {
 
     Subcategory subcategory = this.getSubcategoryById(idSubcategory);
 
@@ -56,7 +56,7 @@ public class SubcategoryService implements ISubcategoryService {
     if (!subcategory.getCategory().getIdCategory().equals(subcategoryDto.getIdCategory())) {
 
       Category previousCategory = subcategory.getCategory();
-      Category newCategory = validatorService.validateCategory(subcategoryDto.getIdCategory());
+      Category newCategory = categoryService.getCategoryById(subcategoryDto.getIdCategory());
 
       subcategory.setCategory(newCategory);
 
@@ -64,18 +64,15 @@ public class SubcategoryService implements ISubcategoryService {
       newCategory.getSubcategories().add(subcategory);
 
       subcategoryRepo.save(subcategory);
-      categoryRepo.save(previousCategory);
-      categoryRepo.save(newCategory);
+      //categoryRepo.save(previousCategory); TODO: ver implementación de CASCADE
+      //categoryRepo.save(newCategory); TODO: ver implementación de CASCADE
     }
-    return "Subcategoría editada correctamente.";
   }
 
   @Override
-  public String deleteSubcategoryById(Long idSubcategory) {
+  public void deleteSubcategoryById(Long idSubcategory) {
 
     Subcategory subcategory = this.getSubcategoryById(idSubcategory);
     subcategoryRepo.delete(subcategory);
-
-    return "Subcategoría eliminada correctamente.";
   }
 }

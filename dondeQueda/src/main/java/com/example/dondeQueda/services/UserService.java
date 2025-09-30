@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.Random;
 
 @Service
@@ -69,5 +70,10 @@ public class UserService implements IUserService {
 
         User user = this.getUserById(idUser);
         userRepo.delete(user);
+    }
+
+    @Override
+    public Optional<User> getUserByEmail(String email) {
+        return userRepo.findByEmail(email);
     }
 }

@@ -7,13 +7,13 @@ import java.util.List;
 
 public interface ISubscriptionService {
 
-    String saveSubscription(SubscriptionDto subscriptionDto);
+    void saveSubscription(SubscriptionDto subscriptionDto);
 
     List<Subscription> getSubscriptions();
 
     Subscription getSubscriptionById(Long idSubscription);
 
-    String editSubscription(Long idSubscription, SubscriptionDto subscriptionDto);
+    void editSubscription(Long idSubscription, SubscriptionDto subscriptionDto);
 
-    String deleteSubscriptionById(Long idSubscription);
+    void deleteSubscriptionById(Long idSubscription);
 }

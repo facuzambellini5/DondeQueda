@@ -4,6 +4,7 @@ import com.example.dondeQueda.dtos.CategoryDto;
 import com.example.dondeQueda.models.Category;
 import com.example.dondeQueda.repositories.ICategoryRepository;
 import com.example.dondeQueda.services.interfaces.ICategoryService;
+import com.example.dondeQueda.utils.ValidationUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -14,18 +15,15 @@ import java.util.List;
 public class CategoryService implements ICategoryService {
 
     @Autowired private ICategoryRepository categoryRepo;
-    @Autowired private IEntityValidatorService validatorService;
 
     @Override
-    public String saveCategory(CategoryDto categoryDto) {
+    public void saveCategory(CategoryDto categoryDto) {
 
         Category category = new Category();
         category.setName(categoryDto.getName());
         category.setDescription(categoryDto.getDescription());
 
         categoryRepo.save(category);
-
-        return "Categoria guardada correctamente.";
     }
 
     @Override
@@ -35,28 +33,24 @@ public class CategoryService implements ICategoryService {
 
     @Override
     public Category getCategoryById(Long idCategory) {
-    return validatorService.validateCategory(idCategory);
+        return ValidationUtils.validateEntity(categoryRepo.findById(idCategory),"Categoría", idCategory);
     }
 
     @Override
-    public String editCategory(Long idCategory, CategoryDto categoryDto) {
+    public void editCategory(Long idCategory, CategoryDto categoryDto) {
 
         Category category = this.getCategoryById(idCategory);
 
         category.setName(categoryDto.getName());
         category.setDescription(categoryDto.getDescription());
         categoryRepo.save(category);
-
-        return "Categoría editada correctamente.";
     }
 
     @Override
-    public String deleteCategoryById(Long idCategory) {
+    public void deleteCategoryById(Long idCategory) {
 
         Category category = this.getCategoryById(idCategory);
         categoryRepo.delete(category);
-
-        return "Categoría eliminada correctamente.";
     }
 
     @Override

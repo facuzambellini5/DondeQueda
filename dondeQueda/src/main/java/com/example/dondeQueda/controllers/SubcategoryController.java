@@ -4,6 +4,8 @@ import com.example.dondeQueda.dtos.SubcategoryDto;
 import com.example.dondeQueda.models.Subcategory;
 import com.example.dondeQueda.services.interfaces.ISubcategoryService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -16,29 +18,31 @@ public class SubcategoryController {
     private ISubcategoryService subcategoryService;
 
     @PostMapping("/guardar")
-    public String saveSubcategory(@RequestBody SubcategoryDto subcategoryDto){
-        return subcategoryService.saveSubcategory(subcategoryDto);
+    public ResponseEntity<?> saveSubcategory(@RequestBody SubcategoryDto subcategoryDto){
+        subcategoryService.saveSubcategory(subcategoryDto);
+        return ResponseEntity.status(HttpStatus.CREATED).body("Subcategoría creada correctamente.");
     }
 
     @GetMapping("/traer")
-    public List<Subcategory> getSubcategories(){
-        return subcategoryService.getSubcategories();
+    public ResponseEntity<List<Subcategory>> getSubcategories(){
+        return ResponseEntity.ok(subcategoryService.getSubcategories());
     }
 
     @GetMapping("/traer/{idSubcategory}")
-    public Subcategory getSubcategoryById(@PathVariable Long idSubcategory){
-        return subcategoryService.getSubcategoryById(idSubcategory);
+    public ResponseEntity<?> getSubcategoryById(@PathVariable Long idSubcategory){
+        return ResponseEntity.ok(subcategoryService.getSubcategoryById(idSubcategory));
     }
 
     @PutMapping("/editar/{idSubcategory}")
-    public String editSubcategory(@PathVariable Long idSubcategory,
+    public ResponseEntity<?> editSubcategory(@PathVariable Long idSubcategory,
                                   @RequestBody SubcategoryDto subcategoryDto){
-        return subcategoryService.editSubcategory(idSubcategory, subcategoryDto);
+        subcategoryService.editSubcategory(idSubcategory, subcategoryDto);
+        return ResponseEntity.status(HttpStatus.NO_CONTENT).body("Subcategoría editada correctamente.");
     }
 
     @DeleteMapping("/eliminar/{idSubcategory}")
-    public String deleteSubcategoryById(@PathVariable Long idSubcategory){
-        return subcategoryService.deleteSubcategoryById(idSubcategory);
+    public ResponseEntity<?> deleteSubcategoryById(@PathVariable Long idSubcategory){
+        subcategoryService.deleteSubcategoryById(idSubcategory);
+        return ResponseEntity.status(HttpStatus.NO_CONTENT).body("Subcategoría eliminada correctamente.");
     }
-
 }

@@ -4,6 +4,8 @@ import com.example.dondeQueda.dtos.TagDto;
 import com.example.dondeQueda.models.Tag;
 import com.example.dondeQueda.services.interfaces.ITagService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -16,28 +18,31 @@ public class TagController {
     private ITagService tagService;
 
     @PostMapping("/guardar")
-    public String saveTag(@RequestBody TagDto tagDto){
-        return tagService.saveTag(tagDto);
+    public ResponseEntity<?> saveTag(@RequestBody TagDto tagDto){
+        tagService.saveTag(tagDto);
+        return ResponseEntity.status(HttpStatus.CREATED).body("Etiqueta guardada correctamente.");
     }
 
     @GetMapping("/traer")
-    public List<Tag> getTags(){
-        return tagService.getTags();
+    public ResponseEntity<List<Tag>> getTags(){
+        return ResponseEntity.ok(tagService.getTags());
     }
 
     @GetMapping("/traer/{idTag}")
-    public Tag getTagById(@PathVariable Long idTag){
-        return tagService.getTagById(idTag);
+    public ResponseEntity<?> getTagById(@PathVariable Long idTag){
+        return ResponseEntity.ok(tagService.getTagById(idTag));
     }
 
     @PutMapping("/editar/{idTag}")
-    public String editTag(@PathVariable Long idTag,
+    public ResponseEntity<?> editTag(@PathVariable Long idTag,
                           @RequestBody TagDto tagDto){
-        return tagService.editTag(idTag, tagDto);
+        tagService.editTag(idTag, tagDto);
+        return ResponseEntity.status(HttpStatus.NO_CONTENT).body("Etiqueta editada correctamente.");
     }
 
     @DeleteMapping("/eliminar/{idTag}")
-    public String deleteTagById(@PathVariable Long idTag){
-        return tagService.deleteTagById(idTag);
+    public ResponseEntity<?> deleteTagById(@PathVariable Long idTag){
+        tagService.deleteTagById(idTag);
+        return ResponseEntity.status(HttpStatus.NO_CONTENT).body("Etiqueta eliminada correctamente.");
     }
 }

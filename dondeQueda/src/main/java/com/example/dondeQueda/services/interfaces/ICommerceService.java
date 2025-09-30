@@ -9,17 +9,15 @@ import java.util.List;
 
 public interface ICommerceService {
 
-    String saveCommerce(CategoryDto categoryDto);
-
-    String saveCommerce(Commerce commerce);
+    void saveCommerce(Commerce commerce);
 
     List<Commerce> getCommerces();
 
     Commerce getCommerceById(Long idCommerce);
 
-    String editCommerce(Long idCommerce, CommerceDto commerceDto);
+    void editCommerce(Long idCommerce, CommerceDto commerceDto);
 
-    String deleteCommerceById(Long idCommerce);
+    void deleteCommerceById(Long idCommerce);
 
-    String deleteCommerce(Commerce commerce);
+    void deleteCommerce(Commerce commerce);
 }

@@ -5,7 +5,9 @@ import com.example.dondeQueda.models.Commerce;
 import com.example.dondeQueda.models.Schedule;
 import com.example.dondeQueda.repositories.ICommerceRepository;
 import com.example.dondeQueda.repositories.IScheduleRepository;
+import com.example.dondeQueda.services.interfaces.ICommerceService;
 import com.example.dondeQueda.services.interfaces.IScheduleService;
+import com.example.dondeQueda.utils.ValidationUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -17,15 +19,14 @@ public class ScheduleService implements IScheduleService {
     @Autowired
     private IScheduleRepository scheduleRepo;
     @Autowired
-    private ICommerceRepository commerceRepo;
-    @Autowired
-    private IEntityValidatorService  validatorService;
+    private ICommerceService commerceService;
+
 
     @Override
-    public String saveSchedule(ScheduleDto scheduleDto) {
+    public void saveSchedule(ScheduleDto scheduleDto) {
 
         Schedule schedule = new Schedule();
-        Commerce commerce = validatorService.validateCommerce(scheduleDto.getIdCommerce());
+        Commerce commerce = commerceService.getCommerceById(scheduleDto.getIdCommerce());
 
         schedule.setDay(scheduleDto.getDay());
         schedule.setMorningOpening(scheduleDto.getMorningOpening());
@@ -38,9 +39,7 @@ public class ScheduleService implements IScheduleService {
         commerce.getSchedules().add(schedule);
 
         scheduleRepo.save(schedule);
-        commerceRepo.save(commerce);
-
-        return "Horario guardado correctamente.";
+        //commerceRepo.save(commerce); VER IMPLEMENTACIÓN DE CASCADE
     }
 
     @Override
@@ -50,13 +49,13 @@ public class ScheduleService implements IScheduleService {
 
     @Override
     public Schedule getScheduleById(Long idSchedule) {
-        return validatorService.validateSchedule(idSchedule);
+        return ValidationUtils.validateEntity(scheduleRepo.findById(idSchedule),"Horario",idSchedule);
     }
 
     @Override
-    public String editSchedule(Long idSchedule, ScheduleDto scheduleDto) {
+    public void editSchedule(Long idSchedule, ScheduleDto scheduleDto) {
 
-        Schedule schedule = validatorService.validateSchedule(idSchedule);
+        Schedule schedule = this.getScheduleById(idSchedule);
 
         schedule.setDay(scheduleDto.getDay());
         schedule.setMorningOpening(scheduleDto.getMorningOpening());
@@ -64,16 +63,12 @@ public class ScheduleService implements IScheduleService {
         schedule.setAfternoonOpening(scheduleDto.getAfternoonOpening());
         schedule.setAfternoonClosing(scheduleDto.getAfternoonClosing());
         schedule.setContinuous(scheduleDto.isContinuous());
-
-        return "Horario editado correctamente.";
     }
 
     @Override
-    public String deleteScheduleById(Long idSchedule) {
+    public void deleteScheduleById(Long idSchedule) {
 
-        Schedule schedule = validatorService.validateSchedule(idSchedule);
+        Schedule schedule = this.getScheduleById(idSchedule);
         scheduleRepo.delete(schedule);
-
-        return "Horario eliminado con éxito.";
     }
 }

@@ -7,13 +7,13 @@ import java.util.List;
 
 public interface IScheduleService {
 
-  String saveSchedule(ScheduleDto scheduleDto);
+  void saveSchedule(ScheduleDto scheduleDto);
 
   List<Schedule> getSchedules();
 
   Schedule getScheduleById(Long idSchedule);
 
-  String editSchedule(Long idSchedule, ScheduleDto scheduleDto);
+  void editSchedule(Long idSchedule, ScheduleDto scheduleDto);
 
-  String deleteScheduleById(Long idSchedule);
+  void deleteScheduleById(Long idSchedule);
 }

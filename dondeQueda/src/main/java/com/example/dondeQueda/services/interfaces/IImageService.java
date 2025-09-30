@@ -7,15 +7,15 @@ import java.util.List;
 
 public interface IImageService {
 
-    String saveImgage(ImageDto imageDto);
+    void saveImgage(ImageDto imageDto);
 
     List<Image> getImages();
 
     Image getImageById(Long idImage);
 
-    String editImage(Long idImage, ImageDto imageDto);
+    void editImage(Long idImage, ImageDto imageDto);
 
-    String deleteImageById(Long idImage);
+    void deleteImageById(Long idImage);
 
     List<Image> getImagesByCommerce(Long idCommerce);
 

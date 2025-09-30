@@ -3,7 +3,10 @@ package com.example.dondeQueda.controllers;
 import com.example.dondeQueda.dtos.ImageDto;
 import com.example.dondeQueda.models.Image;
 import com.example.dondeQueda.services.interfaces.IImageService;
+import org.apache.coyote.Response;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -16,28 +19,32 @@ public class ImageController {
     private IImageService imageService;
 
     @PostMapping("/guardar")
-    public String saveImage(@RequestBody ImageDto imageDto){
-        return imageService.saveImgage(imageDto);
+    public ResponseEntity<?> saveImage(@RequestBody ImageDto imageDto){
+       imageService.saveImgage(imageDto);
+
+       return ResponseEntity.status(HttpStatus.CREATED).body("Imagen guardada correctamente.");
     }
 
     @GetMapping("/traer")
-    public List<Image> getImages(){
-        return imageService.getImages();
+    public ResponseEntity<List<Image>> getImages(){
+        return ResponseEntity.ok(imageService.getImages());
     }
 
     @GetMapping("/traer/{idImage}")
-    public Image getImageById(@PathVariable Long idImage){
-        return imageService.getImageById(idImage);
+    public ResponseEntity<?> getImageById(@PathVariable Long idImage){
+        return ResponseEntity.ok(imageService.getImageById(idImage));
     }
 
     @PutMapping("/editar/{idImage}")
-    public String editImage(@PathVariable Long idImage,
+    public ResponseEntity<?> editImage(@PathVariable Long idImage,
                             @RequestBody ImageDto imageDto){
-        return imageService.editImage(idImage, imageDto);
+        imageService.editImage(idImage, imageDto);
+        return ResponseEntity.status(HttpStatus.NO_CONTENT).body("Imagen editada correctamente.");
     }
 
     @DeleteMapping("/eliminar/{idImage}")
-    public String deleteImage(@PathVariable Long idImage){
-        return imageService.deleteImageById(idImage);
+    public ResponseEntity<?> deleteImage(@PathVariable Long idImage){
+        imageService.deleteImageById(idImage);
+        return ResponseEntity.status(HttpStatus.NO_CONTENT).body("Imagen eliminada correctamente.");
     }
 }

@@ -4,6 +4,7 @@ import com.example.dondeQueda.dtos.SubscriptionDto;
 import com.example.dondeQueda.models.Subscription;
 import com.example.dondeQueda.repositories.ISubscriptionRepository;
 import com.example.dondeQueda.services.interfaces.ISubscriptionService;
+import com.example.dondeQueda.utils.ValidationUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -14,11 +15,9 @@ public class SubscriptionService implements ISubscriptionService {
 
     @Autowired
     private ISubscriptionRepository subscriptionRepo;
-    @Autowired
-    private EntityValidatorService validatorService;
 
     @Override
-    public String saveSubscription(SubscriptionDto subscriptionDto) {
+    public void saveSubscription(SubscriptionDto subscriptionDto) {
         Subscription subscription = new Subscription();
 
         subscription.setNameSubscription(subscriptionDto.getNameSubscription());
@@ -29,8 +28,6 @@ public class SubscriptionService implements ISubscriptionService {
         subscription.setMaxPosts(subscriptionDto.getMaxPosts());
 
         subscriptionRepo.save(subscription);
-
-        return "Subscripción guardada correctamente.";
     }
 
     @Override
@@ -40,13 +37,13 @@ public class SubscriptionService implements ISubscriptionService {
 
     @Override
     public Subscription getSubscriptionById(Long idSubscription) {
-        return validatorService.validateSubscription(idSubscription);
+        return ValidationUtils.validateEntity(subscriptionRepo.findById(idSubscription),"Subscripción",idSubscription);
     }
 
     @Override
-    public String editSubscription(Long idSubscription, SubscriptionDto subscriptionDto) {
+    public void editSubscription(Long idSubscription, SubscriptionDto subscriptionDto) {
 
-        Subscription subscription = validatorService.validateSubscription(idSubscription);
+        Subscription subscription = this.getSubscriptionById(idSubscription);
 
         subscription.setNameSubscription(subscriptionDto.getNameSubscription());
         subscription.setPrice(subscriptionDto.getPrice());
@@ -56,16 +53,12 @@ public class SubscriptionService implements ISubscriptionService {
         subscription.setMaxPosts(subscriptionDto.getMaxPosts());
 
         subscriptionRepo.save(subscription);
-
-        return "Subscripción editada correctamente.";
     }
 
     @Override
-    public String deleteSubscriptionById(Long idSubscription) {
+    public void deleteSubscriptionById(Long idSubscription) {
 
-        Subscription subscription = validatorService.validateSubscription(idSubscription);
+        Subscription subscription = this.getSubscriptionById(idSubscription);
         subscriptionRepo.delete(subscription);
-
-        return "Subscripción eliminada correctamente.";
     }
 }
