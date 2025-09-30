@@ -18,8 +18,6 @@ public class PostService implements IPostService {
     private IPostRepository postRepo;
     @Autowired
     private CommerceService commerceService;
-    @Autowired
-    private EntityValidatorService validatorService;
 
     @Override
     public String savePost(PostDto postDto) {
