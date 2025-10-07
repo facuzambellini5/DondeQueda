@@ -13,7 +13,10 @@ public class Image {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long idImage;
 
+    @Column(nullable = false)
     private String url;
+    @Column(name = "original_filename", nullable = false)
+    private String originalFileName;
 
     @Column(name = "public_id")
     private String publicId;
@@ -44,9 +47,10 @@ public class Image {
     public Image() {
     }
 
-    public Image(Long idImage, String url, String publicId, ImageType imageType, int imageOrder, LocalDateTime createdAt, Commerce commerce, Event event, Post post) {
+    public Image(Long idImage, String url, String originalFileName, String publicId, ImageType imageType, int imageOrder, LocalDateTime createdAt, Commerce commerce, Event event, Post post) {
         this.idImage = idImage;
         this.url = url;
+        this.originalFileName = originalFileName;
         this.publicId = publicId;
         this.imageType = imageType;
         this.imageOrder = imageOrder;
@@ -54,6 +58,14 @@ public class Image {
         this.commerce = commerce;
         this.event = event;
         this.post = post;
+    }
+
+    public String getOriginalFileName() {
+        return originalFileName;
+    }
+
+    public void setOriginalFileName(String originalFileName) {
+        this.originalFileName = originalFileName;
     }
 
     public Long getIdImage() {

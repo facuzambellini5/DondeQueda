@@ -49,6 +49,8 @@ public class AuthService implements IAuthService {
 
       userService.saveUser(userDto);
 
-    return this.login(new LoginRequestDto(userDto.getEmail(), userDto.getPassword()));
+      User user = userRepo.findByEmail(userDto.getEmail()).orElseThrow();
+
+      return new LoginResponseDto(user);
   }
 }
