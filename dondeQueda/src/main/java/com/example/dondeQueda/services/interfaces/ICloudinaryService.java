@@ -7,7 +7,7 @@ import java.util.Map;
 
 public interface ICloudinaryService {
 
-    Map<?,?> uploadImage(MultipartFile multipartFile, String folder) throws IOException;
-    boolean deleteImage(String url) throws IOException;
+    Map<String, Object> uploadImage(MultipartFile multipartFile, String folder) throws IOException;
+    boolean deleteImage(String publicId) throws IOException;
 
 }

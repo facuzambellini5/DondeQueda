@@ -26,8 +26,6 @@ public class EventService implements IEventService {
   @Autowired private IEventRepository eventRepo;
   @Autowired private ICommerceService commerceService;
   @Autowired private IAddressService addressService;
-  //Autowired private IImageRepository imageRepo;
-  @Autowired private IImageService imageService;
 
   @Override
   public void saveEvent(EventDto eventDto) {
@@ -114,9 +112,6 @@ public class EventService implements IEventService {
     Event event = this.getEventById(idEvent);
 
     for (Long imageId : imageIds) {
-      Image image = imageService.getImageById(imageId);
-      imageService.deleteImageById(imageId);
-      event.getImages().remove(image);
     }
 
     eventRepo.save(event);

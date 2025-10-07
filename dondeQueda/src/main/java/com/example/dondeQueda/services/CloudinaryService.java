@@ -57,7 +57,9 @@ public class CloudinaryService implements ICloudinaryService {
             // PASO 2: Subir a Cloudinary
             // file.getBytes() obtiene los bytes reales del archivo
             // cloudinary.uploader().upload() envía esos bytes a Cloudinary
-            return cloudinary.uploader().upload(file.getBytes(), params);
+            @SuppressWarnings("unchecked")
+            Map<String, Object> result = (Map<String, Object>) cloudinary.uploader().upload(file.getBytes(), params);
+            return result;
 
         } catch (IOException e) {
             throw new IOException("Fallo al subir la imagen: " + e.getMessage());
@@ -72,13 +74,13 @@ public class CloudinaryService implements ICloudinaryService {
     public boolean deleteImage(String publicId) {
         try {
             // Llamar al metodo destroy de Cloudinary para eliminar la imagen
-            Map<String, Object> result = cloudinary.uploader().destroy(publicId, ObjectUtils.emptyMap());
+            @SuppressWarnings("unchecked")
+            Map<String, Object> result = (Map<String, Object>) cloudinary.uploader().destroy(publicId, ObjectUtils.emptyMap());
 
             // Cloudinary devuelve "result": "ok" si se eliminó correctamente
             String resultStatus = (String) result.get("result");
-            boolean deleted = "ok".equals(resultStatus);
 
-            return deleted;
+            return "ok".equals(resultStatus);
 
         } catch (IOException e) {
             return false;
