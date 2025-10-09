@@ -1,15 +1,10 @@
 package com.example.dondeQueda.services;
 
 import com.example.dondeQueda.dtos.EventDto;
-import com.example.dondeQueda.dtos.ImageDto;
 import com.example.dondeQueda.models.Address;
 import com.example.dondeQueda.models.Commerce;
 import com.example.dondeQueda.models.Event;
-import com.example.dondeQueda.models.Image;
-import com.example.dondeQueda.repositories.IAddressRepository;
-import com.example.dondeQueda.repositories.ICommerceRepository;
 import com.example.dondeQueda.repositories.IEventRepository;
-import com.example.dondeQueda.repositories.IImageRepository;
 import com.example.dondeQueda.services.interfaces.IAddressService;
 import com.example.dondeQueda.services.interfaces.ICommerceService;
 import com.example.dondeQueda.services.interfaces.IEventService;
@@ -17,7 +12,9 @@ import com.example.dondeQueda.services.interfaces.IImageService;
 import com.example.dondeQueda.utils.ValidationUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.util.List;
 
 @Service
@@ -26,9 +23,13 @@ public class EventService implements IEventService {
   @Autowired private IEventRepository eventRepo;
   @Autowired private ICommerceService commerceService;
   @Autowired private IAddressService addressService;
+  @Autowired
+  private IImageService imageService;
 
   @Override
-  public void saveEvent(EventDto eventDto) {
+  public void saveEvent(EventDto eventDto, List<MultipartFile> images) throws IOException {
+
+    //TODO VER si hacer validación de que tenga ALMENOS UNA imagen
 
     Event event = new Event();
 
@@ -46,6 +47,11 @@ public class EventService implements IEventService {
     event.setCapacity(eventDto.getCapacity());
     event.getCommerces().add(commerce);
 
+    for(MultipartFile image : images){
+      imageService.uploadImageToEvent(event.getIdEvent(), image);
+    }
+
+    //TODO ver CASCADE
     commerce.getEvents().add(event);
 
     eventRepo.save(event);
@@ -78,40 +84,29 @@ public class EventService implements IEventService {
 
   @Override
   public void deleteEventById(Long idEvent) {
-
     Event event = this.getEventById(idEvent);
     eventRepo.delete(event);
   }
 
   @Override
-  public void addImagesToEvent(Long idEvent, List<ImageDto> imagesDto) {
-
-    // TODO: Cambiar esto e implementar lógica de Cloudinary.
+  public void addImagesToEvent(Long idEvent, List<MultipartFile> images) throws IOException {
 
     Event event = this.getEventById(idEvent);
 
-    for (ImageDto imageDto : imagesDto) {
-
-      Image image = new Image();
-
-      image.setUrl(imageDto.getUrl());
-      image.setImageType(imageDto.getImageType());
-
-      event.getImages().add(image);
-      image.setEvent(event);
-      //imageRepo.save(image); TODO: ver implementacion de CASCADE
+    for (MultipartFile image : images) {
+      imageService.uploadImageToEvent(event.getIdEvent(), image);
     }
+
     eventRepo.save(event);
   }
 
   @Override
   public void deleteImagesFromEvent(Long idEvent, List<Long> imageIds) {
 
-    // TODO: Cambiar esto e implementar lógica de Cloudinary.
-
     Event event = this.getEventById(idEvent);
 
     for (Long imageId : imageIds) {
+      imageService.deleteImage(imageId);
     }
 
     eventRepo.save(event);

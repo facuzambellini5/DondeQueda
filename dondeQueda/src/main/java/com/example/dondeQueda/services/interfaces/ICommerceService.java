@@ -11,6 +11,8 @@ public interface ICommerceService {
 
     void saveCommerce(Commerce commerce);
 
+    void saveCommerce(CommerceDto commerceDto);
+
     List<Commerce> getCommerces();
 
     Commerce getCommerceById(Long idCommerce);

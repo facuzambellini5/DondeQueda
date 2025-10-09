@@ -13,6 +13,8 @@ public interface IImageService {
     void uploadImageToEvent(Long eventId, MultipartFile file) throws IOException;
     void uploadImageToCommerce(Long commerceId, MultipartFile file) throws IOException;
 
+    void deleteImage(Long imageId);
+
 
     List<Image> getImages();
 

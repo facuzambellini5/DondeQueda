@@ -11,7 +11,9 @@ import com.example.dondeQueda.services.interfaces.IPostService;
 import com.example.dondeQueda.utils.ValidationUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.util.List;
 
 @Service
@@ -21,9 +23,13 @@ public class PostService implements IPostService {
     private IPostRepository postRepo;
     @Autowired
     private ICommerceService commerceService;
+    @Autowired
+    private ImageService imageService;
 
     @Override
-    public void savePost(PostDto postDto) {
+    public void savePost(PostDto postDto, List<MultipartFile> images) throws IOException {
+
+        //TODO VER si hacer validación de que tenga ALMENOS UNA imagen
 
         Post post = new Post();
         Commerce commerce = commerceService.getCommerceById(postDto.getIdCommerce());
@@ -32,6 +38,11 @@ public class PostService implements IPostService {
         post.setDescription(postDto.getDescription());
         post.setCommerce(commerce);
 
+        for(MultipartFile image : images){
+            imageService.uploadImageToPost(post.getIdPost(), image);
+        }
+
+        //TODO ver CASCADE
         commerce.getPosts().add(post);
 
         postRepo.save(post);
@@ -63,26 +74,24 @@ public class PostService implements IPostService {
     public void deletePostById(Long idPost) {
 
         Post post = this.getPostById(idPost);
+        List<Image> postImages = post.getImages();
+
+        for(Image image : postImages){
+            imageService.deleteImage(image.getIdImage());
+        }
+
         postRepo.delete(post);
     }
 
     @Override
-    public void addImagesToPost(Long idPost, List<ImageDto> imagesDto) {
+    public void addImagesToPost(Long idPost, List<MultipartFile> images) throws IOException {
 
-        //TODO: implementar lógica con Cloudinary
         Post post = this.getPostById(idPost);
 
-        for(ImageDto imageDto : imagesDto){
-
-            Image image = new Image();
-
-            image.setUrl(imageDto.getUrl());
-            image.setImageType(imageDto.getImageType());
-
-            post.getImages().add(image);
-            image.setPost(post);
-            //imageRepo.save(image);
+        for(MultipartFile image : images){
+            imageService.uploadImageToPost(idPost, image);
         }
+
         postRepo.save(post);
     }
 
@@ -91,6 +100,10 @@ public class PostService implements IPostService {
 
         Post post = this.getPostById(idPost);
 
-        //TODO: implementar lógica con Cloudinary
+        for(Long idImage : imageIds){
+            imageService.deleteImage(idImage);
+        }
+
+        postRepo.save(post);
     }
 }

@@ -3,12 +3,14 @@ package com.example.dondeQueda.services.interfaces;
 import com.example.dondeQueda.dtos.EventDto;
 import com.example.dondeQueda.dtos.ImageDto;
 import com.example.dondeQueda.models.Event;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.util.List;
 
 public interface IEventService {
 
-    void saveEvent(EventDto eventDto);
+    void saveEvent(EventDto eventDto, List<MultipartFile> images) throws IOException;
 
     List<Event> getEvents();
 
@@ -18,7 +20,7 @@ public interface IEventService {
 
     void deleteEventById(Long idEvent);
 
-    void addImagesToEvent(Long idEvent, List<ImageDto> imagesDto);
+    void addImagesToEvent(Long idEvent, List<MultipartFile> images) throws IOException;
 
     void deleteImagesFromEvent(Long idEvent, List<Long> imageIds);
 }

@@ -50,7 +50,7 @@ public class Commerce {
   @JoinColumn(name = "id_address")
   private Address address;
 
-  @OneToMany(mappedBy = "commerce",  orphanRemoval = true)
+  @OneToMany(mappedBy = "commerce", orphanRemoval = true)
   private List<Schedule> schedules;
 
   @ManyToMany

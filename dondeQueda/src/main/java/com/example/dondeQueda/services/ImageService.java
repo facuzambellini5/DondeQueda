@@ -1,13 +1,17 @@
 package com.example.dondeQueda.services;
 
 import com.example.dondeQueda.dtos.ImageDto;
+import com.example.dondeQueda.models.Commerce;
+import com.example.dondeQueda.models.Event;
 import com.example.dondeQueda.models.Image;
 import com.example.dondeQueda.models.Post;
 import com.example.dondeQueda.repositories.IImageRepository;
 import com.example.dondeQueda.services.interfaces.*;
 
+import com.example.dondeQueda.utils.ValidationUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
@@ -16,6 +20,7 @@ import java.util.Map;
 
 
 @Service
+@Transactional
 public class ImageService implements IImageService {
 
     @Autowired
@@ -36,16 +41,59 @@ public class ImageService implements IImageService {
         Post post = postService.getPostById(postId);
 
         Map<String,Object> cloudinaryResult = cloudinaryService.uploadImage(file, "post");
+
+        Image image = new Image();
+        image.setUrl((String)cloudinaryResult.get("secure_url"));
+        image.setPublicId((String) cloudinaryResult.get("public_id"));
+        image.setOriginalFileName(file.getOriginalFilename());
+        image.setPost(post);
+
+        imageRepo.save(image);
     }
 
     @Override
     public void uploadImageToEvent(Long eventId, MultipartFile file) throws IOException {
 
+        Event event = eventService.getEventById(eventId);
+
+        Map<String,Object> cloudinaryResult = cloudinaryService.uploadImage(file, "events");
+
+        Image image = new Image();
+        image.setUrl((String)cloudinaryResult.get("secure_url"));
+        image.setPublicId((String) cloudinaryResult.get("public_id"));
+        image.setOriginalFileName(file.getOriginalFilename());
+        image.setEvent(event);
+
+        imageRepo.save(image);
     }
 
     @Override
     public void uploadImageToCommerce(Long commerceId, MultipartFile file) throws IOException {
 
+        Commerce commerce = commerceService.getCommerceById(commerceId);
+
+        Map<String,Object> cloudinaryResult = cloudinaryService.uploadImage(file, "commerces");
+
+        Image image = new Image();
+        image.setUrl((String)cloudinaryResult.get("secure_url"));
+        image.setPublicId((String) cloudinaryResult.get("public_id"));
+        image.setOriginalFileName(file.getOriginalFilename());
+        image.setCommerce(commerce);
+
+        imageRepo.save(image);
+    }
+
+    @Override
+    public void deleteImage(Long imageId) {
+
+        Image image = this.getImageById(imageId);
+
+        try{
+            cloudinaryService.deleteImage(image.getPublicId());
+        } catch (Exception e){
+        }
+
+        imageRepo.delete(image);
     }
 
     @Override
@@ -55,7 +103,7 @@ public class ImageService implements IImageService {
 
     @Override
     public Image getImageById(Long idImage) {
-        return null;
+        return ValidationUtils.validateEntity(imageRepo.findById(idImage),"Imagen", idImage);
     }
 
     @Override
