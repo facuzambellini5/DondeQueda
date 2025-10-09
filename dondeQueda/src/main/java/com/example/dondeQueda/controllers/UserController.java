@@ -2,9 +2,7 @@ package com.example.dondeQueda.controllers;
 
 import com.example.dondeQueda.dtos.UserDto;
 import com.example.dondeQueda.models.User;
-import com.example.dondeQueda.repositories.IUserRepository;
 import com.example.dondeQueda.services.interfaces.IUserService;
-import org.apache.coyote.Response;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

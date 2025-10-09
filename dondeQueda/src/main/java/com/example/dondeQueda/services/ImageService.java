@@ -5,7 +5,10 @@ import com.example.dondeQueda.models.Commerce;
 import com.example.dondeQueda.models.Event;
 import com.example.dondeQueda.models.Image;
 import com.example.dondeQueda.models.Post;
+import com.example.dondeQueda.repositories.ICommerceRepository;
+import com.example.dondeQueda.repositories.IEventRepository;
 import com.example.dondeQueda.repositories.IImageRepository;
+import com.example.dondeQueda.repositories.IPostRepository;
 import com.example.dondeQueda.services.interfaces.*;
 
 import com.example.dondeQueda.utils.ValidationUtils;
@@ -26,11 +29,11 @@ public class ImageService implements IImageService {
     @Autowired
     private IImageRepository imageRepo;
     @Autowired
-    private ICommerceService commerceService;
+    private ICommerceRepository commerceRepo;
     @Autowired
-    private IEventService eventService;
+    private IEventRepository eventRepo;
     @Autowired
-    private IPostService postService;
+    private IPostRepository postRepo;
     @Autowired
     private ICloudinaryService cloudinaryService;
 
@@ -38,7 +41,7 @@ public class ImageService implements IImageService {
     @Override
     public void uploadImageToPost(Long postId, MultipartFile file) throws IOException {
 
-        Post post = postService.getPostById(postId);
+        Post post = ValidationUtils.validateEntity(postRepo.findById(postId), "Publicación", postId);
 
         Map<String,Object> cloudinaryResult = cloudinaryService.uploadImage(file, "post");
 
@@ -54,7 +57,7 @@ public class ImageService implements IImageService {
     @Override
     public void uploadImageToEvent(Long eventId, MultipartFile file) throws IOException {
 
-        Event event = eventService.getEventById(eventId);
+        Event event = ValidationUtils.validateEntity(eventRepo.findById(eventId),"Evento", eventId);
 
         Map<String,Object> cloudinaryResult = cloudinaryService.uploadImage(file, "events");
 
@@ -70,7 +73,7 @@ public class ImageService implements IImageService {
     @Override
     public void uploadImageToCommerce(Long commerceId, MultipartFile file) throws IOException {
 
-        Commerce commerce = commerceService.getCommerceById(commerceId);
+        Commerce commerce = ValidationUtils.validateEntity(commerceRepo.findById(commerceId),"Comercio", commerceId);
 
         Map<String,Object> cloudinaryResult = cloudinaryService.uploadImage(file, "commerces");
 

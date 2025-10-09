@@ -1,6 +1,7 @@
 package com.example.dondeQueda.controllers;
 
 import com.example.dondeQueda.dtos.LoginRequestDto;
+import com.example.dondeQueda.dtos.LoginResponseDto;
 import com.example.dondeQueda.dtos.RegisterRequestDto;
 import com.example.dondeQueda.services.interfaces.IAuthService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,8 +32,8 @@ public class AuthController {
   @PostMapping("/registrarse")
   ResponseEntity<?> register(@RequestBody RegisterRequestDto registerRequestDto){
     try{
-      authService.register(registerRequestDto);
-      return ResponseEntity.status(HttpStatus.CREATED).body("Usuario registrado correctamente.");
+      LoginResponseDto loginResponseDto = authService.register(registerRequestDto);
+      return ResponseEntity.status(HttpStatus.CREATED).body(loginResponseDto);
     } catch (IllegalArgumentException e) {
       return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
     }

@@ -54,13 +54,37 @@ public class UserService implements IUserService {
 
         User user = this.getUserById(idUser);
 
-        user.setUsername(userDto.getUsername());
-        user.setName(userDto.getName());
-        user.setLastname(userDto.getLastname());
-        user.setPassword(DigestUtils.sha256Hex(user.getSaltPassword().concat(userDto.getPassword())));
-        user.setEmail(userDto.getEmail());
-        user.setRecoveryEmail(userDto.getRecoveryEmail());
-        user.setPhone(userDto.getPhone());
+        if(userDto.getUsername() != null) {
+            user.setUsername(userDto.getUsername());
+        }
+
+        if(userDto.getName() != null) {
+            user.setName(userDto.getName());
+        }
+
+        if(userDto.getLastname() != null) {
+            user.setLastname(userDto.getLastname());
+        }
+
+        if(userDto.getPassword() != null) {
+            user.setPassword(DigestUtils.sha256Hex(user.getSaltPassword().concat(userDto.getPassword())));
+        }
+
+        if(userDto.getEmail() != null) {
+            user.setEmail(userDto.getEmail());
+        }
+
+        if(userDto.getRecoveryEmail() != null) {
+            user.setRecoveryEmail(userDto.getRecoveryEmail());
+        }
+
+        if(userDto.getPassword() != null) {
+            user.setPhone(userDto.getPhone());
+        }
+
+        if(userDto.getPhone() != null){
+            user.setPhone(userDto.getPhone());
+        }
 
         userRepo.save(user);
     }

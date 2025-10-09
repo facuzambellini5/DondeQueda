@@ -1,5 +1,4 @@
 package com.example.dondeQueda.dtos;
-import com.example.dondeQueda.models.*;
 
 public class CommerceDto {
 
@@ -8,7 +7,7 @@ public class CommerceDto {
     private String phone;
     private String link;
     private String email;
-    private Commerce branchOf;
+    private Long branchOf;
     private Long idOwner;
 
     public String getName() {
@@ -31,7 +30,7 @@ public class CommerceDto {
         return email;
     }
 
-    public Commerce getBranchOf() {
+    public Long getBranchOf() {
         return branchOf;
     }
 
