@@ -2,7 +2,9 @@ package com.example.dondeQueda.services;
 
 import com.example.dondeQueda.dtos.CategoryDto;
 import com.example.dondeQueda.models.Category;
+import com.example.dondeQueda.models.Commerce;
 import com.example.dondeQueda.repositories.ICategoryRepository;
+import com.example.dondeQueda.repositories.ICommerceRepository;
 import com.example.dondeQueda.services.interfaces.ICategoryService;
 import com.example.dondeQueda.utils.ValidationUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,6 +17,8 @@ import java.util.List;
 public class CategoryService implements ICategoryService {
 
     @Autowired private ICategoryRepository categoryRepo;
+    @Autowired
+    private ICommerceRepository commerceRepo;
 
     @Override
     public void saveCategory(CategoryDto categoryDto) {

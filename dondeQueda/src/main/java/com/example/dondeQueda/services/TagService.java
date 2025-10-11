@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class TagService implements ITagService {
@@ -26,14 +27,9 @@ public class TagService implements ITagService {
     public void saveTag(TagDto tagDto) {
 
         Tag tag = new Tag();
-        Commerce commerce = commerceService.getCommerceById(tagDto.getIdCommerce());
-
         tag.setNameTag(tagDto.getNameTag());
-        tag.getCommerces().add(commerce);
-        commerce.getTags().add(tag);
 
         tagRepo.save(tag);
-        //commereRepo.save(commerce); TODO: ver implementación de CASCADE
     }
 
     @Override
@@ -57,8 +53,14 @@ public class TagService implements ITagService {
 
     @Override
     public void deleteTagById(Long idTag) {
-
         Tag tag = this.getTagById(idTag);
         tagRepo.delete(tag);
     }
+
+    @Override
+    public Optional<Tag> getTagsByNameTag(String nameTag) {
+        return tagRepo.findByNameTag(nameTag);
+    }
+
+
 }

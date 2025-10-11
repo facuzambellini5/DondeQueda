@@ -5,6 +5,7 @@ import com.example.dondeQueda.dtos.TagDto;
 import com.example.dondeQueda.models.Tag;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface ITagService {
 
@@ -17,5 +18,7 @@ public interface ITagService {
     void editTag(Long idTag, TagDto tagDto);
 
     void deleteTagById(Long idTag);
+
+    Optional<Tag> getTagsByNameTag(String nameTag);
 
 }

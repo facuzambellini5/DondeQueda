@@ -95,7 +95,6 @@ public class ImageService implements IImageService {
             cloudinaryService.deleteImage(image.getPublicId());
         } catch (Exception e){
         }
-
         imageRepo.delete(image);
     }
 
@@ -121,17 +120,20 @@ public class ImageService implements IImageService {
 
     @Override
     public List<Image> getImagesByCommerce(Long idCommerce) {
-        return List.of();
+        Commerce commerce = ValidationUtils.validateEntity(commerceRepo.findById(idCommerce), "Comercio", idCommerce);
+        return imageRepo.findByCommerceOrderByImageOrder(commerce);
     }
 
     @Override
     public List<Image> getImagesByEvent(Long idEvent) {
-        return List.of();
+        Event event = ValidationUtils.validateEntity(eventRepo.findById(idEvent), "Evento", idEvent);
+        return imageRepo.findByEventOrderByImageOrder(event);
     }
 
     @Override
     public List<Image> getImagesByPost(Long idPost) {
-        return List.of();
+        Post post = ValidationUtils.validateEntity(postRepo.findById(idPost), "Publicación", idPost);
+        return imageRepo.findByPostOrderByImageOrder(post);
     }
 }
 

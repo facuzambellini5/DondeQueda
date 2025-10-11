@@ -1,10 +1,13 @@
 package com.example.dondeQueda.services;
 
 import com.example.dondeQueda.dtos.CommerceDto;
+import com.example.dondeQueda.models.Category;
 import com.example.dondeQueda.models.Commerce;
 import com.example.dondeQueda.models.User;
+import com.example.dondeQueda.repositories.ICategoryRepository;
 import com.example.dondeQueda.repositories.ICommerceRepository;
 import com.example.dondeQueda.services.interfaces.ICommerceService;
+import com.example.dondeQueda.services.interfaces.ITagService;
 import com.example.dondeQueda.utils.ValidationUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -19,6 +22,10 @@ public class CommerceService implements ICommerceService {
     private ICommerceRepository commerceRepo;
     @Autowired
     private UserService userService;
+    @Autowired
+    private ICategoryRepository categoryRepo;
+    @Autowired
+    private ITagService tagService;
 
 
     @Override
@@ -44,7 +51,9 @@ public class CommerceService implements ICommerceService {
             Commerce mainCommerce = this.getCommerceById(commerce.getIdCommerce());
             commerce.setBranchOf(mainCommerce);
         }
+
         commerce.setOwner(owner);
+        owner.getOwnedCommerces().add(commerce);
     }
 
     @Override
@@ -86,11 +95,56 @@ public class CommerceService implements ICommerceService {
 
     @Override
     public void deleteCommerceById(Long idCommerce) {
+        Commerce commerce = this.getCommerceById(idCommerce);
+        commerceRepo.delete(commerce);
+    }
+
+    @Override
+    public void addCategoriesToCommerce(Long idCommerce, List<Long> idCategories) {
+
+        Commerce commerce = this.getCommerceById(idCommerce);
+
+        for(Long idCategory : idCategories){
+            Category category = ValidationUtils.validateEntity(categoryRepo.findById(idCategory), "Categoría", idCategory);
+            commerce.getCategories().add(category);
+        }
+        commerceRepo.save(commerce);
+    }
+
+    @Override
+    public void removeCategoriesFromCommerce(Long idCommerce, List<Long> idCategories) {
+
+        Commerce commerce = this.getCommerceById(idCommerce);
+
+        for(Long idCategory : idCategories){
+            Category category = ValidationUtils.validateEntity(categoryRepo.findById(idCategory), "Categoría", idCategory);
+            commerce.getCategories().remove(category);
+        }
+        commerceRepo.save(commerce);
+    }
+
+    @Override
+    public void addTagsToCommerce(Long idCommerce, List<String> nameTags) {
+
+        Commerce commerce = this.getCommerceById(idCommerce);
+
+        for(String nameTag : nameTags){
+
+            if
+
+        }
+
 
     }
 
     @Override
-    public void deleteCommerce(Commerce commerce) {
+    public void removeTagsFromCommerce(Long idCommerce, List<Long> tagIds) {
 
+    }
+
+    @Override
+    public List<Commerce> getCommercesByCategories(List<Category> categories) {
+        //TODO implementar metodo
+        return List.of();
     }
 }

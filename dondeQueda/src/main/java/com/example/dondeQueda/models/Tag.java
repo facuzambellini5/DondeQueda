@@ -22,7 +22,7 @@ public class Tag {
 
     public Tag(Long idTag, String nameTag, List<Commerce> commerces) {
         this.idTag = idTag;
-        this.nameTag = nameTag;
+        this.nameTag = nameTag.toLowerCase();
         this.commerces = commerces;
     }
 
