@@ -5,6 +5,7 @@ import com.example.dondeQueda.dtos.PostDto;
 import com.example.dondeQueda.models.Commerce;
 import com.example.dondeQueda.models.Image;
 import com.example.dondeQueda.models.Post;
+import com.example.dondeQueda.repositories.ICommerceRepository;
 import com.example.dondeQueda.repositories.IPostRepository;
 import com.example.dondeQueda.services.interfaces.ICommerceService;
 import com.example.dondeQueda.services.interfaces.IPostService;
@@ -22,7 +23,7 @@ public class PostService implements IPostService {
     @Autowired
     private IPostRepository postRepo;
     @Autowired
-    private ICommerceService commerceService;
+    private ICommerceRepository commerceRepo;
     @Autowired
     private ImageService imageService;
 
@@ -32,7 +33,7 @@ public class PostService implements IPostService {
         //TODO VER si hacer validación de que tenga ALMENOS UNA imagen
 
         Post post = new Post();
-        Commerce commerce = commerceService.getCommerceById(postDto.getIdCommerce());
+        Commerce commerce = ValidationUtils.validateEntity(commerceRepo.findById(postDto.getIdCommerce()), "Comercio", postDto.getIdCommerce());
 
         post.setTitle(postDto.getTitle());
         post.setDescription(postDto.getDescription());
@@ -46,7 +47,7 @@ public class PostService implements IPostService {
         commerce.getPosts().add(post);
 
         postRepo.save(post);
-        commerceService.saveCommerce(commerce);
+        commerceRepo.save(commerce);
     }
 
     @Override

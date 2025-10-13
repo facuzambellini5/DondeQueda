@@ -10,6 +10,7 @@ public class CommerceDto {
     private Long branchOf;
     private Long idOwner;
 
+
     public String getName() {
         return name;
     }

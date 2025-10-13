@@ -5,6 +5,12 @@ public class PostDto {
     private String description;
     private Long idCommerce;
 
+    public PostDto(String title, String description, Long idCommerce) {
+        this.title = title;
+        this.description = description;
+        this.idCommerce = idCommerce;
+    }
+
     public String getTitle() {
         return title;
     }

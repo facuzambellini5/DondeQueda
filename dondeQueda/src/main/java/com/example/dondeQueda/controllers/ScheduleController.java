@@ -17,11 +17,13 @@ public class ScheduleController {
     @Autowired
     private IScheduleService scheduleService;
 
+    //Recibe una lista de Schedule (lo normal para un commerce)
     @PostMapping("/guardar")
-    public ResponseEntity<?> saveSchedule(@RequestBody ScheduleDto scheduleDto){
-        scheduleService.saveSchedule(scheduleDto);
-        return ResponseEntity.status(HttpStatus.CREATED).body("Horario guardado correctamente.");
+    public ResponseEntity<?> saveSchedules(@RequestBody List<ScheduleDto> scheduleDtos){
+        scheduleService.saveSchedules(scheduleDtos);
+        return ResponseEntity.status(HttpStatus.CREATED).body("Horarios creados correctamente.");
     }
+
 
     @GetMapping("/traer")
     public ResponseEntity<List<Schedule>> getSchedules(){
@@ -43,8 +45,18 @@ public class ScheduleController {
 
     @DeleteMapping("/eliminar/{idSchedule}")
     public ResponseEntity<?> deleteScheduleById(@PathVariable Long idSchedule){
-
         scheduleService.deleteScheduleById(idSchedule);
         return ResponseEntity.status(HttpStatus.NO_CONTENT).body("Horario eliminado correctamente.");
     }
+
+    @GetMapping("/traer/{idCommerce}")
+    public ResponseEntity<?> getSchedulesByCommerce(Long idCommerce){
+        try{
+            return ResponseEntity.ok(scheduleService.getSchedulesByCommerce(idCommerce));
+        } catch (RuntimeException e){
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Comercio no encontrado.");
+        }
+    }
+
+
 }
