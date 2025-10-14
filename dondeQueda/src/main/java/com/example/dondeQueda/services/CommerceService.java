@@ -1,7 +1,7 @@
 package com.example.dondeQueda.services;
 
 import com.example.dondeQueda.dtos.CommerceDto;
-import com.example.dondeQueda.dtos.CommerceDtoResponse;
+import com.example.dondeQueda.dtos.CommerceResponseDto;
 import com.example.dondeQueda.enums.UserRole;
 import com.example.dondeQueda.models.*;
 import com.example.dondeQueda.repositories.ICategoryRepository;
@@ -66,29 +66,42 @@ public class CommerceService implements ICommerceService {
   }
 
   @Override
-  public List<Commerce> getCommerces() {
-    return commerceRepo.findAll();
+  public List<CommerceResponseDto> getCommerces() {
+
+    List<Commerce> commerces = commerceRepo.findAll();
+    List<CommerceResponseDto> commerceResponseDtos = new ArrayList<>();
+
+    for(Commerce commerce : commerces){
+      CommerceResponseDto commerceResponseDto = new CommerceResponseDto(commerce);
+      commerceResponseDtos.add(commerceResponseDto);
+    }
+    return commerceResponseDtos;
   }
 
   @Override
   public Commerce getCommerceById(Long idCommerce) {
-    return ValidationUtils.validateEntity(
-        commerceRepo.findById(idCommerce), "Comercio", idCommerce);
+    return ValidationUtils.validateEntity(commerceRepo.findById(idCommerce), "Comercio", idCommerce);
   }
 
   @Override
-  public List<CommerceDtoResponse> getCommercesByOwner(Long idOwner) {
+  public CommerceResponseDto getCommerceResponseById(Long idCommerce) {
+    Commerce commerce = this.getCommerceById(idCommerce);
+    return new CommerceResponseDto(commerce);
+  }
+
+  @Override
+  public List<CommerceResponseDto> getCommercesByOwner(Long idOwner) {
     User owner = ValidationUtils.validateEntity(userRepo.findById(idOwner),"Usuario", idOwner);
 
     List<Commerce> commerces = commerceRepo.findByOwner(owner);
-    List<CommerceDtoResponse> commerceDtoResponses = new ArrayList<>();
+    List<CommerceResponseDto> commerceResponsDtos = new ArrayList<>();
 
     for(Commerce commerce : commerces){
-      CommerceDtoResponse commerceDtoResponse = new CommerceDtoResponse(commerce);
-      commerceDtoResponses.add(commerceDtoResponse);
+      CommerceResponseDto commerceResponseDto = new CommerceResponseDto(commerce);
+      commerceResponsDtos.add(commerceResponseDto);
     }
 
-    return commerceDtoResponses;
+    return commerceResponsDtos;
   }
 
   @Override
@@ -121,6 +134,11 @@ public class CommerceService implements ICommerceService {
   @Override
   public void deleteCommerceById(Long idCommerce) {
     Commerce commerce = this.getCommerceById(idCommerce);
+
+    for(Image image : commerce.getImages()){
+      imageService.deleteImage(image.getIdImage());
+    }
+
     commerceRepo.delete(commerce);
   }
 
@@ -231,7 +249,7 @@ public class CommerceService implements ICommerceService {
   }
 
   @Override
-  public List<Commerce> getCommercesByCategories(List<Category> categories) {
+  public List<CommerceResponseDto> getCommercesByCategories(List<Category> categories) {
     // TODO implementar metodo
     return List.of();
   }

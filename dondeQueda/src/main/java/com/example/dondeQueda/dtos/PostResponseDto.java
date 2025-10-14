@@ -8,7 +8,7 @@ import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 
-public class PostResponse {
+public class PostResponseDto {
 
     private Long idPost;
     private String description;
@@ -18,7 +18,7 @@ public class PostResponse {
 
     private List<ImageDto> images = new ArrayList<>();
 
-    public PostResponse(Post post) {
+    public PostResponseDto(Post post) {
         this.idPost = post.getIdPost();
         this.description = post.getDescription();
         this.postedAt = post.getPostedAt();

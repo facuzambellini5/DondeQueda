@@ -103,6 +103,13 @@ public class CommerceController {
         commerceService.setCoverImageToCommerce(idCommerce, image);
         return ResponseEntity.status(HttpStatus.NO_CONTENT).body("Imagen de portada establecida correctamente.");
     }
+
+    @DeleteMapping("/eliminar/imagen/{idCommerce}")
+    ResponseEntity<?> removeImagesFromCommerce(@PathVariable Long idCommerce,
+                                               @RequestParam List<Long> imageIds) throws IOException {
+        commerceService.removeImagesFromCommerce(idCommerce, imageIds);
+        return ResponseEntity.ok("Imagen/es eliminadas correctamente.");
+    }
 }
 
 

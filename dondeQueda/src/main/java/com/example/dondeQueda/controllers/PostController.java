@@ -1,7 +1,7 @@
 package com.example.dondeQueda.controllers;
 
 import com.example.dondeQueda.dtos.PostDto;
-import com.example.dondeQueda.models.Post;
+import com.example.dondeQueda.dtos.PostResponseDto;
 import com.example.dondeQueda.services.interfaces.IPostService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -33,7 +33,7 @@ public class PostController {
     }
 
     @GetMapping("/traer")
-    ResponseEntity<List<Post>> getPosts() {
+    ResponseEntity<List<PostResponseDto>> getPosts() {
         return ResponseEntity.ok(postService.getPosts());
     }
 

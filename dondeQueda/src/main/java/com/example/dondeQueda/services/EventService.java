@@ -1,9 +1,11 @@
 package com.example.dondeQueda.services;
 
 import com.example.dondeQueda.dtos.EventDto;
+import com.example.dondeQueda.dtos.EventResponseDto;
 import com.example.dondeQueda.models.Address;
 import com.example.dondeQueda.models.Commerce;
 import com.example.dondeQueda.models.Event;
+import com.example.dondeQueda.models.Image;
 import com.example.dondeQueda.repositories.IEventRepository;
 import com.example.dondeQueda.services.interfaces.IAddressService;
 import com.example.dondeQueda.services.interfaces.ICommerceService;
@@ -15,6 +17,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -58,8 +61,16 @@ public class EventService implements IEventService {
   }
 
   @Override
-  public List<Event> getEvents() {
-    return eventRepo.findAll();
+  public List<EventResponseDto> getEvents() {
+
+    List<Event> events = eventRepo.findAll();
+    List<EventResponseDto> eventResponseDtos = new ArrayList<>();
+
+    for(Event event : events){
+      EventResponseDto eventResponseDto = new EventResponseDto(event);
+      eventResponseDtos.add(eventResponseDto);
+    }
+    return eventResponseDtos;
   }
 
   @Override
@@ -68,14 +79,29 @@ public class EventService implements IEventService {
   }
 
   @Override
+  public EventResponseDto getEventResponseById(Long idEvent) {
+    Event event = this.getEventById(idEvent);
+
+    return new EventResponseDto(event);
+  }
+
+  @Override
   public void editEvent(Long idEvent, EventDto eventDto) {
 
     Event event = this.getEventById(idEvent);
 
-    event.setStartDate(eventDto.getStartDate());
-    event.setEndDate(eventDto.getEndDate());
-    event.setTitle(eventDto.getTitle());
-    event.setDescription(eventDto.getDescription());
+    if(eventDto.getStartDate() != null) {
+      event.setStartDate(eventDto.getStartDate());
+    }
+    if(eventDto.getEndDate() != null) {
+      event.setEndDate(eventDto.getEndDate());
+    }
+    if(eventDto.getTitle() != null) {
+      event.setTitle(eventDto.getTitle());
+    }
+    if(eventDto.getDescription() != null) {
+      event.setDescription(eventDto.getDescription());
+    }
 
     eventRepo.save(event);
   }
@@ -83,6 +109,11 @@ public class EventService implements IEventService {
   @Override
   public void deleteEventById(Long idEvent) {
     Event event = this.getEventById(idEvent);
+
+    for(Image image : event.getImages()){
+      imageService.deleteImage(image.getIdImage());
+    }
+
     eventRepo.delete(event);
   }
 

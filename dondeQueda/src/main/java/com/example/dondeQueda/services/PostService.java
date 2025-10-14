@@ -1,13 +1,12 @@
 package com.example.dondeQueda.services;
 
-import com.example.dondeQueda.dtos.ImageDto;
 import com.example.dondeQueda.dtos.PostDto;
+import com.example.dondeQueda.dtos.PostResponseDto;
 import com.example.dondeQueda.models.Commerce;
 import com.example.dondeQueda.models.Image;
 import com.example.dondeQueda.models.Post;
 import com.example.dondeQueda.repositories.ICommerceRepository;
 import com.example.dondeQueda.repositories.IPostRepository;
-import com.example.dondeQueda.services.interfaces.ICommerceService;
 import com.example.dondeQueda.services.interfaces.IPostService;
 import com.example.dondeQueda.utils.ValidationUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,6 +14,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -35,7 +35,6 @@ public class PostService implements IPostService {
         Post post = new Post();
         Commerce commerce = ValidationUtils.validateEntity(commerceRepo.findById(postDto.getIdCommerce()), "Comercio", postDto.getIdCommerce());
 
-        //post.setTitle(postDto.getTitle());
         post.setDescription(postDto.getDescription());
         post.setCommerce(commerce);
 
@@ -51,8 +50,16 @@ public class PostService implements IPostService {
     }
 
     @Override
-    public List<Post> getPosts() {
-        return postRepo.findAll();
+    public List<PostResponseDto> getPosts() {
+
+        List<Post> posts = postRepo.findAll();
+        List<PostResponseDto> postResponseDtos = new ArrayList<>();
+
+        for(Post post : posts){
+            PostResponseDto postResponseDto = new PostResponseDto(post);
+        }
+
+        return postResponseDtos;
     }
 
     @Override
@@ -61,12 +68,19 @@ public class PostService implements IPostService {
     }
 
     @Override
+    public PostResponseDto getPostResponseById(Long idPost) {
+        Post post = this.getPostById(idPost);
+        return new PostResponseDto(post);
+    }
+
+    @Override
     public void editPost(Long idPost, PostDto postDto) {
 
         Post post = this.getPostById(idPost);
 
-        //post.setTitle(postDto.getTitle());
-        post.setDescription(postDto.getDescription());
+        if(postDto.getDescription() != null) {
+            post.setDescription(postDto.getDescription());
+        }
 
         postRepo.save(post);
     }
@@ -100,6 +114,5 @@ public class PostService implements IPostService {
         for(Long idImage : imageIds){
             imageService.deleteImage(idImage);
         }
-
     }
 }

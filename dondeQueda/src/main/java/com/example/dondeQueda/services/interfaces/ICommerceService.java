@@ -1,7 +1,7 @@
 package com.example.dondeQueda.services.interfaces;
 
 import com.example.dondeQueda.dtos.CommerceDto;
-import com.example.dondeQueda.dtos.CommerceDtoResponse;
+import com.example.dondeQueda.dtos.CommerceResponseDto;
 import com.example.dondeQueda.models.Category;
 import com.example.dondeQueda.models.Commerce;
 import org.springframework.web.multipart.MultipartFile;
@@ -16,11 +16,13 @@ public interface ICommerceService {
 
     void saveCommerce(CommerceDto commerceDto);
 
-    List<Commerce> getCommerces();
+    List<CommerceResponseDto> getCommerces();
 
     Commerce getCommerceById(Long idCommerce);
 
-    List<CommerceDtoResponse> getCommercesByOwner(Long idOwner);
+    CommerceResponseDto getCommerceResponseById(Long idCommerce);
+
+    List<CommerceResponseDto> getCommercesByOwner(Long idOwner);
 
     void editCommerce(Long idCommerce, CommerceDto commerceDto);
 
@@ -31,7 +33,7 @@ public interface ICommerceService {
     void removeCategoriesFromCommerce(Long idCommerce, List<Long> idCategories);
 
     //TODO implementar este metodo
-    List<Commerce> getCommercesByCategories(List<Category> categories);
+    List<CommerceResponseDto> getCommercesByCategories(List<Category> categories);
 
     void addTagsToCommerce(Long idCommerce, List<String> nameTags);
 

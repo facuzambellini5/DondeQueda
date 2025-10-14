@@ -1,8 +1,7 @@
 package com.example.dondeQueda.services.interfaces;
 
-import com.example.dondeQueda.dtos.ImageDto;
 import com.example.dondeQueda.dtos.PostDto;
-import com.example.dondeQueda.models.Event;
+import com.example.dondeQueda.dtos.PostResponseDto;
 import com.example.dondeQueda.models.Post;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -13,9 +12,11 @@ public interface IPostService {
 
     void savePost(PostDto postDto, List<MultipartFile> images) throws IOException;
 
-    List<Post> getPosts();
+    List<PostResponseDto> getPosts();
 
     Post getPostById(Long idPost);
+
+    PostResponseDto getPostResponseById(Long idPost);
 
     void editPost(Long idPost, PostDto postDto);
 

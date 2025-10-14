@@ -8,7 +8,7 @@ import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 
-public class CommerceDtoResponse {
+public class CommerceResponseDto {
 
     private Long idCommerce;
     private String name;
@@ -29,7 +29,7 @@ public class CommerceDtoResponse {
     private ImageDto coverImage;
     private List<ImageDto> galleryImages;
 
-    public CommerceDtoResponse(Commerce commerce) {
+    public CommerceResponseDto(Commerce commerce) {
         this.idCommerce = commerce.getIdCommerce();
         this.name = commerce.getName();
         this.description = commerce.getDescription();

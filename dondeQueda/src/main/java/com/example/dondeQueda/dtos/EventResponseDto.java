@@ -11,7 +11,7 @@ import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 
-public class EventResponse {
+public class EventResponseDto {
 
     private Long idEvent;
     private LocalDateTime startDate;
@@ -23,10 +23,10 @@ public class EventResponse {
     private List<Commerce> commerces;
     private List<ImageDto> images = new ArrayList<>();
 
-    public EventResponse() {
+    public EventResponseDto() {
     }
 
-    public EventResponse(Event event) {
+    public EventResponseDto(Event event) {
         this.idEvent = event.getIdEvent();
         this.startDate = event.getStartDate();
         this.endDate = event.getEndDate();
