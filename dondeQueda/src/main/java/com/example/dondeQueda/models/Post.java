@@ -13,8 +13,6 @@ public class Post {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long idPost;
 
-    private String title;
-
     private String description;
 
     @Column(name = "posted_at")
@@ -34,9 +32,8 @@ public class Post {
     public Post() {
     }
 
-    public Post(Long idPost, String title, String description, LocalDateTime postedAt, Commerce commerce, List<User> users, List<Image> images) {
+    public Post(Long idPost, String description, LocalDateTime postedAt, Commerce commerce, List<User> users, List<Image> images) {
         this.idPost = idPost;
-        this.title = title;
         this.description = description;
         this.postedAt = postedAt;
         this.commerce = commerce;
@@ -50,14 +47,6 @@ public class Post {
 
     public void setIdPost(Long idPost) {
         this.idPost = idPost;
-    }
-
-    public String getTitle() {
-        return title;
-    }
-
-    public void setTitle(String title) {
-        this.title = title;
     }
 
     public String getDescription() {

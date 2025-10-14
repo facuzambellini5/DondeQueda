@@ -17,7 +17,4 @@ public interface IImageRepository extends JpaRepository<Image, Long> {
     List<Image> findByEventOrderByImageOrder(Event event);
 
     List<Image> findByPostOrderByImageOrder(Post post);
-
-
-
 }

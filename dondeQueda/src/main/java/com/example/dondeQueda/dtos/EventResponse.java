@@ -1,53 +1,46 @@
-package com.example.dondeQueda.models;
+package com.example.dondeQueda.dtos;
 
-import jakarta.persistence.*;
+import com.example.dondeQueda.models.Address;
+import com.example.dondeQueda.models.Commerce;
+import com.example.dondeQueda.models.Event;
+import com.example.dondeQueda.models.Image;
+
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 
-@Entity
-public class Event {
+public class EventResponse {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long idEvent;
-
-    @Column(name = "start_date")
     private LocalDateTime startDate;
-
-    @Column(name = "end_date")
     private LocalDateTime endDate;
-
     private String title;
-
     private String description;
-
-    @Column(name = "is_active")
     private boolean isActive;
-
-    @OneToOne
-    @JoinColumn(name = "id_address")
     private Address address;
-
-    @ManyToMany(mappedBy = "events")
     private List<Commerce> commerces;
+    private List<ImageDto> images = new ArrayList<>();
 
-    @OneToMany(mappedBy = "event")
-    private List<Image> images;
-
-    public Event() {
+    public EventResponse() {
     }
 
-    public Event(Long idEvent, LocalDateTime startDate, LocalDateTime endDate, String title, String description, boolean isActive, Address address, List<Commerce> commerces, List<Image> images) {
-        this.idEvent = idEvent;
-        this.startDate = startDate;
-        this.endDate = endDate;
-        this.title = title;
-        this.description = description;
-        this.isActive = isActive;
-        this.address = address;
-        this.commerces = commerces;
-        this.images = images;
+    public EventResponse(Event event) {
+        this.idEvent = event.getIdEvent();
+        this.startDate = event.getStartDate();
+        this.endDate = event.getEndDate();
+        this.title = event.getTitle();
+        this.description = event.getDescription();
+        this.isActive = event.isActive();
+        this.address = event.getAddress();
+        this.commerces = event.getCommerces();
+
+        for(Image image : event.getImages()){
+            ImageDto imageDto = new ImageDto(image);
+            this.images.add(imageDto);
+        }
+        this.images.sort(Comparator.comparing(ImageDto::getImageOrder));
     }
 
     public Long getIdEvent() {
@@ -114,11 +107,11 @@ public class Event {
         this.commerces = commerces;
     }
 
-    public List<Image> getImages() {
+    public List<ImageDto> getImages() {
         return images;
     }
 
-    public void setImages(List<Image> images) {
+    public void setImages(List<ImageDto> images) {
         this.images = images;
     }
 }

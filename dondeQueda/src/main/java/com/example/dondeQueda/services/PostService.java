@@ -35,12 +35,12 @@ public class PostService implements IPostService {
         Post post = new Post();
         Commerce commerce = ValidationUtils.validateEntity(commerceRepo.findById(postDto.getIdCommerce()), "Comercio", postDto.getIdCommerce());
 
-        post.setTitle(postDto.getTitle());
+        //post.setTitle(postDto.getTitle());
         post.setDescription(postDto.getDescription());
         post.setCommerce(commerce);
 
         for(MultipartFile image : images){
-            imageService.uploadImageToPost(post.getIdPost(), image);
+            this.addImagesToPost(post.getIdPost(), images);
         }
 
         //TODO ver CASCADE
@@ -65,7 +65,7 @@ public class PostService implements IPostService {
 
         Post post = this.getPostById(idPost);
 
-        post.setTitle(postDto.getTitle());
+        //post.setTitle(postDto.getTitle());
         post.setDescription(postDto.getDescription());
 
         postRepo.save(post);
@@ -86,25 +86,20 @@ public class PostService implements IPostService {
 
     @Override
     public void addImagesToPost(Long idPost, List<MultipartFile> images) throws IOException {
-
-        Post post = this.getPostById(idPost);
+        int imageOrder = 1;
 
         for(MultipartFile image : images){
-            imageService.uploadImageToPost(idPost, image);
+            imageService.uploadImageToPost(idPost, imageOrder, image);
+            imageOrder += 1;
         }
-
-        postRepo.save(post);
     }
 
     @Override
     public void deleteImagesFromPost(Long idPost, List<Long> imageIds) {
 
-        Post post = this.getPostById(idPost);
-
         for(Long idImage : imageIds){
             imageService.deleteImage(idImage);
         }
 
-        postRepo.save(post);
     }
 }

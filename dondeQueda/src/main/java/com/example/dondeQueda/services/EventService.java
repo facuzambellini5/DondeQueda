@@ -44,11 +44,10 @@ public class EventService implements IEventService {
     event.setEndDate(eventDto.getEndDate());
     event.setTitle(eventDto.getTitle());
     event.setDescription(eventDto.getDescription());
-    event.setCapacity(eventDto.getCapacity());
     event.getCommerces().add(commerce);
 
     for(MultipartFile image : images){
-      imageService.uploadImageToEvent(event.getIdEvent(), image);
+      this.addImagesToEvent(event.getIdEvent(), images);
     }
 
     //TODO ver CASCADE
@@ -77,7 +76,6 @@ public class EventService implements IEventService {
     event.setEndDate(eventDto.getEndDate());
     event.setTitle(eventDto.getTitle());
     event.setDescription(eventDto.getDescription());
-    event.setCapacity(eventDto.getCapacity());
 
     eventRepo.save(event);
   }
@@ -91,24 +89,18 @@ public class EventService implements IEventService {
   @Override
   public void addImagesToEvent(Long idEvent, List<MultipartFile> images) throws IOException {
 
-    Event event = this.getEventById(idEvent);
+    int imageOrder = 1;
 
     for (MultipartFile image : images) {
-      imageService.uploadImageToEvent(event.getIdEvent(), image);
+      imageService.uploadImageToEvent(idEvent, imageOrder, image);
+      imageOrder += 1;
     }
-
-    eventRepo.save(event);
   }
 
   @Override
   public void deleteImagesFromEvent(Long idEvent, List<Long> imageIds) {
-
-    Event event = this.getEventById(idEvent);
-
     for (Long imageId : imageIds) {
       imageService.deleteImage(imageId);
     }
-
-    eventRepo.save(event);
   }
 }

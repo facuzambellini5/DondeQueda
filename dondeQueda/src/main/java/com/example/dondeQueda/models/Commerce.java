@@ -1,6 +1,7 @@
 package com.example.dondeQueda.models;
 
 import com.example.dondeQueda.enums.CommerceType;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import org.hibernate.annotations.UpdateTimestamp;
 
@@ -41,6 +42,7 @@ public class Commerce {
 
   @ManyToOne
   @JoinColumn(name = "id_user")
+  @JsonIgnore
   private User owner;
 
   @OneToMany(mappedBy = "commerce")

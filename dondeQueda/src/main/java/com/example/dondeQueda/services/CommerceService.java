@@ -1,20 +1,22 @@
 package com.example.dondeQueda.services;
 
 import com.example.dondeQueda.dtos.CommerceDto;
+import com.example.dondeQueda.dtos.CommerceDtoResponse;
 import com.example.dondeQueda.enums.UserRole;
-import com.example.dondeQueda.models.Category;
-import com.example.dondeQueda.models.Commerce;
-import com.example.dondeQueda.models.Tag;
-import com.example.dondeQueda.models.User;
+import com.example.dondeQueda.models.*;
 import com.example.dondeQueda.repositories.ICategoryRepository;
 import com.example.dondeQueda.repositories.ICommerceRepository;
 import com.example.dondeQueda.repositories.ITagRepository;
 import com.example.dondeQueda.repositories.IUserRepository;
 import com.example.dondeQueda.services.interfaces.ICommerceService;
+import com.example.dondeQueda.services.interfaces.IImageService;
 import com.example.dondeQueda.utils.ValidationUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -25,6 +27,7 @@ public class CommerceService implements ICommerceService {
   @Autowired private IUserRepository userRepo;
   @Autowired private ICategoryRepository categoryRepo;
   @Autowired private ITagRepository tagRepo;
+  @Autowired private IImageService imageService;
 
   @Override
   public void saveCommerce(Commerce commerce) {
@@ -35,7 +38,15 @@ public class CommerceService implements ICommerceService {
   public void saveCommerce(CommerceDto commerceDto) {
 
     Commerce commerce = new Commerce();
-    Optional<Commerce> mainCommerceOptional = commerceRepo.findById(commerceDto.getBranchOf());
+
+    if(commerceDto.getBranchOf() != null){
+      Commerce mainCommerce = ValidationUtils.validateEntity(commerceRepo.findById(commerceDto.getBranchOf()), "Comercio principal", commerceDto.getBranchOf());
+
+      mainCommerce.getCommerces().add(commerce);
+      commerce.setBranchOf(mainCommerce);
+
+      commerceRepo.save(mainCommerce);
+    }
 
     User owner = ValidationUtils.validateEntity(userRepo.findById(commerceDto.getIdOwner()), "Usuario", commerceDto.getIdOwner());
 
@@ -44,11 +55,6 @@ public class CommerceService implements ICommerceService {
     commerce.setPhone(commerceDto.getPhone());
     commerce.setLink(commerceDto.getLink());
     commerce.setEmail(commerceDto.getEmail());
-
-    if (mainCommerceOptional.isPresent()) {
-      Commerce mainCommerce = this.getCommerceById(commerce.getIdCommerce());
-      commerce.setBranchOf(mainCommerce);
-    }
 
     commerce.setOwner(owner);
     owner.getOwnedCommerces().add(commerce);
@@ -68,6 +74,21 @@ public class CommerceService implements ICommerceService {
   public Commerce getCommerceById(Long idCommerce) {
     return ValidationUtils.validateEntity(
         commerceRepo.findById(idCommerce), "Comercio", idCommerce);
+  }
+
+  @Override
+  public List<CommerceDtoResponse> getCommercesByOwner(Long idOwner) {
+    User owner = ValidationUtils.validateEntity(userRepo.findById(idOwner),"Usuario", idOwner);
+
+    List<Commerce> commerces = commerceRepo.findByOwner(owner);
+    List<CommerceDtoResponse> commerceDtoResponses = new ArrayList<>();
+
+    for(Commerce commerce : commerces){
+      CommerceDtoResponse commerceDtoResponse = new CommerceDtoResponse(commerce);
+      commerceDtoResponses.add(commerceDtoResponse);
+    }
+
+    return commerceDtoResponses;
   }
 
   @Override
@@ -94,6 +115,7 @@ public class CommerceService implements ICommerceService {
     if (commerceDto.getEmail() != null) {
       commerce.setEmail(commerceDto.getEmail());
     }
+    commerceRepo.save(commerce);
   }
 
   @Override
@@ -179,7 +201,33 @@ public class CommerceService implements ICommerceService {
               commerceRepo.save(commerce);
           }
       }
+  }
 
+  @Override
+  public void addGalleryImagesToCommerce(Long idCommerce, List<MultipartFile> images) throws IOException {
+
+    int imageOrder = 1;
+
+    for(MultipartFile image : images){
+      imageService.uploadGalleryImageToCommerce(idCommerce, imageOrder, image);
+      imageOrder += 1;
+    }
+  }
+
+  public void removeImagesFromCommerce(Long idCommerce, List<Long> imageIds) {
+    for (Long idImage : imageIds){
+      imageService.deleteImage(idImage);
+    }
+  }
+
+  @Override
+  public void setProfileImageToCommerce(Long idCommerce, MultipartFile image) throws IOException{
+    imageService.setProfileImageToCommerce(idCommerce, image);
+  }
+
+  @Override
+  public void setCoverImageToCommerce(Long idCommerce, MultipartFile image) throws IOException{
+    imageService.setCoverImageToCommerce(idCommerce, image);
   }
 
   @Override

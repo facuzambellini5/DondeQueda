@@ -6,9 +6,10 @@ import com.example.dondeQueda.services.interfaces.ICommerceService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.util.List;
 
 @RestController
@@ -18,50 +19,90 @@ public class CommerceController {
     @Autowired
     private ICommerceService commerceService;
 
-    ResponseEntity<?> saveCommerce(CommerceDto commerceDto){
+    @PostMapping("/guardar")
+    ResponseEntity<?> saveCommerce(@RequestBody CommerceDto commerceDto){
         commerceService.saveCommerce(commerceDto);
         return ResponseEntity.status(HttpStatus.CREATED).body("Comercio creado correctamente.");
     }
 
+    @GetMapping("/traer")
     ResponseEntity<List<Commerce>> getCommerces(){
         return ResponseEntity.ok(commerceService.getCommerces());
     }
 
-    ResponseEntity<?> getCommerceById(Long idCommerce){
+    @GetMapping("/traer/{idCommerce}")
+    ResponseEntity<?> getCommerceById(@PathVariable Long idCommerce){
         return ResponseEntity.ok(commerceService.getCommerceById(idCommerce));
     }
 
-    ResponseEntity<?> editCommerce(Long idCommerce, CommerceDto commerceDto){
+    @GetMapping("/traer/usuario/{idOwner}")
+    ResponseEntity<?> getCommercesByOwner(@PathVariable Long idOwner){
+        return ResponseEntity.ok(commerceService.getCommercesByOwner(idOwner));
+    }
+
+    @PutMapping("/editar/{idCommerce}")
+    ResponseEntity<?> editCommerce(@PathVariable Long idCommerce,
+                                   @RequestBody CommerceDto commerceDto){
         commerceService.editCommerce(idCommerce, commerceDto);
         return ResponseEntity.status(HttpStatus.NO_CONTENT).body("Comercio editado correctamente.");
     }
 
-    ResponseEntity<?> deleteCommerceById(Long idCommerce){
+    @DeleteMapping("/eliminar/{idCommerce}")
+    ResponseEntity<?> deleteCommerceById(@PathVariable Long idCommerce){
         commerceService.deleteCommerceById(idCommerce);
         return ResponseEntity.ok("Comercio eliminado correctamente.");
     }
 
-    ResponseEntity<?> addCategoriesToCommerce(Long idCommerce, List<Long> idCategories){
+    @PostMapping("/agregegar/categorias/{idCommerce}")
+    ResponseEntity<?> addCategoriesToCommerce(@PathVariable Long idCommerce,
+                                              @RequestBody List<Long> idCategories){
         commerceService.addCategoriesToCommerce(idCommerce,idCategories);
         return ResponseEntity.status(HttpStatus.NO_CONTENT).body("Categoría/s agregadas correctamente.");
     }
 
-    ResponseEntity<?> removeCategoriesFromCommerce(Long idCommerce, List<Long> idCategories){
+    @PostMapping("/eliminar/categorias/{idCommerce}")
+    ResponseEntity<?> removeCategoriesFromCommerce(@PathVariable Long idCommerce,
+                                                   @RequestBody List<Long> idCategories){
         commerceService.removeCategoriesFromCommerce(idCommerce,idCategories);
         return ResponseEntity.status(HttpStatus.NO_CONTENT).body("Categoría/s eliminadas correctamente.");
     }
 
-    ResponseEntity<?> addTagsToCommerce(Long idCommerce, List<String> nameTags){
+    @PostMapping("/agregegar/etiquetas/{idCommerce}")
+    ResponseEntity<?> addTagsToCommerce(@PathVariable Long idCommerce,
+                                        @RequestBody List<String> nameTags){
         commerceService.addTagsToCommerce(idCommerce,nameTags);
         return ResponseEntity.status(HttpStatus.NO_CONTENT).body("Etiqueta/s agregadas correctamente.");
     }
 
-    ResponseEntity<?> removeTagsFromCommerce(Long idCommerce, List<Long> tagIds){
+    @PostMapping("/eliminar/etiquetas/{idCommerce}")
+    ResponseEntity<?> removeTagsFromCommerce(@PathVariable Long idCommerce,
+                                             @RequestBody List<Long> tagIds){
         commerceService.removeTagsFromCommerce(idCommerce, tagIds);
         return ResponseEntity.status(HttpStatus.NO_CONTENT).body("Etiqueta/s eliminadas correctamente.");
     }
 
     //TODO implementar metodo para buscar commerces por categorias
+
+    @PostMapping("/agregar/imagenes/galeria/{idCommerce}")
+    ResponseEntity<?> addGalleryImagesToCommerce(@PathVariable Long idCommerce,
+                                                 @RequestParam List<MultipartFile> images) throws IOException {
+        commerceService.addGalleryImagesToCommerce(idCommerce, images);
+        return ResponseEntity.status(HttpStatus.NO_CONTENT).body("Imagen/es agregadas correctamente.");
+    }
+
+    @PostMapping("/establecer/imagen/perfil/{idCommerce}")
+    ResponseEntity<?> setProfileImageToCommerce(@PathVariable Long idCommerce,
+                                                @RequestParam MultipartFile image) throws IOException {
+        commerceService.setProfileImageToCommerce(idCommerce, image);
+        return ResponseEntity.status(HttpStatus.NO_CONTENT).body("Imagen de perfil establecida correctamente.");
+    }
+
+    @PostMapping("/establecer/imagen/portada/{idCommerce}")
+    ResponseEntity<?> setCoverImageToCommerce(@PathVariable Long idCommerce,
+                                              @RequestParam MultipartFile image) throws IOException {
+        commerceService.setCoverImageToCommerce(idCommerce, image);
+        return ResponseEntity.status(HttpStatus.NO_CONTENT).body("Imagen de portada establecida correctamente.");
+    }
 }
 
 

@@ -20,42 +20,50 @@ public class PostController {
     IPostService postService;
 
     @PostMapping("/crear")
-    ResponseEntity<?> savePost(@RequestParam String title,
+    ResponseEntity<?> savePost(//@RequestParam String title, TODO: comento esto del titulo porque habia sido que no se implemento
                                @RequestParam String description,
                                @RequestParam Long idCommerce,
-                               @RequestParam(required = false) List<MultipartFile> images) throws IOException{
+                               @RequestParam(required = false) List<MultipartFile> images) throws IOException {
 
-        PostDto postDto = new PostDto(title, description, idCommerce);
+        PostDto postDto = new PostDto(//title,
+                description, idCommerce);
 
         postService.savePost(postDto, images);
         return ResponseEntity.status(HttpStatus.CREATED).body("Publicación creada correctamente.");
     }
 
-
-    ResponseEntity<List<Post>> getPosts(){
+    @GetMapping("/traer")
+    ResponseEntity<List<Post>> getPosts() {
         return ResponseEntity.ok(postService.getPosts());
     }
 
-    ResponseEntity<?> getPostById(Long idPost){
+    @GetMapping("/traer/{idPost}")
+    ResponseEntity<?> getPostById(Long idPost) {
         return ResponseEntity.ok(postService.getPostById(idPost));
     }
 
-     ResponseEntity<?> editPost(Long idPost, PostDto postDto){
+    @PutMapping("/editar/{idPost}")
+    ResponseEntity<?> editPost(Long idPost, PostDto postDto) {
         postService.editPost(idPost, postDto);
         return ResponseEntity.status(HttpStatus.NO_CONTENT).body("Publicación editada correctamente.");
-     }
+    }
 
-    ResponseEntity<?> deletePostById(Long idPost){
+    @DeleteMapping("/eliminar/{idPost}")
+    ResponseEntity<?> deletePostById(Long idPost) {
         postService.deletePostById(idPost);
         return ResponseEntity.status(HttpStatus.NO_CONTENT).body("Publicación eliminada correctamente.");
     }
 
-    ResponseEntity<?> addImagesToPost(Long idPost, List<MultipartFile> images) throws IOException{
+    @PostMapping("/agregar/imagenes/{idPost}")
+    ResponseEntity<?> addImagesToPost(@PathVariable Long idPost,
+                                      @RequestParam List<MultipartFile> images) throws IOException {
         postService.addImagesToPost(idPost, images);
         return ResponseEntity.status(HttpStatus.NO_CONTENT).body("Imagen/es añadidas correctamente.");
     }
 
-    ResponseEntity<?> deleteImagesFromPost(Long idPost, List<Long> imageIds){
+    @DeleteMapping("/eliminar/imagenes/{idPost}")
+    ResponseEntity<?> deleteImagesFromPost(@PathVariable Long idPost,
+                                           @RequestParam List<Long> imageIds) {
         postService.deleteImagesFromPost(idPost, imageIds);
         return ResponseEntity.status(HttpStatus.NO_CONTENT).body("Imagen/es eliminadas correctamente.");
     }

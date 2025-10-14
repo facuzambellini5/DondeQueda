@@ -1,6 +1,5 @@
 package com.example.dondeQueda.services.interfaces;
 
-import com.example.dondeQueda.dtos.ImageDto;
 import com.example.dondeQueda.models.Image;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -9,20 +8,20 @@ import java.util.List;
 
 public interface IImageService {
 
-    void uploadImageToPost(Long postId, MultipartFile file) throws IOException;
-    void uploadImageToEvent(Long eventId, MultipartFile file) throws IOException;
-    void uploadImageToCommerce(Long commerceId, MultipartFile file) throws IOException;
+    void uploadImageToPost(Long postId, int imageOrder, MultipartFile file) throws IOException;
+
+    void uploadImageToEvent(Long eventId, int imageOrder, MultipartFile file) throws IOException;
+
+    void uploadGalleryImageToCommerce(Long commerceId, int imageOrder, MultipartFile file) throws IOException;
+
+    void setProfileImageToCommerce(Long commerceId, MultipartFile file) throws IOException;
+
+    void setCoverImageToCommerce(Long commerceId, MultipartFile file) throws IOException;
+
 
     void deleteImage(Long imageId);
 
-
-    List<Image> getImages();
-
     Image getImageById(Long idImage);
-
-    void editImage(Long idImage, ImageDto imageDto);
-
-    void deleteImageById(Long idImage);
 
     List<Image> getImagesByCommerce(Long idCommerce);
 

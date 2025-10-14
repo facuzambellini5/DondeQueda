@@ -1,6 +1,7 @@
 package com.example.dondeQueda.services;
 
 import com.example.dondeQueda.dtos.ImageDto;
+import com.example.dondeQueda.enums.ImageType;
 import com.example.dondeQueda.models.Commerce;
 import com.example.dondeQueda.models.Event;
 import com.example.dondeQueda.models.Image;
@@ -39,23 +40,25 @@ public class ImageService implements IImageService {
 
 
     @Override
-    public void uploadImageToPost(Long postId, MultipartFile file) throws IOException {
+    public void uploadImageToPost(Long postId, int imageOrder, MultipartFile file) throws IOException {
 
         Post post = ValidationUtils.validateEntity(postRepo.findById(postId), "Publicación", postId);
 
-        Map<String,Object> cloudinaryResult = cloudinaryService.uploadImage(file, "post");
+        Map<String,Object> cloudinaryResult = cloudinaryService.uploadImage(file, "posts");
 
         Image image = new Image();
         image.setUrl((String)cloudinaryResult.get("secure_url"));
         image.setPublicId((String) cloudinaryResult.get("public_id"));
         image.setOriginalFileName(file.getOriginalFilename());
         image.setPost(post);
+        image.setImageOrder(imageOrder);
+        image.setImageType(ImageType.GALLERY);
 
         imageRepo.save(image);
     }
 
     @Override
-    public void uploadImageToEvent(Long eventId, MultipartFile file) throws IOException {
+    public void uploadImageToEvent(Long eventId, int imageOrder, MultipartFile file) throws IOException {
 
         Event event = ValidationUtils.validateEntity(eventRepo.findById(eventId),"Evento", eventId);
 
@@ -66,25 +69,68 @@ public class ImageService implements IImageService {
         image.setPublicId((String) cloudinaryResult.get("public_id"));
         image.setOriginalFileName(file.getOriginalFilename());
         image.setEvent(event);
+        image.setImageOrder(imageOrder);
+        image.setImageType(ImageType.GALLERY);
 
         imageRepo.save(image);
     }
 
     @Override
-    public void uploadImageToCommerce(Long commerceId, MultipartFile file) throws IOException {
+    public void uploadGalleryImageToCommerce(Long commerceId, int imageOrder, MultipartFile file) throws IOException {
 
         Commerce commerce = ValidationUtils.validateEntity(commerceRepo.findById(commerceId),"Comercio", commerceId);
 
-        Map<String,Object> cloudinaryResult = cloudinaryService.uploadImage(file, "commerces");
+        Map<String,Object> cloudinaryResult = cloudinaryService.uploadImage(file, "commerces/gallery");
 
         Image image = new Image();
         image.setUrl((String)cloudinaryResult.get("secure_url"));
         image.setPublicId((String) cloudinaryResult.get("public_id"));
         image.setOriginalFileName(file.getOriginalFilename());
         image.setCommerce(commerce);
+        image.setImageOrder(imageOrder);
+        image.setImageType(ImageType.GALLERY);
 
         imageRepo.save(image);
     }
+
+    @Override
+    public void setProfileImageToCommerce(Long commerceId, MultipartFile file) throws IOException {
+
+        //TODO implementar logica para eliminar la imagen anterior
+
+        Commerce commerce = ValidationUtils.validateEntity(commerceRepo.findById(commerceId),"Comercio", commerceId);
+
+        Map<String,Object> cloudinaryResult = cloudinaryService.uploadImage(file, "commerces/profile");
+
+        Image image = new Image();
+        image.setUrl((String)cloudinaryResult.get("secure_url"));
+        image.setPublicId((String) cloudinaryResult.get("public_id"));
+        image.setOriginalFileName(file.getOriginalFilename());
+        image.setCommerce(commerce);
+        image.setImageType(ImageType.PROFILE);
+
+        imageRepo.save(image);
+    }
+
+    @Override
+    public void setCoverImageToCommerce(Long commerceId, MultipartFile file) throws IOException {
+
+        //TODO implementar logica para eliminar la imagen anterior
+
+        Commerce commerce = ValidationUtils.validateEntity(commerceRepo.findById(commerceId),"Comercio", commerceId);
+
+        Map<String,Object> cloudinaryResult = cloudinaryService.uploadImage(file, "commerces/cover");
+
+        Image image = new Image();
+        image.setUrl((String)cloudinaryResult.get("secure_url"));
+        image.setPublicId((String) cloudinaryResult.get("public_id"));
+        image.setOriginalFileName(file.getOriginalFilename());
+        image.setCommerce(commerce);
+        image.setImageType(ImageType.COVER);
+
+        imageRepo.save(image);
+    }
+
 
     @Override
     public void deleteImage(Long imageId) {
@@ -99,23 +145,8 @@ public class ImageService implements IImageService {
     }
 
     @Override
-    public List<Image> getImages() {
-        return List.of();
-    }
-
-    @Override
     public Image getImageById(Long idImage) {
         return ValidationUtils.validateEntity(imageRepo.findById(idImage),"Imagen", idImage);
-    }
-
-    @Override
-    public void editImage(Long idImage, ImageDto imageDto) {
-
-    }
-
-    @Override
-    public void deleteImageById(Long idImage) {
-
     }
 
     @Override

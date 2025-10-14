@@ -24,7 +24,6 @@ public class ScheduleController {
         return ResponseEntity.status(HttpStatus.CREATED).body("Horarios creados correctamente.");
     }
 
-
     @GetMapping("/traer")
     public ResponseEntity<List<Schedule>> getSchedules(){
         return ResponseEntity.ok(scheduleService.getSchedules());
@@ -57,6 +56,4 @@ public class ScheduleController {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Comercio no encontrado.");
         }
     }
-
-
 }
