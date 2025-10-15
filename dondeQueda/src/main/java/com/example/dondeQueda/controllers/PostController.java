@@ -20,13 +20,11 @@ public class PostController {
     IPostService postService;
 
     @PostMapping("/crear")
-    ResponseEntity<?> savePost(//@RequestParam String title, TODO: comento esto del titulo porque habia sido que no se implemento
-                               @RequestParam String description,
+    ResponseEntity<?> savePost(@RequestParam String description,
                                @RequestParam Long idCommerce,
                                @RequestParam(required = false) List<MultipartFile> images) throws IOException {
 
-        PostDto postDto = new PostDto(//title,
-                description, idCommerce);
+        PostDto postDto = new PostDto(description, idCommerce);
 
         postService.savePost(postDto, images);
         return ResponseEntity.status(HttpStatus.CREATED).body("Publicación creada correctamente.");
@@ -40,6 +38,11 @@ public class PostController {
     @GetMapping("/traer/{idPost}")
     ResponseEntity<?> getPostById(Long idPost) {
         return ResponseEntity.ok(postService.getPostById(idPost));
+    }
+
+    @GetMapping("/traer/comercio/{idCommerce}")
+    ResponseEntity<?> getPostsResponseByIdCommerce(@PathVariable Long idCommerce){
+        return ResponseEntity.ok(postService.getPostsResponseByIdCommerce(idCommerce));
     }
 
     @PutMapping("/editar/{idPost}")

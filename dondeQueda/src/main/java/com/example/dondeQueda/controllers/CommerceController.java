@@ -1,6 +1,7 @@
 package com.example.dondeQueda.controllers;
 
 import com.example.dondeQueda.dtos.CommerceDto;
+import com.example.dondeQueda.dtos.CommerceResponseDto;
 import com.example.dondeQueda.models.Commerce;
 import com.example.dondeQueda.services.interfaces.ICommerceService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,7 +27,7 @@ public class CommerceController {
     }
 
     @GetMapping("/traer")
-    ResponseEntity<List<Commerce>> getCommerces(){
+    ResponseEntity<List<CommerceResponseDto>> getCommerces(){
         return ResponseEntity.ok(commerceService.getCommerces());
     }
 

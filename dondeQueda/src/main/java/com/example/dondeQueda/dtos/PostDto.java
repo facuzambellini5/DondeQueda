@@ -1,18 +1,13 @@
 package com.example.dondeQueda.dtos;
 
 public class PostDto {
-    //private String title;
     private String description;
     private Long idCommerce;
 
-    public PostDto(//String title,
-                   String description, Long idCommerce) {
-        //this.title = title;
+    public PostDto(String description, Long idCommerce) {
         this.description = description;
         this.idCommerce = idCommerce;
     }
-
-    //public String getTitle() {return title;}
 
     public String getDescription() {
         return description;
