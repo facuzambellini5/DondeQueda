@@ -1,6 +1,7 @@
 package com.example.dondeQueda.models;
 
 import com.example.dondeQueda.enums.ImageType;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import org.hibernate.annotations.UpdateTimestamp;
 
@@ -34,14 +35,17 @@ public class Image {
 
     @ManyToOne
     @JoinColumn(name = "id_commerce")
+    @JsonIgnore
     private Commerce commerce;
 
     @ManyToOne
     @JoinColumn(name = "id_event")
+    @JsonIgnore
     private Event event;
 
     @ManyToOne
     @JoinColumn(name = "id_post")
+    @JsonIgnore
     private Post post;
 
     public Image() {

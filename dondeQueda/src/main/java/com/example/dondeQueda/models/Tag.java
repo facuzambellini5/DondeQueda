@@ -1,5 +1,6 @@
 package com.example.dondeQueda.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 
 import java.util.List;
@@ -15,6 +16,7 @@ public class Tag {
     private String nameTag;
 
     @ManyToMany(mappedBy = "tags")
+    @JsonIgnore
     private List<Commerce> commerces;
 
     public Tag() {

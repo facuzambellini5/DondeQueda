@@ -1,5 +1,6 @@
 package com.example.dondeQueda.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 
 @Entity
@@ -18,9 +19,11 @@ public class Address {
   private String location;
 
   @OneToOne(mappedBy = "address")
+  @JsonIgnore
   private Event event;
 
   @OneToOne(mappedBy = "address")
+  @JsonIgnore
   private Commerce commerce;
 
   public Address() {}

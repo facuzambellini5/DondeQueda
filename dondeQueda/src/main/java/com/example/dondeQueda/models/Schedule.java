@@ -1,5 +1,6 @@
 package com.example.dondeQueda.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 
 import java.time.DayOfWeek;
@@ -32,6 +33,7 @@ public class Schedule {
 
     @ManyToOne
     @JoinColumn(name = "id_commerce")
+    @JsonIgnore
     private Commerce commerce;
 
     public Schedule() {

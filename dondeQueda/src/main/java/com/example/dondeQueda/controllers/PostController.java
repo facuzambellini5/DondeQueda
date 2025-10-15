@@ -36,7 +36,7 @@ public class PostController {
     }
 
     @GetMapping("/traer/{idPost}")
-    ResponseEntity<?> getPostById(Long idPost) {
+    ResponseEntity<?> getPostById(@PathVariable Long idPost) {
         return ResponseEntity.ok(postService.getPostById(idPost));
     }
 
@@ -46,13 +46,14 @@ public class PostController {
     }
 
     @PutMapping("/editar/{idPost}")
-    ResponseEntity<?> editPost(Long idPost, PostDto postDto) {
+    ResponseEntity<?> editPost(@PathVariable Long idPost,
+                               @RequestBody PostDto postDto) {
         postService.editPost(idPost, postDto);
         return ResponseEntity.status(HttpStatus.NO_CONTENT).body("Publicación editada correctamente.");
     }
 
     @DeleteMapping("/eliminar/{idPost}")
-    ResponseEntity<?> deletePostById(Long idPost) {
+    ResponseEntity<?> deletePostById(@PathVariable Long idPost) {
         postService.deletePostById(idPost);
         return ResponseEntity.status(HttpStatus.NO_CONTENT).body("Publicación eliminada correctamente.");
     }

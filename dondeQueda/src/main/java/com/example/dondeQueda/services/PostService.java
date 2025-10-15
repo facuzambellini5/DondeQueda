@@ -38,6 +38,8 @@ public class PostService implements IPostService {
         post.setDescription(postDto.getDescription());
         post.setCommerce(commerce);
 
+        postRepo.save(post);
+
         for(MultipartFile image : images){
             this.addImagesToPost(post.getIdPost(), images);
         }

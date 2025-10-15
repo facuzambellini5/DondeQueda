@@ -1,5 +1,6 @@
 package com.example.dondeQueda.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 
 import java.time.LocalDateTime;
@@ -30,9 +31,11 @@ public class Event {
     private Address address;
 
     @ManyToMany(mappedBy = "events")
+    @JsonIgnore
     private List<Commerce> commerces;
 
     @OneToMany(mappedBy = "event")
+    @JsonIgnore
     private List<Image> images;
 
     public Event() {

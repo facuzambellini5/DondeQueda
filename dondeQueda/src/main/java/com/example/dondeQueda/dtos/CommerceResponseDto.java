@@ -23,8 +23,6 @@ public class CommerceResponseDto {
     private List<Category> categories;
     private List<Event> events;
     private List<Tag> tags;
-
-
     private ImageDto profileImage;
     private ImageDto coverImage;
     private List<ImageDto> galleryImages;

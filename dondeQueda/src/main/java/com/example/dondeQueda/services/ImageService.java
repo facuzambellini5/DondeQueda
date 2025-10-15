@@ -1,6 +1,5 @@
 package com.example.dondeQueda.services;
 
-import com.example.dondeQueda.dtos.ImageDto;
 import com.example.dondeQueda.enums.ImageType;
 import com.example.dondeQueda.models.Commerce;
 import com.example.dondeQueda.models.Event;
