@@ -53,7 +53,10 @@ public class CommerceService implements ICommerceService {
     commerce.setName(commerceDto.getName());
     commerce.setDescription(commerceDto.getDescription());
     commerce.setPhone(commerceDto.getPhone());
-    commerce.setLink(commerceDto.getLink());
+    commerce.setWebsite(commerceDto.getWebsite());
+    commerce.setInstagram(commerceDto.getInstagram());
+    commerce.setFacebook(commerceDto.getFacebook());
+    commerce.setWhatsapp(commerceDto.getWhatsapp());
     commerce.setEmail(commerceDto.getEmail());
 
     commerce.setOwner(owner);
@@ -94,14 +97,14 @@ public class CommerceService implements ICommerceService {
     User owner = ValidationUtils.validateEntity(userRepo.findById(idOwner),"Usuario", idOwner);
 
     List<Commerce> commerces = commerceRepo.findByOwner(owner);
-    List<CommerceResponseDto> commerceResponsDtos = new ArrayList<>();
+    List<CommerceResponseDto> commerceResponseDtos = new ArrayList<>();
 
     for(Commerce commerce : commerces){
       CommerceResponseDto commerceResponseDto = new CommerceResponseDto(commerce);
-      commerceResponsDtos.add(commerceResponseDto);
+      commerceResponseDtos.add(commerceResponseDto);
     }
 
-    return commerceResponsDtos;
+    return commerceResponseDtos;
   }
 
   @Override
@@ -121,8 +124,20 @@ public class CommerceService implements ICommerceService {
       commerce.setPhone(commerceDto.getPhone());
     }
 
-    if (commerceDto.getLink() != null) {
-      commerce.setLink(commerceDto.getLink());
+    if (commerceDto.getWebsite() != null) {
+      commerce.setWebsite(commerceDto.getWebsite());
+    }
+
+    if (commerceDto.getInstagram() != null){
+      commerce.setInstagram(commerceDto.getInstagram());
+    }
+
+    if (commerceDto.getFacebook() != null){
+      commerce.setFacebook(commerceDto.getFacebook());
+    }
+
+    if (commerceDto.getWhatsapp() != null){
+      commerce.setWhatsapp(commerceDto.getWhatsapp());
     }
 
     if (commerceDto.getEmail() != null) {

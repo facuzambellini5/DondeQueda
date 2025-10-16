@@ -2,7 +2,6 @@ package com.example.dondeQueda.controllers;
 
 import com.example.dondeQueda.dtos.CommerceDto;
 import com.example.dondeQueda.dtos.CommerceResponseDto;
-import com.example.dondeQueda.models.Commerce;
 import com.example.dondeQueda.services.interfaces.ICommerceService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;

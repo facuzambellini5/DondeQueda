@@ -14,7 +14,10 @@ public class CommerceResponseDto {
     private String name;
     private String description;
     private String phone;
-    private String link;
+    private String website;
+    private String instagram;
+    private String facebook;
+    private String whatsapp;
     private CommerceType commerceType;
     private String email;
     private List<Post> posts;
@@ -32,7 +35,10 @@ public class CommerceResponseDto {
         this.name = commerce.getName();
         this.description = commerce.getDescription();
         this.phone = commerce.getPhone();
-        this.link = commerce.getLink();
+        this.website = commerce.getWebsite();
+        this.instagram = commerce.getInstagram();
+        this.facebook = commerce.getFacebook();
+        this.whatsapp = commerce.getWhatsapp();
         this.commerceType = commerce.getCommerceType();
         this.email = commerce.getEmail();
         this.posts = commerce.getPosts();
@@ -59,6 +65,30 @@ public class CommerceResponseDto {
 
         //Esto ordena las imagenes segun su ImageOrder
         this.galleryImages.sort(Comparator.comparing(ImageDto::getImageOrder));
+    }
+
+    public String getInstagram() {
+        return instagram;
+    }
+
+    public void setInstagram(String instagram) {
+        this.instagram = instagram;
+    }
+
+    public String getFacebook() {
+        return facebook;
+    }
+
+    public void setFacebook(String facebook) {
+        this.facebook = facebook;
+    }
+
+    public String getWhatsapp() {
+        return whatsapp;
+    }
+
+    public void setWhatsapp(String whatsapp) {
+        this.whatsapp = whatsapp;
     }
 
     public Long getIdCommerce() {
@@ -93,12 +123,12 @@ public class CommerceResponseDto {
         this.phone = phone;
     }
 
-    public String getLink() {
-        return link;
+    public String getWebsite() {
+        return website;
     }
 
-    public void setLink(String link) {
-        this.link = link;
+    public void setWebsite(String website) {
+        this.website = website;
     }
 
     public CommerceType getCommerceType() {

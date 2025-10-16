@@ -21,7 +21,13 @@ public class Commerce {
 
   private String phone;
 
-  private String link;
+  private String website;
+
+  private String instagram;
+
+  private String facebook;
+
+  private String whatsapp;
 
   @Column(name = "commerce_type")
   @Enumerated(EnumType.STRING)
@@ -81,30 +87,15 @@ public class Commerce {
 
   public Commerce() {}
 
-  public Commerce(
-      Long idCommerce,
-      String name,
-      String description,
-      String phone,
-      String link,
-      CommerceType commerceType,
-      String email,
-      LocalDateTime createdDate,
-      Commerce branchOf,
-      List<Commerce> commerces,
-      User owner,
-      List<Post> posts,
-      Address address,
-      List<Schedule> schedules,
-      List<Category> categories,
-      List<Event> events,
-      List<Tag> tags,
-      List<Image> images) {
+  public Commerce(Long idCommerce, String name, String description, String phone, String website, String instagram, String facebook, String whatsapp, CommerceType commerceType, String email, LocalDateTime createdDate, Commerce branchOf, List<Commerce> commerces, User owner, List<Post> posts, Address address, List<Schedule> schedules, List<Category> categories, List<Event> events, List<Tag> tags, List<Image> images) {
     this.idCommerce = idCommerce;
     this.name = name;
     this.description = description;
     this.phone = phone;
-    this.link = link;
+    this.website = website;
+    this.instagram = instagram;
+    this.facebook = facebook;
+    this.whatsapp = whatsapp;
     this.commerceType = commerceType;
     this.email = email;
     this.createdDate = createdDate;
@@ -118,6 +109,30 @@ public class Commerce {
     this.events = events;
     this.tags = tags;
     this.images = images;
+  }
+
+  public String getInstagram() {
+    return instagram;
+  }
+
+  public void setInstagram(String instagram) {
+    this.instagram = instagram;
+  }
+
+  public String getFacebook() {
+    return facebook;
+  }
+
+  public void setFacebook(String facebook) {
+    this.facebook = facebook;
+  }
+
+  public String getWhatsapp() {
+    return whatsapp;
+  }
+
+  public void setWhatsapp(String whatsapp) {
+    this.whatsapp = whatsapp;
   }
 
   public Long getIdCommerce() {
@@ -152,12 +167,12 @@ public class Commerce {
     this.phone = phone;
   }
 
-  public String getLink() {
-    return link;
+  public String getWebsite() {
+    return website;
   }
 
-  public void setLink(String link) {
-    this.link = link;
+  public void setWebsite(String website) {
+    this.website = website;
   }
 
   public CommerceType getCommerceType() {

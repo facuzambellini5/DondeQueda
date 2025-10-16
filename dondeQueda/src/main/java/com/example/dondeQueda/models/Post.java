@@ -26,6 +26,7 @@ public class Post {
     private Commerce commerce;
 
     @ManyToMany(mappedBy = "savedPosts")
+    @JsonIgnore
     private List<User> users;
 
     @OneToMany(mappedBy = "post")
