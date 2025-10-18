@@ -1,5 +1,6 @@
 package com.example.dondeQueda.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 
 import java.util.List;
@@ -19,6 +20,7 @@ public class Category {
     private List<Subcategory> subcategories;
 
     @ManyToMany(mappedBy = "categories")
+    @JsonIgnore
     private List<Commerce> commerces;
 
     public Category() {

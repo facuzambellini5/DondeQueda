@@ -16,6 +16,8 @@ public interface IPostService {
 
     Post getPostById(Long idPost);
 
+    List<PostResponseDto> getPostsResponseByIdCommerce(Long idCommerce);
+
     PostResponseDto getPostResponseById(Long idPost);
 
     void editPost(Long idPost, PostDto postDto);

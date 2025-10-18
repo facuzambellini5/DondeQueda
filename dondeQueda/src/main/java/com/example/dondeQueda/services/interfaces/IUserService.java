@@ -21,4 +21,12 @@ public interface IUserService {
 
     Optional<User> getUserByEmail(String email);
 
+    void addCommerceToFavorites(Long idCommerce, Long idUser);
+
+    void removeCommerceFromFavorites(Long idCommerce, Long idUser);
+
+    void addPostToSaved(Long idPost, Long idUser);
+
+    void removePostFromSaved(Long idPost, Long idUser);
+
 }

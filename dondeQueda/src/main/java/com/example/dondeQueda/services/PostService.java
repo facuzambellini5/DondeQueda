@@ -38,6 +38,8 @@ public class PostService implements IPostService {
         post.setDescription(postDto.getDescription());
         post.setCommerce(commerce);
 
+        postRepo.save(post);
+
         for(MultipartFile image : images){
             this.addImagesToPost(post.getIdPost(), images);
         }
@@ -65,6 +67,20 @@ public class PostService implements IPostService {
     @Override
     public Post getPostById(Long idPost) {
         return ValidationUtils.validateEntity(postRepo.findById(idPost),"Publicación", idPost);
+    }
+
+    @Override
+    public List<PostResponseDto> getPostsResponseByIdCommerce(Long idCommerce) {
+
+        Commerce commerce = ValidationUtils.validateEntity(commerceRepo.findById(idCommerce),"Comercio", idCommerce);
+        List<Post> posts = postRepo.findByCommerce(commerce);
+        List<PostResponseDto> postResponseDtos = new ArrayList<>();
+
+        for(Post post : posts){
+            PostResponseDto postResponseDto = new PostResponseDto(post);
+            postResponseDtos.add(postResponseDto);
+        }
+        return postResponseDtos;
     }
 
     @Override

@@ -49,4 +49,33 @@ public class UserController {
 
         return ResponseEntity.ok("Usuario eliminado correctamente.");
     }
+
+    @PostMapping("/agregar/comercio/fav/{idCommerce}/{idUser}")
+    public ResponseEntity<?> addCommerceToFavorites(@PathVariable Long idCommerce,
+                                                    @PathVariable Long idUser){
+        userService.addCommerceToFavorites(idCommerce, idUser);
+        return ResponseEntity.status(HttpStatus.NO_CONTENT).body("Comercio agregado correctamente.");
+    }
+
+    @PostMapping("/eliminar/comercio/fav/{idCommerce}/{idUser}")
+    public ResponseEntity<?> removeCommerceFromFavorites(@PathVariable Long idCommerce,
+                                                         @PathVariable Long idUser){
+        userService.removeCommerceFromFavorites(idCommerce, idUser);
+        return ResponseEntity.status(HttpStatus.NO_CONTENT).body("Comercio agregado correctamente.");
+    }
+
+    @PostMapping("/guardar/post/{idPost}/{idUser}")
+    public ResponseEntity<?> addPostToSaved(@PathVariable Long idPost,
+                                            @PathVariable Long idUser){
+        userService.addPostToSaved(idPost, idUser);
+        return ResponseEntity.status(HttpStatus.NO_CONTENT).body("Post guardado correctamente.");
+    }
+
+    @PostMapping("/eliminar/post/guardado/{idPost}/{idUser}")
+    public ResponseEntity<?> removePostFromSaved(@PathVariable Long idPost,
+                                                 @PathVariable Long idUser){
+        userService.removePostFromSaved(idPost, idUser);
+        return ResponseEntity.status(HttpStatus.NO_CONTENT).body("Comercio agregado correctamente.");
+    }
+
 }

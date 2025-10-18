@@ -1,6 +1,5 @@
 package com.example.dondeQueda.services;
 
-import com.example.dondeQueda.dtos.ImageDto;
 import com.example.dondeQueda.enums.ImageType;
 import com.example.dondeQueda.models.Commerce;
 import com.example.dondeQueda.models.Event;
@@ -96,9 +95,14 @@ public class ImageService implements IImageService {
     @Override
     public void setProfileImageToCommerce(Long commerceId, MultipartFile file) throws IOException {
 
-        //TODO implementar logica para eliminar la imagen anterior
-
         Commerce commerce = ValidationUtils.validateEntity(commerceRepo.findById(commerceId),"Comercio", commerceId);
+
+        //Elimina la imagen de perfil anterior
+        for(Image image : commerce.getImages()){
+            if(image.getImageType() == ImageType.PROFILE){
+                this.deleteImage(image.getIdImage());
+            }
+        }
 
         Map<String,Object> cloudinaryResult = cloudinaryService.uploadImage(file, "commerces/profile");
 
@@ -115,9 +119,14 @@ public class ImageService implements IImageService {
     @Override
     public void setCoverImageToCommerce(Long commerceId, MultipartFile file) throws IOException {
 
-        //TODO implementar logica para eliminar la imagen anterior
-
         Commerce commerce = ValidationUtils.validateEntity(commerceRepo.findById(commerceId),"Comercio", commerceId);
+
+        //Elimina la imagen de portada anterior
+        for(Image image : commerce.getImages()){
+            if(image.getImageType() == ImageType.COVER){
+                this.deleteImage(image.getIdImage());
+            }
+        }
 
         Map<String,Object> cloudinaryResult = cloudinaryService.uploadImage(file, "commerces/cover");
 

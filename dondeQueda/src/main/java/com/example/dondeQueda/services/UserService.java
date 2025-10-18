@@ -1,7 +1,11 @@
 package com.example.dondeQueda.services;
 
 import com.example.dondeQueda.dtos.UserDto;
+import com.example.dondeQueda.models.Commerce;
+import com.example.dondeQueda.models.Post;
 import com.example.dondeQueda.models.User;
+import com.example.dondeQueda.repositories.ICommerceRepository;
+import com.example.dondeQueda.repositories.IPostRepository;
 import com.example.dondeQueda.repositories.IUserRepository;
 import com.example.dondeQueda.services.interfaces.IUserService;
 import com.example.dondeQueda.utils.ValidationUtils;
@@ -19,6 +23,10 @@ public class UserService implements IUserService {
 
     @Autowired
     private IUserRepository userRepo;
+    @Autowired
+    private ICommerceRepository commerceRepo;
+    @Autowired
+    private IPostRepository postRepo;
 
     @Override
     public void saveUser(UserDto userDto) {
@@ -99,5 +107,49 @@ public class UserService implements IUserService {
     @Override
     public Optional<User> getUserByEmail(String email) {
         return userRepo.findByEmail(email);
+    }
+
+    @Override
+    public void addCommerceToFavorites(Long idCommerce, Long idUser) {
+
+        Commerce commerce = ValidationUtils.validateEntity(commerceRepo.findById(idCommerce), "Comercio", idCommerce);
+        User user = this.getUserById(idUser);
+
+        user.getFavoriteCommerces().add(commerce);
+
+        userRepo.save(user);
+    }
+
+    @Override
+    public void removeCommerceFromFavorites(Long idCommerce, Long idUser) {
+
+        Commerce commerce = ValidationUtils.validateEntity(commerceRepo.findById(idCommerce), "Comercio", idCommerce);
+        User user = this.getUserById(idUser);
+
+        user.getFavoriteCommerces().remove(commerce);
+
+        userRepo.save(user);
+    }
+
+    @Override
+    public void addPostToSaved(Long idPost, Long idUser) {
+
+        Post post = ValidationUtils.validateEntity(postRepo.findById(idPost), "Publicación", idPost);
+        User user = this.getUserById(idUser);
+
+        user.getSavedPosts().add(post);
+
+        userRepo.save(user);
+    }
+
+    @Override
+    public void removePostFromSaved(Long idPost, Long idUser) {
+
+        Post post = ValidationUtils.validateEntity(postRepo.findById(idPost), "Publicación", idPost);
+        User user = this.getUserById(idUser);
+
+        user.getSavedPosts().remove(post);
+
+        userRepo.save(user);
     }
 }
