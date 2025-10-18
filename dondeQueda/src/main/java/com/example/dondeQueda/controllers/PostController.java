@@ -20,8 +20,7 @@ public class PostController {
     IPostService postService;
 
     @PostMapping("/crear")
-    ResponseEntity<?> savePost(//@RequestParam String title, TODO: comento esto del titulo porque habia sido que no se implemento
-                               @RequestParam String description,
+    ResponseEntity<?> savePost(@RequestParam String description,
                                @RequestParam Long idCommerce,
                                @RequestParam(required = false) List<MultipartFile> images) throws IOException {
 
