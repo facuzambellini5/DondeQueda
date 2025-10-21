@@ -153,7 +153,6 @@ public class CommerceService implements ICommerceService {
     for(Image image : commerce.getImages()){
       imageService.deleteImage(image.getIdImage());
     }
-
     commerceRepo.delete(commerce);
   }
 
@@ -166,7 +165,10 @@ public class CommerceService implements ICommerceService {
       Category category =
           ValidationUtils.validateEntity(
               categoryRepo.findById(idCategory), "Categoría", idCategory);
-      commerce.getCategories().add(category);
+
+      if (!commerce.getCategories().contains(category)){
+        commerce.getCategories().add(category);
+      }
     }
     commerceRepo.save(commerce);
   }
@@ -186,34 +188,37 @@ public class CommerceService implements ICommerceService {
   }
 
   @Override
+  public List<CommerceResponseDto> getCommercesByCategories(List<Long> categoryIds) {
+
+    List<Category> categories = categoryRepo.findAllById(categoryIds);
+    List<CommerceResponseDto> commerceResponseDtos = new ArrayList<>();
+
+    for(Commerce commerce : commerceRepo.findByCategoryIds(categoryIds)){
+      CommerceResponseDto commerceResponseDto = new CommerceResponseDto(commerce);
+      commerceResponseDtos.add(commerceResponseDto);
+    }
+    return commerceResponseDtos;
+  }
+
+  @Override
   public void addTagsToCommerce(Long idCommerce, List<String> nameTags) {
 
     Commerce commerce = this.getCommerceById(idCommerce);
 
     for (String nameTag : nameTags) {
 
-      Optional<Tag> tagOptional = tagRepo.findByNameTag(nameTag);
+      Tag tag = tagRepo.findByNameTag(nameTag).orElseGet(() -> {
+        Tag newTag = new Tag();
+        newTag.setNameTag(nameTag);
+        return tagRepo.save(newTag);
+      });
 
-      if (tagOptional.isEmpty()) {
-        Tag tag = new Tag();
-        tag.setNameTag(nameTag);
-
-        tag.getCommerces().add(commerce); // TODO ver implementacion CASCADE
+      if (!commerce.getTags().contains(tag)) {
         commerce.getTags().add(tag);
-
-        commerceRepo.save(commerce);
-        tagRepo.save(tag);
+        tag.getCommerces().add(commerce);
       }
 
-      if(tagOptional.isPresent()){
-          Tag tag = tagOptional.get();
-
-          tag.getCommerces().add(commerce); //TODO ver implementacion CASCADE
-          commerce.getTags().add(tag);
-
-          commerceRepo.save(commerce);
-          tagRepo.save(tag);
-      }
+      commerceRepo.save(commerce);
     }
   }
 
@@ -264,8 +269,8 @@ public class CommerceService implements ICommerceService {
   }
 
   @Override
-  public List<CommerceResponseDto> getCommercesByCategories(List<Category> categories) {
-    // TODO implementar metodo
-    return List.of();
+  public List<Commerce> searchCommercesByNameOrTag(String searchParam, int limit, int offset) {
+    return commerceRepo.searchByNameOrTag(searchParam, limit, offset);
   }
+
 }

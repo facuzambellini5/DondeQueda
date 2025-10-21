@@ -59,6 +59,7 @@ public class PostService implements IPostService {
 
         for(Post post : posts){
             PostResponseDto postResponseDto = new PostResponseDto(post);
+            postResponseDtos.add(postResponseDto);
         }
 
         return postResponseDtos;

@@ -26,7 +26,7 @@ public class CategoryController {
 
     @GetMapping("/traer")
     public ResponseEntity<List<CategoryDto>> getCategoriesDto(){
-        return ResponseEntity.ok(categoryService.getCategoriesDto());
+        return ResponseEntity.ok(categoryService.getCategoryDtos());
     }
 
     @GetMapping("/traer/{idCategory}")

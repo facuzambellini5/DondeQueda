@@ -110,7 +110,7 @@ public class UserService implements IUserService {
     }
 
     @Override
-    public void addCommerceToFavorites(Long idCommerce, Long idUser) {
+    public void addCommerceToFavorites(Long idUser, Long idCommerce) {
 
         Commerce commerce = ValidationUtils.validateEntity(commerceRepo.findById(idCommerce), "Comercio", idCommerce);
         User user = this.getUserById(idUser);
@@ -121,7 +121,7 @@ public class UserService implements IUserService {
     }
 
     @Override
-    public void removeCommerceFromFavorites(Long idCommerce, Long idUser) {
+    public void removeCommerceFromFavorites(Long idUser, Long idCommerce) {
 
         Commerce commerce = ValidationUtils.validateEntity(commerceRepo.findById(idCommerce), "Comercio", idCommerce);
         User user = this.getUserById(idUser);
@@ -132,18 +132,20 @@ public class UserService implements IUserService {
     }
 
     @Override
-    public void addPostToSaved(Long idPost, Long idUser) {
+    public void addPostToSaved(Long idUser, Long idPost) {
 
         Post post = ValidationUtils.validateEntity(postRepo.findById(idPost), "Publicación", idPost);
         User user = this.getUserById(idUser);
 
-        user.getSavedPosts().add(post);
-
+        //SOLO si el usuario NO tiene el post guardado, que lo pueda guardar (evita problemas de PK duplicados)
+        if(!user.getSavedPosts().contains(post)){
+            user.getSavedPosts().add(post);
+        }
         userRepo.save(user);
     }
 
     @Override
-    public void removePostFromSaved(Long idPost, Long idUser) {
+    public void removePostFromSaved(Long idUser, Long idPost) {
 
         Post post = ValidationUtils.validateEntity(postRepo.findById(idPost), "Publicación", idPost);
         User user = this.getUserById(idUser);

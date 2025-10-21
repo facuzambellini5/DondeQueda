@@ -53,7 +53,7 @@ public class CommerceController {
         return ResponseEntity.ok("Comercio eliminado correctamente.");
     }
 
-    @PostMapping("/agregegar/categorias/{idCommerce}")
+    @PostMapping("/agregar/categorias/{idCommerce}")
     ResponseEntity<?> addCategoriesToCommerce(@PathVariable Long idCommerce,
                                               @RequestBody List<Long> idCategories){
         commerceService.addCategoriesToCommerce(idCommerce,idCategories);
@@ -67,7 +67,12 @@ public class CommerceController {
         return ResponseEntity.status(HttpStatus.NO_CONTENT).body("Categoría/s eliminadas correctamente.");
     }
 
-    @PostMapping("/agregegar/etiquetas/{idCommerce}")
+    @GetMapping("/traer/por/categorias")
+    ResponseEntity<?> getCommercesByCategories(@RequestBody List<Long> categoryIds){
+        return ResponseEntity.ok(commerceService.getCommercesByCategories(categoryIds));
+    }
+
+    @PostMapping("/agregar/etiquetas/{idCommerce}")
     ResponseEntity<?> addTagsToCommerce(@PathVariable Long idCommerce,
                                         @RequestBody List<String> nameTags){
         commerceService.addTagsToCommerce(idCommerce,nameTags);
@@ -80,8 +85,6 @@ public class CommerceController {
         commerceService.removeTagsFromCommerce(idCommerce, tagIds);
         return ResponseEntity.status(HttpStatus.NO_CONTENT).body("Etiqueta/s eliminadas correctamente.");
     }
-
-    //TODO implementar metodo para buscar commerces por categorias
 
     @PostMapping("/agregar/imagenes/galeria/{idCommerce}")
     ResponseEntity<?> addGalleryImagesToCommerce(@PathVariable Long idCommerce,
@@ -109,6 +112,13 @@ public class CommerceController {
                                                @RequestParam List<Long> imageIds) throws IOException {
         commerceService.removeImagesFromCommerce(idCommerce, imageIds);
         return ResponseEntity.ok("Imagen/es eliminadas correctamente.");
+    }
+
+    @GetMapping("/buscar")
+    ResponseEntity<?> searchCommercesByNameOrTag(@RequestParam String searchParam,
+                                                 @RequestParam int limit,
+                                                 @RequestParam int offset){
+        return ResponseEntity.ok(commerceService.searchCommercesByNameOrTag(searchParam, limit, offset));
     }
 }
 

@@ -32,8 +32,7 @@ public interface ICommerceService {
 
     void removeCategoriesFromCommerce(Long idCommerce, List<Long> idCategories);
 
-    //TODO implementar este metodo
-    List<CommerceResponseDto> getCommercesByCategories(List<Category> categories);
+    List<CommerceResponseDto> getCommercesByCategories(List<Long> categoryIds);
 
     void addTagsToCommerce(Long idCommerce, List<String> nameTags);
 
@@ -46,4 +45,10 @@ public interface ICommerceService {
     void setProfileImageToCommerce(Long idCommerce, MultipartFile image)throws IOException;
 
     void setCoverImageToCommerce(Long idCommerce, MultipartFile image)throws IOException;
+
+    //Buscador principal de commerces
+    List<Commerce> searchCommercesByNameOrTag(String searchParam, int limit, int offset);
+
+    //TODO implementar lo que devolcería el feed/home
+    //List<?> getEntitiesHome();
 }

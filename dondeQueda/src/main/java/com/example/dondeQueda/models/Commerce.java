@@ -6,6 +6,7 @@ import jakarta.persistence.*;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -44,7 +45,7 @@ public class Commerce {
   private Commerce branchOf;
 
   @OneToMany(mappedBy = "branchOf")
-  private List<Commerce> commerces;
+  private List<Commerce> commerces = new ArrayList<>();
 
   @ManyToOne
   @JoinColumn(name = "id_user")
@@ -59,31 +60,31 @@ public class Commerce {
   private Address address;
 
   @OneToMany(mappedBy = "commerce", orphanRemoval = true)
-  private List<Schedule> schedules;
+  private List<Schedule> schedules = new ArrayList<>();
 
   @ManyToMany
   @JoinTable(
       name = "commerce_category",
       joinColumns = @JoinColumn(name = "id_commerce"),
       inverseJoinColumns = @JoinColumn(name = "id_category"))
-  private List<Category> categories;
+  private List<Category> categories = new ArrayList<>();
 
   @ManyToMany
   @JoinTable(
       name = "event_commerce",
       joinColumns = @JoinColumn(name = "id_commerce"),
       inverseJoinColumns = @JoinColumn(name = "id_event"))
-  private List<Event> events;
+  private List<Event> events = new ArrayList<>();
 
   @ManyToMany
   @JoinTable(
       name = "commerce_tag",
       joinColumns = @JoinColumn(name = "id_commerce"),
       inverseJoinColumns = @JoinColumn(name = "id_tag"))
-  private List<Tag> tags;
+  private List<Tag> tags = new ArrayList<>();
 
   @OneToMany(mappedBy = "commerce")
-  private List<Image> images;
+  private List<Image> images = new ArrayList<>();
 
   public Commerce() {}
 
@@ -109,30 +110,6 @@ public class Commerce {
     this.events = events;
     this.tags = tags;
     this.images = images;
-  }
-
-  public String getInstagram() {
-    return instagram;
-  }
-
-  public void setInstagram(String instagram) {
-    this.instagram = instagram;
-  }
-
-  public String getFacebook() {
-    return facebook;
-  }
-
-  public void setFacebook(String facebook) {
-    this.facebook = facebook;
-  }
-
-  public String getWhatsapp() {
-    return whatsapp;
-  }
-
-  public void setWhatsapp(String whatsapp) {
-    this.whatsapp = whatsapp;
   }
 
   public Long getIdCommerce() {
@@ -173,6 +150,30 @@ public class Commerce {
 
   public void setWebsite(String website) {
     this.website = website;
+  }
+
+  public String getInstagram() {
+    return instagram;
+  }
+
+  public void setInstagram(String instagram) {
+    this.instagram = instagram;
+  }
+
+  public String getFacebook() {
+    return facebook;
+  }
+
+  public void setFacebook(String facebook) {
+    this.facebook = facebook;
+  }
+
+  public String getWhatsapp() {
+    return whatsapp;
+  }
+
+  public void setWhatsapp(String whatsapp) {
+    this.whatsapp = whatsapp;
   }
 
   public CommerceType getCommerceType() {

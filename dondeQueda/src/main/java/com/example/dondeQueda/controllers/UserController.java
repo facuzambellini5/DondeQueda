@@ -50,31 +50,31 @@ public class UserController {
         return ResponseEntity.ok("Usuario eliminado correctamente.");
     }
 
-    @PostMapping("/agregar/comercio/fav/{idCommerce}/{idUser}")
-    public ResponseEntity<?> addCommerceToFavorites(@PathVariable Long idCommerce,
-                                                    @PathVariable Long idUser){
-        userService.addCommerceToFavorites(idCommerce, idUser);
+    @PostMapping("/agregar/comercio/fav/{idUser}/{idCommerce}")
+    public ResponseEntity<?> addCommerceToFavorites(@PathVariable Long idUser,
+                                                    @PathVariable Long idCommerce){
+        userService.addCommerceToFavorites(idUser, idCommerce);
         return ResponseEntity.status(HttpStatus.NO_CONTENT).body("Comercio agregado correctamente.");
     }
 
-    @PostMapping("/eliminar/comercio/fav/{idCommerce}/{idUser}")
-    public ResponseEntity<?> removeCommerceFromFavorites(@PathVariable Long idCommerce,
-                                                         @PathVariable Long idUser){
-        userService.removeCommerceFromFavorites(idCommerce, idUser);
+    @PostMapping("/eliminar/comercio/fav/{idUser}/{idCommerce}")
+    public ResponseEntity<?> removeCommerceFromFavorites(@PathVariable Long idUser,
+                                                         @PathVariable Long idCommerce){
+        userService.removeCommerceFromFavorites(idUser, idCommerce);
         return ResponseEntity.status(HttpStatus.NO_CONTENT).body("Comercio agregado correctamente.");
     }
 
-    @PostMapping("/guardar/post/{idPost}/{idUser}")
-    public ResponseEntity<?> addPostToSaved(@PathVariable Long idPost,
-                                            @PathVariable Long idUser){
-        userService.addPostToSaved(idPost, idUser);
+    @PostMapping("/guardar/post/{idUser}/{idPost}")
+    public ResponseEntity<?> addPostToSaved(@PathVariable Long idUser,
+                                            @PathVariable Long idPost){
+        userService.addPostToSaved(idUser, idPost);
         return ResponseEntity.status(HttpStatus.NO_CONTENT).body("Post guardado correctamente.");
     }
 
-    @PostMapping("/eliminar/post/guardado/{idPost}/{idUser}")
-    public ResponseEntity<?> removePostFromSaved(@PathVariable Long idPost,
-                                                 @PathVariable Long idUser){
-        userService.removePostFromSaved(idPost, idUser);
+    @PostMapping("/eliminar/post/guardado/{idUser}/{idPost}")
+    public ResponseEntity<?> removePostFromSaved(@PathVariable Long idUser,
+                                                 @PathVariable Long idPost){
+        userService.removePostFromSaved(idUser, idPost);
         return ResponseEntity.status(HttpStatus.NO_CONTENT).body("Comercio agregado correctamente.");
     }
 

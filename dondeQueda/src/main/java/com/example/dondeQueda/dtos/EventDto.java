@@ -8,16 +8,17 @@ public class EventDto {
     private LocalDateTime endDate;
     private String title;
     private String description;
-    private int capacity;
-    private Long idAddress;
-    private Long idCommerce;
+    private boolean isActive;
 
-    public Long getIdCommerce() {
-        return idCommerce;
+    public EventDto() {
     }
 
-    public void setIdCommerce(Long idCommerce) {
-        this.idCommerce = idCommerce;
+    public EventDto(LocalDateTime startDate, LocalDateTime endDate, String title, String description, boolean isActive) {
+        this.startDate = startDate;
+        this.endDate = endDate;
+        this.title = title;
+        this.description = description;
+        this.isActive = isActive;
     }
 
     public LocalDateTime getStartDate() {
@@ -52,19 +53,11 @@ public class EventDto {
         this.description = description;
     }
 
-    public int getCapacity() {
-        return capacity;
+    public boolean isActive() {
+        return isActive;
     }
 
-    public void setCapacity(int capacity) {
-        this.capacity = capacity;
-    }
-
-    public Long getIdAddress() {
-        return idAddress;
-    }
-
-    public void setIdAddress(Long idAddress) {
-        this.idAddress = idAddress;
+    public void setActive(boolean active) {
+        isActive = active;
     }
 }

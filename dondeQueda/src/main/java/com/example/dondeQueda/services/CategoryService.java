@@ -58,15 +58,15 @@ public class CategoryService implements ICategoryService {
     }
 
     @Override
-    public List<CategoryDto> getCategoriesDto() {
+    public List<CategoryDto> getCategoryDtos() {
 
         List<Category> categories = this.getCategories();
-        List<CategoryDto> categoriesDto = new ArrayList<>();
+        List<CategoryDto> categoryDtos = new ArrayList<>();
 
         for(Category category : categories){
-            CategoryDto categoryDto = new CategoryDto(category.getName(), category.getDescription());
-            categoriesDto.add(categoryDto);
+            CategoryDto categoryDto = new CategoryDto(category);
+            categoryDtos.add(categoryDto);
         }
-        return categoriesDto;
+        return categoryDtos;
     }
 }

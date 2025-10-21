@@ -5,6 +5,7 @@ import jakarta.persistence.*;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -48,13 +49,13 @@ public class User {
     @OneToMany(mappedBy = "owner")
     private List<Commerce> ownedCommerces;
 
-    @ManyToMany
+    @ManyToMany()
     @JoinTable(
             name = "saved",
             joinColumns = @JoinColumn(name = "id_user"),
             inverseJoinColumns = @JoinColumn(name = "id_post")
     )
-    private List<Post> savedPosts;
+    private List<Post> savedPosts = new ArrayList<>();
 
     @ManyToMany
     @JoinTable(
