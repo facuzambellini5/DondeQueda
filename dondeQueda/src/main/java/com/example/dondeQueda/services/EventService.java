@@ -32,8 +32,6 @@ public class EventService implements IEventService {
   @Override
   public void saveEvent(EventDto eventDto, List<MultipartFile> images) throws IOException {
 
-    //TODO VER si hacer validación de que tenga ALMENOS UNA imagen
-
     Event event = new Event();
 
     if (eventDto.getIdAddress() != null) {
