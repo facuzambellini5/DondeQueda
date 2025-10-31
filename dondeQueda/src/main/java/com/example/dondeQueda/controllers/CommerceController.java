@@ -31,8 +31,8 @@ public class CommerceController {
     }
 
     @GetMapping("/traer/{idCommerce}")
-    ResponseEntity<?> getCommerceById(@PathVariable Long idCommerce){
-        return ResponseEntity.ok(commerceService.getCommerceById(idCommerce));
+    ResponseEntity<?> getCommerceResponseDtoById(@PathVariable Long idCommerce){
+        return ResponseEntity.ok(commerceService.getCommerceResponseById(idCommerce));
     }
 
     @GetMapping("/traer/usuario/{idOwner}")

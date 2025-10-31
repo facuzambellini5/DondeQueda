@@ -47,7 +47,7 @@ public class User {
     private Subscription subscription;
 
     @OneToMany(mappedBy = "owner")
-    private List<Commerce> ownedCommerces;
+    private List<Commerce> ownedCommerces = new ArrayList<>();
 
     @ManyToMany()
     @JoinTable(
@@ -63,7 +63,7 @@ public class User {
             joinColumns = @JoinColumn(name = "id_user"),
             inverseJoinColumns = @JoinColumn(name = "id_commerce")
     )
-    private List<Commerce> favoriteCommerces;
+    private List<Commerce> favoriteCommerces = new ArrayList<>();
 
     public User() {
     }

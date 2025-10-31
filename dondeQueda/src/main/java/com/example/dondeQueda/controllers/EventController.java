@@ -20,7 +20,7 @@ public class EventController {
 
     @PostMapping("/guardar")
     ResponseEntity<?> saveEvent(@RequestBody EventDto eventDto,
-                                @RequestParam List<MultipartFile> images) throws IOException {
+                                @RequestParam(required = false) List<MultipartFile> images) throws IOException {
         eventService.saveEvent(eventDto, images);
         return ResponseEntity.status(HttpStatus.CREATED).body("Evento creado correctamente.");
     }

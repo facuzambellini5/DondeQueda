@@ -3,6 +3,7 @@ package com.example.dondeQueda.models;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -17,11 +18,11 @@ public class Category {
     private String description;
 
     @OneToMany(mappedBy = "category")
-    private List<Subcategory> subcategories;
+    private List<Subcategory> subcategories = new ArrayList<>();
 
     @ManyToMany(mappedBy = "categories")
     @JsonIgnore
-    private List<Commerce> commerces;
+    private List<Commerce> commerces = new ArrayList<>();
 
     public Category() {
     }

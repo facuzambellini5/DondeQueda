@@ -6,6 +6,7 @@ import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -31,7 +32,7 @@ public class Post {
     private List<User> users;
 
     @OneToMany(mappedBy = "post")
-    private List<Image> images;
+    private List<Image> images = new ArrayList<>();
 
     public Post() {
     }

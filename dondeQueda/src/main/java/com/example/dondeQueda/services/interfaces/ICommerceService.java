@@ -1,6 +1,7 @@
 package com.example.dondeQueda.services.interfaces;
 
 import com.example.dondeQueda.dtos.CommerceDto;
+import com.example.dondeQueda.dtos.CommerceResponseBySearch;
 import com.example.dondeQueda.dtos.CommerceResponseDto;
 import com.example.dondeQueda.models.Category;
 import com.example.dondeQueda.models.Commerce;
@@ -47,7 +48,7 @@ public interface ICommerceService {
     void setCoverImageToCommerce(Long idCommerce, MultipartFile image)throws IOException;
 
     //Buscador principal de commerces
-    List<Commerce> searchCommercesByNameOrTag(String searchParam, int limit, int offset);
+    List<CommerceResponseBySearch> searchCommercesByNameOrTag(String searchParam, int limit, int offset);
 
     //TODO implementar lo que devolcería el feed/home
     //List<?> getEntitiesHome();

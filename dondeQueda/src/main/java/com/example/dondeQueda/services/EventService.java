@@ -47,8 +47,10 @@ public class EventService implements IEventService {
     event.setDescription(eventDto.getDescription());
     event.getCommerces().add(commerce);
 
-    for(MultipartFile image : images){
-      this.addImagesToEvent(event.getIdEvent(), images);
+    if(images != null) {
+      for (MultipartFile image : images) {
+        this.addImagesToEvent(event.getIdEvent(), images);
+      }
     }
 
     //TODO ver CASCADE
@@ -112,6 +114,7 @@ public class EventService implements IEventService {
       imageService.deleteImage(image.getIdImage());
     }
 
+    event.getCommerces().clear();
     eventRepo.delete(event);
   }
 

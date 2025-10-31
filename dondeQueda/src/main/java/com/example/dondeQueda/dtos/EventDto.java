@@ -13,6 +13,7 @@ public class EventDto {
     private boolean isActive;
 
     public EventDto() {
+
     }
 
     public EventDto(LocalDateTime startDate, LocalDateTime endDate, String title, String description, Long idAddress,Long idCommerce, boolean isActive) {

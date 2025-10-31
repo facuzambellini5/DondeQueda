@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -32,11 +33,11 @@ public class Event {
 
     @ManyToMany(mappedBy = "events")
     @JsonIgnore
-    private List<Commerce> commerces;
+    private List<Commerce> commerces = new ArrayList<>();
 
     @OneToMany(mappedBy = "event")
     @JsonIgnore
-    private List<Image> images;
+    private List<Image> images = new ArrayList<>();
 
     public Event() {
     }

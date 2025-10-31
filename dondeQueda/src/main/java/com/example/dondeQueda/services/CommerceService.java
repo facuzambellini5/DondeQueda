@@ -1,6 +1,7 @@
 package com.example.dondeQueda.services;
 
 import com.example.dondeQueda.dtos.CommerceDto;
+import com.example.dondeQueda.dtos.CommerceResponseBySearch;
 import com.example.dondeQueda.dtos.CommerceResponseDto;
 import com.example.dondeQueda.enums.UserRole;
 import com.example.dondeQueda.models.*;
@@ -269,8 +270,16 @@ public class CommerceService implements ICommerceService {
   }
 
   @Override
-  public List<Commerce> searchCommercesByNameOrTag(String searchParam, int limit, int offset) {
-    return commerceRepo.searchByNameOrTag(searchParam, limit, offset);
+  public List<CommerceResponseBySearch> searchCommercesByNameOrTag(String searchParam, int limit, int offset) {
+
+    List<Commerce> commerces = commerceRepo.searchByNameOrTag(searchParam, limit, offset);
+    List<CommerceResponseBySearch> commerceResponsesBySearch= new ArrayList<>();
+
+    for(Commerce commerce : commerces){
+      CommerceResponseBySearch commerceResponseBySearch = new CommerceResponseBySearch(commerce);
+      commerceResponsesBySearch.add(commerceResponseBySearch);
+    }
+    return commerceResponsesBySearch;
   }
 
 }
