@@ -25,9 +25,7 @@ public class FeedService implements IFeedService {
 
     @Override
     public FeedResponseDto getMainFeed(int limit, int offset) {
-
-        
-
+        return null;
     }
 
     @Override
