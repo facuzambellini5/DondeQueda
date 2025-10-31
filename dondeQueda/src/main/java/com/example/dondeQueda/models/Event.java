@@ -2,6 +2,7 @@ package com.example.dondeQueda.models;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
+import org.hibernate.annotations.UpdateTimestamp;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -27,6 +28,10 @@ public class Event {
     @Column(name = "is_active")
     private boolean isActive;
 
+    @Column(name = "created_at")
+    @UpdateTimestamp
+    private LocalDateTime createdAt;
+
     @OneToOne
     @JoinColumn(name = "id_address")
     private Address address;
@@ -42,13 +47,14 @@ public class Event {
     public Event() {
     }
 
-    public Event(Long idEvent, LocalDateTime startDate, LocalDateTime endDate, String title, String description, boolean isActive, Address address, List<Commerce> commerces, List<Image> images) {
+    public Event(Long idEvent, LocalDateTime startDate, LocalDateTime endDate, String title, String description, boolean isActive, LocalDateTime createdAt, Address address, List<Commerce> commerces, List<Image> images) {
         this.idEvent = idEvent;
         this.startDate = startDate;
         this.endDate = endDate;
         this.title = title;
         this.description = description;
         this.isActive = isActive;
+        this.createdAt = createdAt;
         this.address = address;
         this.commerces = commerces;
         this.images = images;
@@ -100,6 +106,14 @@ public class Event {
 
     public void setActive(boolean active) {
         isActive = active;
+    }
+
+    public LocalDateTime getCreatedAt() {
+        return createdAt;
+    }
+
+    public void setCreatedAt(LocalDateTime createdAt) {
+        this.createdAt = createdAt;
     }
 
     public Address getAddress() {

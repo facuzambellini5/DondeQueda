@@ -17,9 +17,5 @@ public class FeedController {
     @Autowired
     private IFeedService feedService;
 
-    @GetMapping
-    ResponseEntity<List<PostResponseDto>> feed() {
-         return ResponseEntity.ok(feedService.getFeed());
-    }
 
 }

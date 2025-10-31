@@ -49,7 +49,4 @@ public interface ICommerceService {
 
     //Buscador principal de commerces
     List<CommerceResponseBySearch> searchCommercesByNameOrTag(String searchParam, int limit, int offset);
-
-    //TODO implementar lo que devolcería el feed/home
-    //List<?> getEntitiesHome();
 }

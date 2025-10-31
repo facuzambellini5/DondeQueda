@@ -19,6 +19,7 @@ public class EventResponseDto {
     private String title;
     private String description;
     private boolean isActive;
+    private LocalDateTime createdAt;
     private Address address;
     private List<Commerce> commerces;
     private List<ImageDto> images = new ArrayList<>();
@@ -33,6 +34,7 @@ public class EventResponseDto {
         this.title = event.getTitle();
         this.description = event.getDescription();
         this.isActive = event.isActive();
+        this.createdAt = event.getCreatedAt();
         this.address = event.getAddress();
         this.commerces = event.getCommerces();
 
@@ -89,6 +91,14 @@ public class EventResponseDto {
 
     public void setActive(boolean active) {
         isActive = active;
+    }
+
+    public LocalDateTime getCreatedAt() {
+        return createdAt;
+    }
+
+    public void setCreatedAt(LocalDateTime createdAt) {
+        this.createdAt = createdAt;
     }
 
     public Address getAddress() {
