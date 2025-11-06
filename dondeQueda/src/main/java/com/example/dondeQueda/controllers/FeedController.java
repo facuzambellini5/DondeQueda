@@ -1,10 +1,7 @@
 package com.example.dondeQueda.controllers;
 
 import com.example.dondeQueda.dtos.PostResponseDto;
-import com.example.dondeQueda.models.Post;
 import com.example.dondeQueda.services.interfaces.IFeedService;
-import com.example.dondeQueda.services.interfaces.IPostService;
-import jakarta.validation.constraints.Future;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;

@@ -15,7 +15,7 @@ public interface ICommerceService {
 
     void saveCommerce(Commerce commerce);
 
-    void saveCommerce(CommerceDto commerceDto);
+    CommerceResponseDto saveCommerce(CommerceDto commerceDto);
 
     List<CommerceResponseDto> getCommerces();
 

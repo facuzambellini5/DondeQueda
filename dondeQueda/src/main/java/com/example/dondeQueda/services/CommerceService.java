@@ -36,7 +36,7 @@ public class CommerceService implements ICommerceService {
   }
 
   @Override
-  public void saveCommerce(CommerceDto commerceDto) {
+  public CommerceResponseDto saveCommerce(CommerceDto commerceDto) {
 
     Commerce commerce = new Commerce();
 
@@ -67,6 +67,8 @@ public class CommerceService implements ICommerceService {
 
     commerceRepo.save(commerce);
     userRepo.save(owner);
+
+    return new CommerceResponseDto(commerce);
   }
 
   @Override

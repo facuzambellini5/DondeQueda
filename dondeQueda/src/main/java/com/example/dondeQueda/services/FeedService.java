@@ -44,7 +44,7 @@ public class FeedService implements IFeedService {
     }
 
     @Override
-    public FeedResponseDto getMainFeed(int limit, int offset) {
+    public List<FeedItemWrapperDto> getMainFeed(int page, int size) {
 
         LocalDateTime now = LocalDateTime.now();
         LocalDateTime since = now.minusDays(60);
@@ -68,7 +68,14 @@ public class FeedService implements IFeedService {
         // Ordenar por score de relevancia
         feedItems.sort((a, b) -> b.getCreatedAt().compareTo(a.getCreatedAt()));
 
-        // Aplicar paginación
+
+        int start = page * size;
+        int end = Math.min(start+size, feedItems.size());
+
+        if(start >= feedItems.size()){
+            return new ArrayList<>();
+        }
+
 //        return paginateResults(feedItems, limit, offset);
         return null;
 

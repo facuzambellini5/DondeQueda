@@ -21,8 +21,8 @@ public class CommerceController {
 
     @PostMapping("/guardar")
     ResponseEntity<?> saveCommerce(@RequestBody CommerceDto commerceDto){
-        commerceService.saveCommerce(commerceDto);
-        return ResponseEntity.status(HttpStatus.CREATED).body("Comercio creado correctamente.");
+        CommerceResponseDto commerceResponseDto = commerceService.saveCommerce(commerceDto);
+        return ResponseEntity.status(HttpStatus.CREATED).body(commerceResponseDto);
     }
 
     @GetMapping("/traer")
