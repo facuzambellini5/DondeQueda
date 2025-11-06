@@ -69,6 +69,9 @@ public class Commerce {
       inverseJoinColumns = @JoinColumn(name = "id_category"))
   private List<Category> categories = new ArrayList<>();
 
+  @OneToMany(mappedBy = "commerceOwner")
+  private List<Event> ownedEvents = new ArrayList<>();
+
   @ManyToMany
   @JoinTable(
       name = "event_commerce",
@@ -88,7 +91,7 @@ public class Commerce {
 
   public Commerce() {}
 
-  public Commerce(Long idCommerce, String name, String description, String phone, String website, String instagram, String facebook, String whatsapp, CommerceType commerceType, String email, LocalDateTime createdDate, Commerce branchOf, List<Commerce> commerces, User owner, List<Post> posts, Address address, List<Schedule> schedules, List<Category> categories, List<Event> events, List<Tag> tags, List<Image> images) {
+  public Commerce(Long idCommerce, String name, String description, String phone, String website, String instagram, String facebook, String whatsapp, CommerceType commerceType, String email, LocalDateTime createdDate, Commerce branchOf, List<Commerce> commerces, User owner, List<Post> posts, Address address, List<Schedule> schedules, List<Category> categories, List<Event> ownedEvents, List<Event> events, List<Tag> tags, List<Image> images) {
     this.idCommerce = idCommerce;
     this.name = name;
     this.description = description;
@@ -107,6 +110,7 @@ public class Commerce {
     this.address = address;
     this.schedules = schedules;
     this.categories = categories;
+    this.ownedEvents = ownedEvents;
     this.events = events;
     this.tags = tags;
     this.images = images;
@@ -254,6 +258,14 @@ public class Commerce {
 
   public void setCategories(List<Category> categories) {
     this.categories = categories;
+  }
+
+  public List<Event> getOwnedEvents() {
+    return ownedEvents;
+  }
+
+  public void setOwnedEvents(List<Event> ownedEvents) {
+    this.ownedEvents = ownedEvents;
   }
 
   public List<Event> getEvents() {

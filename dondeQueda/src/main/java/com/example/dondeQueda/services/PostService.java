@@ -40,9 +40,7 @@ public class PostService implements IPostService {
 
         postRepo.save(post);
 
-        for(MultipartFile image : images){
-            this.addImagesToPost(post.getIdPost(), images);
-        }
+        addImagesToPost(post.getIdPost(), images);
 
         //TODO ver CASCADE
         commerce.getPosts().add(post);

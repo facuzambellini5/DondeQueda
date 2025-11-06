@@ -47,11 +47,7 @@ public class EventService implements IEventService {
     event.setDescription(eventDto.getDescription());
     event.getCommerces().add(commerce);
 
-    if(images != null) {
-      for (MultipartFile image : images) {
-        this.addImagesToEvent(event.getIdEvent(), images);
-      }
-    }
+    addImagesToEvent(event.getIdEvent(), images);
 
     //TODO ver CASCADE
     commerce.getEvents().add(event);
