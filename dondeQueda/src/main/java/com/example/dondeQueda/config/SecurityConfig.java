@@ -12,8 +12,7 @@ public class SecurityConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
                 .csrf(csrf -> csrf.disable()) // ✅ forma nueva de desactivar CSRF
-                .authorizeHttpRequests(auth -> auth
-                        .anyRequest().permitAll() // permite todos los endpoints sin autenticación
+                .authorizeHttpRequests(auth -> auth.anyRequest().permitAll() // permite todos los endpoints sin autenticación
                 );
         return http.build();
     }

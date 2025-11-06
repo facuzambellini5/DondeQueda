@@ -36,6 +36,10 @@ public class Event {
     @JoinColumn(name = "id_address")
     private Address address;
 
+    @ManyToOne
+    @JoinColumn(name = "id_commerce_owner")
+    private Commerce commerceOwner;
+
     @ManyToMany(mappedBy = "events")
     @JsonIgnore
     private List<Commerce> commerces = new ArrayList<>();
@@ -47,7 +51,7 @@ public class Event {
     public Event() {
     }
 
-    public Event(Long idEvent, LocalDateTime startDate, LocalDateTime endDate, String title, String description, boolean isActive, LocalDateTime createdAt, Address address, List<Commerce> commerces, List<Image> images) {
+    public Event(Long idEvent, LocalDateTime startDate, LocalDateTime endDate, String title, String description, boolean isActive, LocalDateTime createdAt, Address address, Commerce commerceOwner, List<Commerce> commerces, List<Image> images) {
         this.idEvent = idEvent;
         this.startDate = startDate;
         this.endDate = endDate;
@@ -56,6 +60,7 @@ public class Event {
         this.isActive = isActive;
         this.createdAt = createdAt;
         this.address = address;
+        this.commerceOwner = commerceOwner;
         this.commerces = commerces;
         this.images = images;
     }
@@ -122,6 +127,14 @@ public class Event {
 
     public void setAddress(Address address) {
         this.address = address;
+    }
+
+    public Commerce getCommerceOwner() {
+        return commerceOwner;
+    }
+
+    public void setCommerceOwner(Commerce commerceOwner) {
+        this.commerceOwner = commerceOwner;
     }
 
     public List<Commerce> getCommerces() {
