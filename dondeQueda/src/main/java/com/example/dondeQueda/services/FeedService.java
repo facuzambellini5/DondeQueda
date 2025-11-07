@@ -46,15 +46,17 @@ public class FeedService implements IFeedService {
     @Override
     public List<FeedItemWrapperDto> getMainFeed(int page, int size) {
 
+        if(size != 20) {
+            size = 20;
+        }
+
         LocalDateTime now = LocalDateTime.now();
         LocalDateTime since = now.minusDays(60);
 
         List<Post> posts = postRepo.findRecentPosts(since);
 
-        // Obtener events activos y futuros
         List<Event> events = eventRepo.findActiveAndUpcomingEvents(now);
 
-        // Convertir a FeedItems con scores
         List<FeedItemWrapperDto> feedItems = new ArrayList<>();
 
         for(Post post : posts){
@@ -65,20 +67,18 @@ public class FeedService implements IFeedService {
             feedItems.add(new FeedItemWrapperDto(event));
         }
 
-        // Ordenar por score de relevancia
+        // Ordenar por fecha creacion
         feedItems.sort((a, b) -> b.getCreatedAt().compareTo(a.getCreatedAt()));
 
 
         int start = page * size;
-        int end = Math.min(start+size, feedItems.size());
+        int end = Math.min((start + size), feedItems.size());
 
         if(start >= feedItems.size()){
             return new ArrayList<>();
         }
 
-//        return paginateResults(feedItems, limit, offset);
-        return null;
-
+        return feedItems.subList(start, end);
     }
 
     @Override
@@ -92,34 +92,17 @@ public class FeedService implements IFeedService {
         return null;
     }
 
-//    private List<FeedItemWrapperDto> buildFeedItems(List<Post> posts, List<Event> events, LocalDateTime now) {
-//        List<FeedItemWrapperDto> feedItems = new ArrayList<>();
-//
-//        // Agregar posts con su score
-//        for (Post post : posts) {
-//            FeedItemWrapperDto item = new FeedItemWrapperDto(post);
-//            item.setRelevanceScore(calculatePostScore(post, now));
-//            feedItems.add(item);
-//        }
-//
-//        // Agregar events con su score
-//        for (Event event : events) {
-//            FeedItemWrapperDto item = new FeedItemWrapperDto(event);
-//            item.setRelevanceScore(calculateEventScore(event, now));
-//            feedItems.add(item);
-//        }
-//
-//        return feedItems;
-//    }
 
 
     private double calculatePostScore(Post post, LocalDateTime now) {
+
         long hoursAgo = ChronoUnit.HOURS.between(post.getPostedAt(), now);
 
         // Fórmula: Score disminuye con el tiempo
         // Post recién creado: ~1000 puntos
         // Post de hace 24h: ~500 puntos
         // Post de hace 7 días: ~100 puntos
+
         double baseScore = 1000.0;
         double decayRate = 0.05; // Ajustable
 
@@ -161,33 +144,5 @@ public class FeedService implements IFeedService {
         double decayRate = 0.05;
         return baseScore * Math.exp(-decayRate * hoursSinceCreation / 24.0);
     }
-
-    /**
-     * Aplicar paginación a la lista de items
-     */
-//    private FeedResponseDto paginateResults(List<FeedItemWrapperDto> allItems, int limit, int offset) {
-//        int totalItems = allItems.size();
-//
-//
-//        int start = page * size;
-//        int end = Math.min(start + size, totalItems);
-//
-//        // Obtener sublista para esta página
-//        List<FeedItemDto> pageItems = start < totalItems
-//                ? allItems.subList(start, end)
-//                : new ArrayList<>();
-//
-//        boolean hasNext = end < totalItems;
-//        boolean hasPrevious = page > 0;
-//
-//        return new FeedResponseDto(
-//                pageItems,
-//                page,
-//                totalPages,
-//                totalItems,
-//                hasNext,
-//                hasPrevious
-//        );
-//  }
 }
 
