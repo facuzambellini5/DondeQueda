@@ -47,6 +47,6 @@ public interface ICommerceService {
 
     void setCoverImageToCommerce(Long idCommerce, MultipartFile image)throws IOException;
 
-    //Buscador principal de commerces
+    //Barra de busqueda de commerces
     List<CommerceResponseBySearch> searchCommercesByNameOrTag(String searchParam, int limit, int offset);
 }

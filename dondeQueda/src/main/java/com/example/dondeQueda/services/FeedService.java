@@ -10,7 +10,6 @@ import com.example.dondeQueda.repositories.IEventRepository;
 import com.example.dondeQueda.repositories.IPostRepository;
 import com.example.dondeQueda.repositories.IUserRepository;
 import com.example.dondeQueda.services.interfaces.IFeedService;
-import com.example.dondeQueda.services.interfaces.IPostService;
 import com.example.dondeQueda.utils.ValidationUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -60,6 +59,7 @@ public class FeedService implements IFeedService {
         List<FeedItemWrapperDto> feedItems = new ArrayList<>();
 
         for(Post post : posts){
+
             feedItems.add(new FeedItemWrapperDto(post));
         }
 

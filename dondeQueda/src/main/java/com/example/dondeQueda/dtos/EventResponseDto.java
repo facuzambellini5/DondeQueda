@@ -21,7 +21,8 @@ public class EventResponseDto {
     private boolean isActive;
     private LocalDateTime createdAt;
     private Address address;
-    private List<Commerce> commerces;
+    private CommerceResponseFeed commerceOwner;
+    private List<CommerceResponseFeed> participantCommerces = new ArrayList<>();
     private List<ImageDto> images = new ArrayList<>();
 
     public EventResponseDto() {
@@ -36,7 +37,12 @@ public class EventResponseDto {
         this.isActive = event.isActive();
         this.createdAt = event.getCreatedAt();
         this.address = event.getAddress();
-        this.commerces = event.getCommerces();
+        this.commerceOwner = new CommerceResponseFeed(event.getCommerceOwner());
+
+        for(Commerce commerce : event.getCommerces()){
+            CommerceResponseFeed commerceResponseFeed = new CommerceResponseFeed(commerce);
+            this.participantCommerces.add(commerceResponseFeed);
+        }
 
         for(Image image : event.getImages()){
             ImageDto imageDto = new ImageDto(image);
@@ -101,20 +107,28 @@ public class EventResponseDto {
         this.createdAt = createdAt;
     }
 
+    public CommerceResponseFeed getCommerceOwner() {
+        return commerceOwner;
+    }
+
+    public void setCommerceOwner(CommerceResponseFeed commerceOwner) {
+        this.commerceOwner = commerceOwner;
+    }
+
+    public List<CommerceResponseFeed> getParticipantCommerces() {
+        return participantCommerces;
+    }
+
+    public void setParticipantCommerces(List<CommerceResponseFeed> participantCommerces) {
+        this.participantCommerces = participantCommerces;
+    }
+
     public Address getAddress() {
         return address;
     }
 
     public void setAddress(Address address) {
         this.address = address;
-    }
-
-    public List<Commerce> getCommerces() {
-        return commerces;
-    }
-
-    public void setCommerces(List<Commerce> commerces) {
-        this.commerces = commerces;
     }
 
     public List<ImageDto> getImages() {

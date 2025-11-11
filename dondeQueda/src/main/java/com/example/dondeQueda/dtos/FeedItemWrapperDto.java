@@ -10,6 +10,7 @@ public class FeedItemWrapperDto {
     private String type;
     private Object data;
     private LocalDateTime createdAt;
+    private Double relevanceScore;
 
 
     public FeedItemWrapperDto(Post post) {
@@ -46,5 +47,13 @@ public class FeedItemWrapperDto {
 
     public void setCreatedAt(LocalDateTime createdAt) {
         this.createdAt = createdAt;
+    }
+
+    public Double getRelevanceScore() {
+        return relevanceScore;
+    }
+
+    public void setRelevanceScore(Double relevanceScore) {
+        this.relevanceScore = relevanceScore;
     }
 }
