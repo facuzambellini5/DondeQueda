@@ -5,6 +5,8 @@ import com.example.dondeQueda.services.interfaces.IFeedService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
@@ -17,8 +19,16 @@ public class FeedController {
 
 
     @GetMapping("/main/feed")
-    ResponseEntity<List<PostResponseDto>> getMainFeedTest(){
-        return ResponseEntity.ok(feedService.getMainFeedTest());
+    ResponseEntity<?> getMainFeedTest(@RequestParam int page,
+                                      @RequestParam int size){
+        return ResponseEntity.ok(feedService.getMainFeed(page, size));
+    }
+
+    @GetMapping("/foryou/feed/{idUser}")
+    ResponseEntity<?> getForYouFeed(@PathVariable Long idUser,
+                                    @RequestParam int page,
+                                    @RequestParam int size){
+        return ResponseEntity.ok(feedService.getForYouFeed(idUser, page, size));
     }
 
 }

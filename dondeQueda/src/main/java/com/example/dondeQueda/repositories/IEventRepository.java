@@ -24,16 +24,17 @@ public interface IEventRepository extends JpaRepository<Event, Long> {
     """)
     List<Event> findActiveAndUpcomingEvents(@Param("now")LocalDateTime now);
 
-    //Para el feed "para ti"
-    @Query("""
+  // Para el feed "para ti"
+  @Query("""
     SELECT DISTINCT e
     FROM Event e
-    JOIN e.commerces c
-    WHERE c.idCommerce IN :commerceIds
+    LEFT JOIN e.commerces c
+    LEFT JOIN e.commerceOwner co
+    WHERE (co.idCommerce IN :commerceIds OR c.idCommerce IN :commerceIds)
     AND e.endDate >= :now
     AND e.isActive = true
     ORDER BY e.startDate ASC
     """)
-    List<Event> findActiveAndUpcomingEventsByCommerces(@Param("commerceIds")List<Long> commerceIds,
-                                                       @Param("now") LocalDateTime now);
+  List<Event> findActiveAndUpcomingEventsByCommerces(
+      @Param("commerceIds") List<Long> commerceIds, @Param("now") LocalDateTime now);
 }

@@ -3,6 +3,7 @@ package com.example.dondeQueda.services;
 import com.example.dondeQueda.dtos.FeedItemWrapperDto;
 import com.example.dondeQueda.dtos.FeedResponseDto;
 import com.example.dondeQueda.dtos.PostResponseDto;
+import com.example.dondeQueda.models.Commerce;
 import com.example.dondeQueda.models.Event;
 import com.example.dondeQueda.models.Post;
 import com.example.dondeQueda.models.User;
@@ -26,21 +27,11 @@ public class FeedService implements IFeedService {
 
     @Autowired
     private IPostRepository postRepo;
+    @Autowired
     private IEventRepository eventRepo;
+    @Autowired
     private IUserRepository userRepo;
 
-
-    @Override
-    public List<PostResponseDto> getMainFeedTest() {
-        List<Post> posts = postRepo.findAll();
-        List<PostResponseDto> postResponseDtos = new ArrayList<>();
-
-        for(Post post : posts){
-            PostResponseDto postResponseDto = new PostResponseDto(post);
-            postResponseDtos.add(postResponseDto);
-        }
-        return postResponseDtos;
-    }
 
     @Override
     public List<FeedItemWrapperDto> getMainFeed(int page, int size) {
@@ -59,16 +50,20 @@ public class FeedService implements IFeedService {
         List<FeedItemWrapperDto> feedItems = new ArrayList<>();
 
         for(Post post : posts){
+            FeedItemWrapperDto feedItem = new FeedItemWrapperDto(post);
+            feedItem.setRelevanceScore(this.calculatePostScore(post, now));
 
-            feedItems.add(new FeedItemWrapperDto(post));
+            feedItems.add(feedItem);
         }
 
         for(Event event : events){
-            feedItems.add(new FeedItemWrapperDto(event));
+            FeedItemWrapperDto feedItem = new FeedItemWrapperDto(event);
+            feedItem.setRelevanceScore(this.calculateEventScore(event, now));
+            feedItems.add(feedItem);
         }
 
-        // Ordenar por fecha creacion
-        feedItems.sort((a, b) -> b.getCreatedAt().compareTo(a.getCreatedAt()));
+        // Ordenar por relevancia (MAYOR A MENOR)
+        feedItems.sort((a, b) -> Double.compare(b.getRelevanceScore(), a.getRelevanceScore()));
 
 
         int start = page * size;
@@ -82,17 +77,56 @@ public class FeedService implements IFeedService {
     }
 
     @Override
-    public FeedResponseDto getForYouFeed(Long idUser, int limit, int offset) {
+    public List<FeedItemWrapperDto> getForYouFeed(Long idUser, int page, int size) {
+
+        if (size != 20){
+            size = 20;
+        }
 
         LocalDateTime now = LocalDateTime.now();
         LocalDateTime since = now.minusDays(60);
 
         User user = ValidationUtils.validateEntity(userRepo.findById(idUser), "Usuario", idUser);
 
-        return null;
+        List<Commerce> commerces = user.getFavoriteCommerces();
+        List<Long> commerceIds = new ArrayList<>();
+
+        for (Commerce commerce : commerces){
+            commerceIds.add(commerce.getIdCommerce());
+        }
+
+        List<Post> posts = postRepo.findRecentPostsByCommerces(commerceIds, since);
+
+        List<Event> events = eventRepo.findActiveAndUpcomingEventsByCommerces(commerceIds, now);
+
+        List<FeedItemWrapperDto> feedItems = new ArrayList<>();
+
+        for(Post post : posts){
+            FeedItemWrapperDto feedItem = new FeedItemWrapperDto(post);
+            feedItem.setRelevanceScore(this.calculatePostScore(post, now));
+
+            feedItems.add(feedItem);
+        }
+
+        for (Event event : events){
+            FeedItemWrapperDto feedItem = new FeedItemWrapperDto(event);
+            feedItem.setRelevanceScore(this.calculateEventScore(event, now));
+
+            feedItems.add(feedItem);
+        }
+
+        // Ordenar por relevancia (MAYOR A MENOR)
+        feedItems.sort((a,b) -> Double.compare(b.getRelevanceScore(), a.getRelevanceScore()));
+
+        int start = page * size;
+        int end = Math.min((start + size), feedItems.size());
+
+        if (start >= feedItems.size()) {
+            return new ArrayList<>();
+        }
+
+        return feedItems.subList(start, end);
     }
-
-
 
     private double calculatePostScore(Post post, LocalDateTime now) {
 
@@ -100,7 +134,7 @@ public class FeedService implements IFeedService {
 
         // Fórmula: Score disminuye con el tiempo
         // Post recién creado: ~1000 puntos
-        // Post de hace 24h: ~500 puntos
+        // Post de hace 24 h: ~500 puntos
         // Post de hace 7 días: ~100 puntos
 
         double baseScore = 1000.0;
@@ -109,10 +143,6 @@ public class FeedService implements IFeedService {
         return baseScore * Math.exp(-decayRate * hoursAgo / 24.0);
     }
 
-    /**
-     * Calcular score de relevancia para un Event
-     * Considera múltiples factores
-     */
     private double calculateEventScore(Event event, LocalDateTime now) {
 
         long hoursUntilStart = ChronoUnit.HOURS.between(now, event.getStartDate());

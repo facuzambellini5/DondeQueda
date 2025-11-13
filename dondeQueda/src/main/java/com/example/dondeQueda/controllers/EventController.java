@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @RestController
@@ -19,8 +20,27 @@ public class EventController {
     private IEventService eventService;
 
     @PostMapping("/guardar")
-    ResponseEntity<?> saveEvent(@RequestBody EventDto eventDto,
-                                @RequestParam(required = false) List<MultipartFile> images) throws IOException {
+    ResponseEntity<?> saveEvent(@RequestParam LocalDateTime startDate,
+                                @RequestParam LocalDateTime endDate,
+                                @RequestParam String title,
+                                @RequestParam String description,
+                                @RequestParam(required = false) Long idAddress,
+                                @RequestParam Long idCommerceOwner,
+                                @RequestParam List<MultipartFile> images) throws IOException {
+
+        EventDto eventDto = new EventDto();
+
+        eventDto.setStartDate(startDate);
+        eventDto.setEndDate(endDate);
+        eventDto.setTitle(title);
+        eventDto.setDescription(description);
+
+        if(idAddress != null){
+            eventDto.setIdAddress(idAddress);
+        }
+
+        eventDto.setIdCommerceOwner(idCommerceOwner);
+
         eventService.saveEvent(eventDto, images);
         return ResponseEntity.status(HttpStatus.CREATED).body("Evento creado correctamente.");
     }

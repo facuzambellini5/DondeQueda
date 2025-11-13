@@ -9,29 +9,29 @@ public class EventDto {
     private String title;
     private String description;
     private Long idAddress;
-    private Long idCommerce;
+    private Long idCommerceOwner;
     private boolean isActive;
 
     public EventDto() {
 
     }
 
-    public EventDto(LocalDateTime startDate, LocalDateTime endDate, String title, String description, Long idAddress,Long idCommerce, boolean isActive) {
+    public EventDto(LocalDateTime startDate, LocalDateTime endDate, String title, String description, Long idAddress, Long idCommerceOwner, boolean isActive) {
         this.startDate = startDate;
         this.endDate = endDate;
         this.title = title;
         this.description = description;
         this.idAddress = idAddress;
-        this.idCommerce = idCommerce;
+        this.idCommerceOwner = idCommerceOwner;
         this.isActive = isActive;
     }
 
-    public Long getIdCommerce() {
-        return idCommerce;
+    public Long getIdCommerceOwner() {
+        return idCommerceOwner;
     }
 
-    public void setIdCommerce(Long idCommerce) {
-        this.idCommerce = idCommerce;
+    public void setIdCommerceOwner(Long idCommerceOwner) {
+        this.idCommerceOwner = idCommerceOwner;
     }
 
     public Long getIdAddress() {

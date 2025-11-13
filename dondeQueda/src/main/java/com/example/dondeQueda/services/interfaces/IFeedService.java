@@ -9,10 +9,8 @@ import java.util.List;
 
 public interface IFeedService {
 
-    List<PostResponseDto> getMainFeedTest();
+    List<FeedItemWrapperDto> getMainFeed(int page, int size);
 
-    List<FeedItemWrapperDto> getMainFeed(int limit, int offset);
-
-    FeedResponseDto getForYouFeed(Long idUser, int limit, int offset);
+    List<FeedItemWrapperDto> getForYouFeed(Long idUser, int page, int size);
 
 }

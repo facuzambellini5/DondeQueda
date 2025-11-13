@@ -6,6 +6,8 @@ import com.example.dondeQueda.models.Address;
 import com.example.dondeQueda.models.Commerce;
 import com.example.dondeQueda.models.Event;
 import com.example.dondeQueda.models.Image;
+import com.example.dondeQueda.repositories.IAddressRepository;
+import com.example.dondeQueda.repositories.ICommerceRepository;
 import com.example.dondeQueda.repositories.IEventRepository;
 import com.example.dondeQueda.services.interfaces.IAddressService;
 import com.example.dondeQueda.services.interfaces.ICommerceService;
@@ -24,8 +26,8 @@ import java.util.List;
 public class EventService implements IEventService {
 
   @Autowired private IEventRepository eventRepo;
-  @Autowired private ICommerceService commerceService;
-  @Autowired private IAddressService addressService;
+  @Autowired private ICommerceRepository commerceRepo;
+  @Autowired private IAddressRepository addressRepo;
   @Autowired
   private IImageService imageService;
 
@@ -34,26 +36,29 @@ public class EventService implements IEventService {
 
     Event event = new Event();
 
-    if (eventDto.getIdAddress() != null) {
-      Address address = addressService.getAddressById(eventDto.getIdAddress());
-        event.setAddress(address);
-    }
-
-    Commerce commerce = commerceService.getCommerceById(eventDto.getIdCommerce());
+    Commerce commerceOwner = ValidationUtils.validateEntity(commerceRepo.findById(eventDto.getIdCommerceOwner()),"Comercio",eventDto.getIdCommerceOwner());
 
     event.setStartDate(eventDto.getStartDate());
     event.setEndDate(eventDto.getEndDate());
     event.setTitle(eventDto.getTitle());
     event.setDescription(eventDto.getDescription());
-    event.getCommerces().add(commerce);
+    event.setCommerceOwner(commerceOwner);
+    event.setActive(true);
+
+    if (eventDto.getIdAddress() != null) {
+      Address address = ValidationUtils.validateEntity(addressRepo.findById(eventDto.getIdAddress()),"Dirección", eventDto.getIdAddress());
+      event.setAddress(address);
+    }
+
+    eventRepo.save(event);
 
     addImagesToEvent(event.getIdEvent(), images);
 
     //TODO ver CASCADE
-    commerce.getEvents().add(event);
+    commerceOwner.getOwnedEvents().add(event);
 
     eventRepo.save(event);
-    commerceService.saveCommerce(commerce);
+    commerceRepo.save(commerceOwner);
   }
 
   @Override
